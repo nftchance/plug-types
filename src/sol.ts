@@ -2,7 +2,7 @@ import { TypedDataField } from 'ethers'
 
 import { mkdir } from 'node:fs'
 
-import { types } from './types'
+import { types } from '../lib/constants'
 
 type Types = Record<string, Array<TypedDataField>>
 type Typename<TTypes extends Types = Types> = keyof TTypes extends string
