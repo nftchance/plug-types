@@ -17,7 +17,7 @@ With `emporium-types`:
 - ✅ Generate the `Solidity` using the same library used to manage signatures.
 - 🚀 and several more small helper utilities. 
 
-Historically when developing a protocol, the first step is to build the base consumers and mechanisms with strict focus. When working with modern intent protocols though, you must approach it from a different angle: `types first`.
+Historically when developing an onchain EVM protocol, the first step is to build the base consumers and mechanisms with strict focus. When working with modern intent protocols though, you must approach it from a different angle: `types first`.
 
 ## Getting Started
 
@@ -64,7 +64,7 @@ In some cases you will want access to more than just the base `emporium` types o
 >
 > You can find a few functional examples in the tests of this repository and `emporium-lib` if you are curious of a more in-depth process of verification.
 
-By default, when you providing your own types they will be loaded alongside the core `emporium` framework types so that you can make your protocol intent-based without any additional work (yes really, no additional work -- it's pretty cool, right?)
+By default, when you providing your own types they will be loaded alongside the core `emporium` framework types so that you can make your protocol intent-based without any work beyond the normal scope (yes, really, no additional work -- it's pretty cool, right?)
 
 To illustrate this, let's look at a quick example where we are signing `Mail` messages from one party to another.
 
@@ -83,9 +83,11 @@ export const types = {
 };
 ```
 
-With this configuration, we have the types needed to send `Mail` from one `Wallet` to another. *Why would you need this?*
+With this configuration, we have the types needed to send `Mail` from one `Wallet` to another.
 
-In an intent framework, a simple mental model is one where someone has swiped right on Tinder, but the recipient has to pay to execute and decode the contents. The person that swiped right can do this without paying any cost as the receiver will be the executor. Of course, this is just one very simple example!
+*Why would you need this?* In an intent framework, a simple mental model is one where someone has swiped right on Tinder, but the recipient has to pay to execute and decode the contents (who swiped). The person that swiped right can do this without paying any cost as the receiver will be the executor. This is just one very simple example.
+
+With our types declared, we will initialize the `emporium-types` config with the `EIP-712` data types that we have just declared.
 
 ```typescript
 // path: ./<your-project>/config.ts
@@ -99,7 +101,7 @@ export const emporiumConfig = config({
 })
 ```
 
-With this simple addition to your configuration file you are ready to go. Generate the `Solidity` file and go focus on the mechanisms of your protocol.
+With this simple addition to your configuration file you are ready to go. Generate the `Solidity` file with `bun emporium generate` and go focus on the core mechanisms of your protocol.
 
 ## Dangerous Usage
 
