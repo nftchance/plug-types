@@ -88,7 +88,10 @@ export function getPacketHashGetters<
         returns (bytes32 $hash) 
     {
         $hash = keccak256(abi.encode(
-            ${typeName.toUpperCase()}_TYPEHASH,
+            ${typeName
+				.replace(/([A-Z])/g, '_$1')
+				.slice(1)
+				.toUpperCase()}_TYPEHASH,
             ${fields.map(getEncodedValueFor).join(',\n\t\t\t')}
         ));
     }\n`)
@@ -143,7 +146,10 @@ export function getSolidity(types: Types) {
 
 	Object.keys(types).forEach(typeName => {
 		// * Determine the name of the type hash constant.
-		const typeHashName = `${typeName.toUpperCase()}_TYPEHASH`
+		const typeHashName = `${typeName
+			.replace(/([A-Z])/g, '_$1')
+			.slice(1)
+			.toUpperCase()}_TYPEHASH`
 
 		// * Generate the basic solidity code for the type hash.
 		// ! Really, there is no reason to use the human readable version if we can just encode it.
