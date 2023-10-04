@@ -1,6 +1,6 @@
 import { TypedDataEncoder, TypedDataField } from 'ethers'
 
-import { mkdir, writeFile } from 'fs'
+import fs from 'fs'
 
 import { emporiumConfig as config } from '../config'
 import { Typename, Types } from './types'
@@ -236,19 +236,13 @@ export async function generate(filename: string | undefined) {
 	lines.push(typeHashes.join('\n'))
 	lines.push(packetHashGetters.join('\n'))
 
-	mkdir(
-		filename.split('/').slice(0, -1).join('/'),
-		{ recursive: true },
-		error => {
-			if (error) {
-				throw error
-			}
-		}
-	)
+	const dir = filename.split('/').slice(0, -1).join('/')
+
+	await fs.promises.mkdir(dir, {
+		recursive: true
+	})
 
 	lines.push('}')
 
-	writeFile(filename, lines.join('\n'), error => {
-		if (error) throw error
-	})
+	await fs.promises.writeFile(filename, lines.join('\n'))
 }
