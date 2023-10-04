@@ -101,4 +101,4 @@ export const emporiumConfig = config({
 })
 ```
 
-With this simple addition to your configuration file you are ready to go. Generate your `Types.sol` with `bun emporium generate` and go focus on the core mechanisms of your protocol.
+With this simple addition to your configuration file you are ready to go. Generate your `Types.sol` with `npm emporium generate` and go focus on the core mechanisms of your protocol.

@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  abitype:
+    specifier: ^0.9.9
+    version: 0.9.9
   commander:
     specifier: ^11.0.0
     version: 11.0.0
@@ -31,6 +34,18 @@ packages:
 
   /@types/node@18.15.13:
     resolution: {integrity: sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==}
+    dev: false
+
+  /abitype@0.9.9:
+    resolution: {integrity: sha512-rBModE9LGdPkV956XLnipCEQ0Z5SeqObjz60fD4RsAq9ky7Hih6fT5YQDM1eVy/NZJN1Z4wC7NFcdYKrd1+ffA==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.19.1
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
     dev: false
 
   /aes-js@4.0.0-beta.5:
