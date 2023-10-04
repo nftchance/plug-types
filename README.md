@@ -4,20 +4,20 @@
 
 Working with [EIP-712](https://eips.ethereum.org/EIPS/eip-712) signatures and types can be very confusing. Especially when you are working to create your own protocol rather than just writing a little bit of front-end code that interacts with something already deployed.
 
-Historically when developing a protocol, the first step is to build the base consumers and mechanisms with strict focus. When working with modern intent protocols though, you must approach it from a different angle: `types first`.
-
 Without `emporium-types`:
 
-- 🚨 Writing `Solidity` contracts takes tens of hours and thousands of dollars.
-- 🤔 EIP-712 confusion and complexities drag out timelines.
+- 🚨 Writing +1,000 line `Solidity` contracts costs `$$$`.
+- 🤔 `EIP-712` confusion and complexities drag out timelines.
 - 🤬 Constantly wonder why your signatures are not matching up.
 
 With `emporium-types`:
 
-- 🧩 Auto-generate your `Types contract`` and focus on the core protocol mechanisms.
-- 🥹 Interact with an approachable API designed after the personal experience of EIP-712.
+- 🧩 Auto-generate your `Types contract` and focus on the core protocol mechanisms.
+- 🥹 Interact with an approachable API designed after the personal experience of `EIP-712`.
 - ✅ Generate the `Solidity` using the same library used to manage signatures.
 - 🚀 and several more small helper utilities. 
+
+Historically when developing a protocol, the first step is to build the base consumers and mechanisms with strict focus. When working with modern intent protocols though, you must approach it from a different angle: `types first`.
 
 ## Getting Started
 
@@ -25,15 +25,15 @@ With `emporium-types`:
 
 ### Installation
 
-To install dependencies required to power `emporium-types` run:
+To install `emporium-types` run:
 
 ```bash
-bun install
+bun install @nftchance/emporium-types
 ```
 
 ### Solidity Generation
 
-To generate the `Solidity` from your `EIP-712` types run:
+To run the `Solidity` generation based on the configuration provided:
 
 ```bash
 bun emporium generate
@@ -42,36 +42,64 @@ bun emporium generate
 
 ### Configuration
 
-With the configuration file exposed you have the ability to directly control the Solidity and supporting documentation that is generated.
+With the configuration file exposed you have the ability to direct control the Solidity and supporting documentation that is generated.
 
 ```typescript
 // path: ./config.ts
-import config from './src/config'
+import config from '@nftchance/emporium-types/config'
 
 export const emporiumConfig = config({
     authors: ['<your name>']
-}: Partial<{
-	contract: {
-		authors: Array<string>
-		name: string
-		license: string
-		solidity: string
-	}
-	types: Record<string, Array<TypedDataField>>
-	output: string
-	dangerous: {
-		excludeCoreTypes: boolean
-	}
-}>)
+})
 ```
 
 ## Advanced Usage
 
-In some cases you will want access to more than just the base `emporium` types of `Delegation`, `Invocations`, and all the supporting shapes. In this case, you need to extend the types and prepare your protocol to consume a framework that has already been initialized with all the confusing [EIP-712 declarations](https://eips.ethereum.org/EIPS/eip-712).
+In some cases you will want access to more than just the base `emporium` types of `Delegation`, `Invocations`, and all the supporting shapes such as `Transaction`, `ReplayProtection`, etc. In this case, you need to extend the types and prepare your protocol to consume a framework that has already been initialized with all the confusing [EIP-712 data types and decoders](https://eips.ethereum.org/EIPS/eip-712) taken care of.
 
-In this case, you will need to update the types that are used to generate the Solidity so that once again, you do not need to deal with the complexities of the standard and can focus on actually writing your protocol.
+> **Important**
+> If you are at this level, it is assumed that you are familiar with `EIP-712` -- verification of signatures can be very complex.  
+>
+> If you are having trouble verifying your signatures I recommend taking the `types first` approach so that you can take have a clear understanding of where an issues may be arising. It is highly unlikely that something is wrong with the library you are using and much more likely that something with the declaration of the type, its hash or the body being used when signing a signature of that type.
+>
+> You can find a few functional examples in the tests of this repository and `emporium-lib` if you are curious of a more in-depth process of verification.
 
-<!-- TODO: Need to write the implementation and documentation for this. -->
+By default, when you providing your own types they will be loaded alongside the core `emporium` framework types so that you can make your protocol intent-based without any additional work (yes really, no additional work -- it's pretty cool, right?)
+
+To illustrate this, let's look at a quick example where we are signing `Mail` messages from one party to another.
+
+```typescript
+// path: ./<your-project>/lib/constants.ts
+export const types = {
+    Person: [
+        { name: 'name', type: 'string' },
+        { name: 'wallet', type: 'address' }
+    ],
+    Mail: [
+        { name: 'from', type: 'Person' },
+        { name: 'to', type: 'Person' },
+        { name: 'contents', type: 'string' }
+    ]
+};
+```
+
+With this configuration, we have the types needed to send `Mail` from one `Wallet` to another. *Why would you need this?*
+
+In an intent framework, a simple mental model is one where someone has swiped right on Tinder, but the recipient has to pay to execute and decode the contents. The person that swiped right can do this without paying any cost as the receiver will be the executor. Of course, this is just one very simple example!
+
+```typescript
+// path: ./<your-project>/config.ts
+import config from '@nftchance/emporium-types/config'
+
+import { types } from "./lib/constants.ts"
+
+export const emporiumConfig = config({
+    authors: ['<your name>'],
+    types
+})
+```
+
+With this simple addition to your configuration file you are ready to go. Generate the `Solidity` file and go focus on the mechanisms of your protocol.
 
 ## Dangerous Usage
 

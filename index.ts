@@ -1,1 +1,0 @@
-export { emporiumConfig } from './config'
