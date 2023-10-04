@@ -1,6 +1,7 @@
 {
     "name": "@nftchance/emporium-types",
-    "version": "0.0.7",
+    "version": "0.0.8",
+    "license": "BUSL-1.1",
     "type": "commonjs",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

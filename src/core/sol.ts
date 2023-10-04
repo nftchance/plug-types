@@ -1,10 +1,27 @@
 import { TypedDataEncoder, TypedDataField } from 'ethers'
 
 import fs from 'fs'
+import path from 'path'
 
-import { emporiumConfig as config } from '../config'
+import { emporiumConfig } from '../config'
 import { Typename, Types } from './types'
 import { TypedDataType } from 'abitype/zod'
+
+let userConfig: typeof emporiumConfig | undefined
+
+const configPath = path.join(process.cwd(), 'config.ts')
+
+import(configPath)
+	.then(module => {
+		userConfig = module && module.emporiumConfig
+	})
+	.catch(error => {
+		if (error.code !== 'MODULE_NOT_FOUND') {
+			throw error
+		}
+	})
+
+const config = userConfig || emporiumConfig
 
 const LICENSE = `// SPDX-License-Identifier: ${config.contract.license}\n`
 const VERSION = `pragma solidity ${config.contract.solidity};\n`
