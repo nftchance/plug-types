@@ -75,17 +75,17 @@ export function getPacketHashGetters<
 		packetHashGetters.push(getArrayPacketHashGetter(typeName))
 	} else {
 		packetHashGetters.push(`\t/**
-    * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
-    *         from a packet hash to verify type compliance and value-width alignment.
-    * @param $input The ${typeName} data to encode.
-    * @return $hash The packet hash of the encoded ${typeName} data.
-    */
+     * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
+     *         from a packet hash to verify type compliance and value-width alignment.
+     * @param $input The ${typeName} data to encode.
+     * @return $hash The packet hash of the encoded ${typeName} data.
+     */
     function ${getPacketHashGetterName(typeName)}(
         ${typeName} memory $input
-    ) 
-        public 
-        pure 
-        returns (bytes32 $hash) 
+    )
+        public
+        pure
+        returns (bytes32 $hash)
     {
         $hash = keccak256(abi.encode(
             ${typeName
@@ -107,11 +107,11 @@ export function getPacketHashGetters<
 }
 
 export const getArrayPacketHashGetter = (typeName: Typename) => `\t/**
-    * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
-    *         from a packet hash to verify type compliance and value-width alignment.
-    * @param $input The ${typeName} data to encode. 
-    * @return $hash The packet hash of the encoded ${typeName} data.
-    */
+     * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
+     *         from a packet hash to verify type compliance and value-width alignment.
+     * @param $input The ${typeName} data to encode. 
+     * @return $hash The packet hash of the encoded ${typeName} data.
+     */
     function ${getPacketHashGetterName(typeName)}(
         ${typeName} memory $input
     ) 
@@ -154,17 +154,17 @@ export function getSolidity(types: Types) {
 		// * Generate the basic solidity code for the type hash.
 		// ! Really, there is no reason to use the human readable version if we can just encode it.
 		const typeHash = `\t/**
-    * @dev Type hash representing the ${typeName} data type providing EIP-712
-    *      compatability for encoding and decoding.
-    * 
-    * ${typeHashName} extends TypeHash<EIP712<{
-    *   ${types[typeName]
-		.map(field => {
-			return `{ name: '${field.name}', type: '${field.type}' }`
-		})
-		.join('\n\t*   ')} 
-    * }>>
-    */
+     * @dev Type hash representing the ${typeName} data type providing EIP-712
+     *      compatability for encoding and decoding.
+     * 
+     * ${typeHashName} extends TypeHash<EIP712<{
+     *   ${types[typeName]
+			.map(field => {
+				return `{ name: '${field.name}', type: '${field.type}' }`
+			})
+			.join('\n\t *   ')} 
+     * }>>
+     */
     bytes32 constant ${typeHashName} = keccak256('${encoder.encodeType(
 		typeName
 	)}');\n`
