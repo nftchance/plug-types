@@ -152,7 +152,6 @@ export function getSolidity(types: Types) {
 			.toUpperCase()}_TYPEHASH`
 
 		// * Generate the basic solidity code for the type hash.
-		// ! Really, there is no reason to use the human readable version if we can just encode it.
 		const typeHash = `\t/**
      * @dev Type hash representing the ${typeName} data type providing EIP-712
      *      compatability for encoding and decoding.
@@ -199,13 +198,15 @@ export function getSolidity(types: Types) {
 		})
 	})
 
+	const uniquePacketHashGetters = [...new Set(packetHashGetters)]
+
 	console.log(
-		`have generated ${packetHashGetters.length} packet hash getters`
+		`✔︎ generated ${uniquePacketHashGetters.length} packet hash getters.`
 	)
 
 	return {
 		setup: results,
-		packetHashGetters: [...new Set(packetHashGetters)]
+		packetHashGetters: uniquePacketHashGetters
 	}
 }
 

@@ -8,26 +8,26 @@ const { version: LIBRARY_VERSION } = JSON.parse(
 	readFileSync('./package.json', 'utf8')
 )
 
-export default function config({
+export function config({
 	contract,
 	types,
 	output,
 	dangerous
 }: Partial<{
-	contract: {
+	contract: Partial<{
 		authors: Array<string>
 		name: string
 		license: string
 		solidity: string
-	}
+	}>
 	types: Record<string, Array<TypedDataField>>
 	output: string
-	dangerous: {
+	dangerous: Partial<{
 		excludeCoreTypes: boolean
 		useOverloads: boolean
 		packetHashName: (typeName: string) => string
-	}
-}>) {
+	}>
+}> = {}) {
 	return {
 		contract: {
 			...{

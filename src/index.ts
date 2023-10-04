@@ -1,1 +1,1 @@
-import './core/config'
+export { config } from './core/config'

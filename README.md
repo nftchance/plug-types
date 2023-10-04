@@ -42,15 +42,15 @@ npm emporium generate
 
 The output file will contain:
 
-- An interface that contains the structs required to power your EIP-712 types.
-- An abstract cotract that contains:
+- An interface that contains the structs required to power verification of the `EIP-712` types.
+- An abstract contract that contains:
   - The `constant` type hash of each data type.
-  - Optionally overloaded packet hash getters to verify and decode signature messages.
+  - Optionally overloaded packet hash getters to verify and decode signature messages with arguments matching the generated data types.
 - All the pieces required to power the most up to date version of the `emporium` framework.
 
 ### Configuration
 
-Due to the default configuration, if you do not create a `config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to direct control the Solidity and supporting documentation that is generated.
+Due to the default configuration, if you do not create a `config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to directly control the Solidity and supporting documentation that is generated.
 
 ```typescript
 // path: ./config.ts

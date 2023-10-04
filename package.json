@@ -1,12 +1,13 @@
 {
     "name": "@nftchance/emporium-types",
-    "version": "0.0.0",
+    "version": "0.0.3",
     "type": "commonjs",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
-        "emporium": "pnpm build && node dist/core/cli.js"
+        "emporium": "pnpm build && node dist/core/cli.js",
+        "publish": "pnpm build && pnpm emporium generate && pnpm publish"
     },
     "files": [
         "src",
