@@ -4,6 +4,9 @@
     "type": "commonjs",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "bin": {
+        "emporium": "dist/core/cli.js"
+    },
     "scripts": {
         "package:build": "tsc",
         "emporium": "pnpm package:build && node dist/core/cli.js",
