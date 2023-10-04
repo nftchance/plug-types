@@ -40,6 +40,14 @@ npm emporium generate
     -o --output <filename> "Output path of generated Solidity." `./dist/contracts/Types.sol`
 ```
 
+The output file will contain:
+
+- An interface that contains the structs required to power your EIP-712 types.
+- An abstract cotract that contains:
+  - The `constant` type hash of each data type.
+  - Optionally overloaded packet hash getters to verify and decode signature messages.
+- All the pieces required to power the most up to date version of the `emporium` framework.
+
 ### Configuration
 
 Due to the default configuration, if you do not create a `config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to direct control the Solidity and supporting documentation that is generated.
