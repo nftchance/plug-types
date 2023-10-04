@@ -6,9 +6,7 @@
 
 ## Getting Started
 
-`emporium-types` has been designed to be as hands-off as possible. 
-
-With reasonable defaults pre-loaded you can choose to work with the default values or extend them to fit your needs in the case that you are building a more complex protocol.
+`emporium-types` has been designed to be as hands-off as possible. With reasonable defaults pre-loaded you can choose to work with the default values or extend them to fit your needs in the case that you are building a more complex protocol.
 
 ### Installation
 

@@ -11,7 +11,8 @@ const { version: LIBRARY_VERSION } = JSON.parse(
 export default function config({
 	contract,
 	types,
-	output
+	output,
+	dangerous
 }: Partial<{
 	contract: {
 		authors: Array<string>
@@ -21,6 +22,9 @@ export default function config({
 	}
 	types: Record<string, Array<TypedDataField>>
 	output: string
+	dangerous: {
+		excludeCoreTypes: boolean
+	}
 }>) {
 	return {
 		contract: {
@@ -42,7 +46,9 @@ export default function config({
 				.join('\n')
 		},
 		types: {
-			...INVOCATIONS_TYPES,
+			...{
+				core: dangerous?.excludeCoreTypes ? [] : INVOCATIONS_TYPES
+			},
 			...types
 		},
 		output: output ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`
