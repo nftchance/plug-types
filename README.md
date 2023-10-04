@@ -6,15 +6,15 @@ Working with [EIP-712](https://eips.ethereum.org/EIPS/eip-712) signatures and ty
 
 Without `emporium-types`:
 
-- 🚨 Writing +1,000 line `Solidity` contracts costs `$$$`.
-- 🤔 `EIP-712` confusion and complexities drag out timelines.
-- 🤬 Constantly wonder why your signatures are not matching up.
+- 🚨 Writing +1K line `Solidity` contracts costs `$$$`.
+- 🤔 `EIP-712` complexities drag out timelines.
+- 🤬 Constantly wonder why your signatures don't work.
 
 With `emporium-types`:
 
-- 🧩 Auto-generate your `Types contract` and focus on the core protocol mechanisms.
-- 🥹 Interact with an approachable API designed after the personal experience of `EIP-712`.
-- ✅ Generate the `Solidity` using the same library used to manage signatures.
+- 🧩 Auto-generate your `Types contract` in seconds.
+- 🥹 An approachable API designed after the personal experience of `EIP-712`.
+- ✅ Generate the decoders using the same method as the encoder.
 - 🚀 and several more small helper utilities. 
 
 Historically when developing an onchain EVM protocol, the first step is to build the base consumers and mechanisms with strict focus. When working with modern intent protocols though, you must approach it from a different angle: `types first`.
@@ -54,7 +54,7 @@ Due to the default configuration, if you do not create a `config.ts` then the li
 
 ```typescript
 // path: ./config.ts
-import config from '@nftchance/emporium-types/config'
+import { config } from '@nftchance/emporium-types/config'
 
 export const emporiumConfig = config({
     authors: ['<your name>']
@@ -99,7 +99,7 @@ With our types declared, we will initialize the `emporium-types` config with the
 
 ```typescript
 // path: ./<your-project>/config.ts
-import config from '@nftchance/emporium-types/config'
+import { config } from '@nftchance/emporium-types/config'
 
 import { types } from "./lib/constants.ts"
 
