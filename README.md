@@ -1,6 +1,6 @@
 # @nftchance/emporium-types
 
-![Header image](README.png)
+![Header image](https://github.com/nftchance/emporium-types/blob/6aca329b4a75a50696b0b3ce241e00686c9f7ca3/README.png)
 
 Working with [EIP-712](https://eips.ethereum.org/EIPS/eip-712) signatures and types can be very confusing. Especially when you are working to create your own protocol rather than just writing a little bit of front-end code that interacts with something already deployed.
 
