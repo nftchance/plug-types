@@ -24,11 +24,10 @@ export default function config({
 	output: string
 	dangerous: {
 		excludeCoreTypes: boolean
+		useOverloads: boolean
+		packetHashName: (typeName: string) => string
 	}
 }>) {
-	// TODO: Implement this.
-	dangerous
-
 	return {
 		contract: {
 			...{
@@ -52,6 +51,15 @@ export default function config({
 			...INVOCATIONS_TYPES,
 			...types
 		},
-		output: output ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`
+		output: output ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`,
+		dangerous: {
+			...{
+				excludeCoreTypes: false,
+				useOverloads: true,
+				packetHashName: (typeName: string) =>
+					typeName.slice(0, 1).toUpperCase() + typeName.slice(1)
+			},
+			...dangerous
+		}
 	}
 }
