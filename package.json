@@ -1,8 +1,9 @@
 {
   "name": "@nftchance/emporium-types",
+  "version": "0.0.0",
   "module": "index.ts",
   "type": "module",
-  "scripts": { 
+  "scripts": {
     "emporium": "bun run ./src/cli.ts"
   },
   "devDependencies": {

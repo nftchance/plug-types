@@ -39,17 +39,3 @@ export const INVOCATIONS_TYPES = {
 		{ name: 'replayProtection', type: 'ReplayProtection' }
 	]
 } as const
-
-export const types = {
-	primaryType: 'Delegation',
-	domain: {
-		name: 'Framework',
-		version: '0.0.0'
-	},
-	entries: {
-		delegate: 'address',
-		caveat: 'Caveat',
-		authority: 'SignedDelegation'
-	},
-	types: INVOCATIONS_TYPES
-} as const
