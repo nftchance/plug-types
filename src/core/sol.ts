@@ -4,6 +4,7 @@ import { mkdir, writeFile } from 'fs'
 
 import { emporiumConfig as config } from '../config'
 import { Typename, Types } from './types'
+import { TypedDataType } from 'abitype/zod'
 
 const LICENSE = `// SPDX-License-Identifier: ${config.contract.license}\n`
 const VERSION = `pragma solidity ${config.contract.solidity};\n`
@@ -46,25 +47,13 @@ export function getPacketHashGetterName(typeName: Typename) {
 }
 
 export function getEncodedValueFor(field: TypedDataField) {
-	// * Basic types.
-	if (
-		[
-			'address',
-			'bool',
-			'bytes32',
-			'int',
-			'uint',
-			'uint256',
-			'string'
-		].includes(field.type)
-	) {
-		return `$input.${field.name}`
-	}
-
 	// * Hashed types.
-	if (['bytes'].includes(field.type)) {
-		return `keccak256($input.${field.name})`
-	}
+	if (field.type === 'bytes') return `keccak256($input.${field.name})`
+
+	// * Basic types.
+	const isBasicType = TypedDataType.safeParse(field.type)
+
+	if (isBasicType.success) return `$input.${field.name}`
 
 	// * Array and object types (ie: nested values.)
 	return `${getPacketHashGetterName(field.type)}($input.${field.name})`
@@ -227,12 +216,13 @@ export async function generate(filename: string | undefined) {
 		typeHashes.push(type.typeHash)
 	})
 
+	// * Interface struct declarations.
 	lines.push(structs.join('\n\n'))
 
 	lines.push(CONTRACT)
 
+	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n'))
-
 	lines.push(packetHashGetters.join('\n'))
 
 	mkdir(
