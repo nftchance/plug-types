@@ -38,12 +38,16 @@ abstract contract ${config.contract.name} is I${config.contract.name} {`
 
 export function getPacketHashGetterName(typeName: Typename) {
 	if (typeName.includes('[]')) {
-		return `GET_${typeName
-			.substr(0, typeName.length - 2)
-			.toUpperCase()}_ARRAY_PACKETHASH`
+		if (config.dangerous.useOverloads) return `getArrayPacketHash`
+
+		return `get${config.dangerous.packetHashName(
+			typeName.substr(0, typeName.length - 2)
+		)}ArrayPacketHash`
 	}
 
-	return `GET_${typeName.toUpperCase()}_PACKETHASH`
+	if (config.dangerous.useOverloads) return `getPacketHash`
+
+	return `get${config.dangerous.packetHashName(typeName)}PacketHash`
 }
 
 export function getEncodedValueFor(field: TypedDataField) {
@@ -76,7 +80,7 @@ export function getPacketHashGetters<
     * @param $input The ${typeName} data to encode.
     * @return $hash The packet hash of the encoded ${typeName} data.
     */
-    function ${getPacketHashGetterName(typeName)} (
+    function ${getPacketHashGetterName(typeName)}(
         ${typeName} memory $input
     ) 
         public 
@@ -105,7 +109,7 @@ export const getArrayPacketHashGetter = (typeName: Typename) => `\t/**
     * @param $input The ${typeName} data to encode. 
     * @return $hash The packet hash of the encoded ${typeName} data.
     */
-    function ${getPacketHashGetterName(typeName)} (
+    function ${getPacketHashGetterName(typeName)}(
         ${typeName} memory $input
     ) 
         public 
