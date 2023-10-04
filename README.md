@@ -28,7 +28,7 @@ Historically when developing an onchain EVM protocol, the first step is to build
 To install `emporium-types` run:
 
 ```bash
-bun install @nftchance/emporium-types
+npm install @nftchance/emporium-types
 ```
 
 ### Solidity Generation
@@ -36,13 +36,13 @@ bun install @nftchance/emporium-types
 To run the `Solidity` generation based on the configuration provided:
 
 ```bash
-bun emporium generate
+npm emporium generate
     -o --output <filename> "Output path of generated Solidity." `./dist/contracts/Types.sol`
 ```
 
 ### Configuration
 
-With the configuration file exposed you have the ability to direct control the Solidity and supporting documentation that is generated.
+Due to the default configuration, if you do not create a `config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to direct control the Solidity and supporting documentation that is generated.
 
 ```typescript
 // path: ./config.ts
@@ -53,7 +53,7 @@ export const emporiumConfig = config({
 })
 ```
 
-## Advanced Usage
+## Advanced Usage (Adding Your Types)
 
 In some cases you will want access to more than just the base `emporium` types of `Delegation`, `Invocations`, and all the supporting shapes such as `Transaction`, `ReplayProtection`, etc. In this case, you need to extend the types and prepare your protocol to consume a framework that has already been initialized with all the confusing [EIP-712 data types and decoders](https://eips.ethereum.org/EIPS/eip-712) taken care of.
 
@@ -85,7 +85,7 @@ export const types = {
 
 With this configuration, we have the types needed to send `Mail` from one `Wallet` to another.
 
-*Why would you need this?* In an intent framework, a simple mental model is one where someone has swiped right on Tinder, but the recipient has to pay to execute and decode the contents (who swiped). The person that swiped right can do this without paying any cost as the receiver will be the executor. This is just one very simple example.
+*Why would you need this?* Viewing these types through the lens of an intent framework, a simple mental model is one where someone has swiped right on Tinder, but the recipient has to pay to execute and decode the contents (who swiped). The person that swiped right can do this without paying any cost as the receiver will be the executor. This is just one very simple example.
 
 With our types declared, we will initialize the `emporium-types` config with the `EIP-712` data types that we have just declared.
 
@@ -101,8 +101,4 @@ export const emporiumConfig = config({
 })
 ```
 
-With this simple addition to your configuration file you are ready to go. Generate the `Solidity` file with `bun emporium generate` and go focus on the core mechanisms of your protocol.
-
-## Dangerous Usage
-
-You can strip the configuration back to the absolute barebones so that the types for the `emporium` framework are not included in the generated files.
+With this simple addition to your configuration file you are ready to go. Generate your `Types.sol` with `bun emporium generate` and go focus on the core mechanisms of your protocol.

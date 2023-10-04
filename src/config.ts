@@ -1,56 +1,11 @@
-import { TypedDataField } from 'ethers'
+import config from './core/config'
 
-import { readFileSync } from 'node:fs'
+// * With an empty config, default values will be used for all the fields
+//   when generating the Solidity smart contract. For basic usage, this is
+//   probably what you want. If have additional events or need to customize
+//   the static declarations of the contract, you can pass in a partial
+//   config object to override the default values.
+export const emporiumConfig = config({})
 
-import { INVOCATIONS_TYPES } from '../lib/constants'
-
-const { version: LIBRARY_VERSION } = JSON.parse(
-	readFileSync('./package.json', 'utf8')
-)
-
-export default function config({
-	contract,
-	types,
-	output,
-	dangerous
-}: Partial<{
-	contract: {
-		authors: Array<string>
-		name: string
-		license: string
-		solidity: string
-	}
-	types: Record<string, Array<TypedDataField>>
-	output: string
-	dangerous: {
-		excludeCoreTypes: boolean
-	}
-}>) {
-	return {
-		contract: {
-			...{
-				name: 'Types',
-				license: 'BUSL-1.1',
-				solidity: '^0.8.19'
-			},
-			...contract,
-			authors: [
-				'@nftchance',
-				`emporium-types@${LIBRARY_VERSION} (${
-					new Date().toISOString().split('T')[0]
-				})`,
-				'@danfinlay (https://github.com/delegatable/delegatable-sol)'
-			]
-				.concat(contract?.authors ?? [])
-				.map(author => ` * @author ${author}`)
-				.join('\n')
-		},
-		types: {
-			...{
-				core: dangerous?.excludeCoreTypes ? [] : INVOCATIONS_TYPES
-			},
-			...types
-		},
-		output: output ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`
-	}
-}
+// ! Is exported as `emporiumConfig` so that you can include the instantiation
+//   in the existing 'config' stack your codebase likely already has.

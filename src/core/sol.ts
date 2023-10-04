@@ -1,6 +1,6 @@
 import { TypedDataEncoder, TypedDataField } from 'ethers'
 
-import { mkdir } from 'node:fs'
+import { mkdir, writeFile } from 'fs'
 
 import { emporiumConfig as config } from '../config'
 import { Typename, Types } from './types'
@@ -204,10 +204,6 @@ export function getSolidity(types: Types) {
 		`have generated ${packetHashGetters.length} packet hash getters`
 	)
 
-	const uniqueGetters = [...new Set(packetHashGetters)]
-
-	console.log(`or uniquely, just ${uniqueGetters.length}`, uniqueGetters)
-
 	return {
 		setup: results,
 		packetHashGetters: [...new Set(packetHashGetters)]
@@ -251,5 +247,7 @@ export async function generate(filename: string | undefined) {
 
 	lines.push('}')
 
-	await Bun.write(Bun.file(filename), lines.join('\n'))
+	writeFile(filename, lines.join('\n'), error => {
+		if (error) throw error
+	})
 }
