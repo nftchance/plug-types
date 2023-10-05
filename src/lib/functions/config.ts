@@ -2,6 +2,9 @@ import { bundleRequire } from 'bundle-require'
 import { findUp } from 'find-up'
 import { default as fse } from 'fs-extra'
 import { resolve } from 'pathe'
+import prettier from 'prettier'
+
+import { Config } from '../../core/config'
 
 const name = 'emporium'
 
@@ -31,7 +34,13 @@ export async function find({
 	return await findUp(configFiles, { cwd: rootDir })
 }
 
-export async function load({ configPath }: { configPath: string }) {
+type MaybeArray<T> = T | T[]
+
+export async function load({
+	configPath
+}: {
+	configPath: string
+}): Promise<MaybeArray<Config>> {
 	const res = await bundleRequire({
 		filepath: configPath
 	})
@@ -43,4 +52,34 @@ export async function load({ configPath }: { configPath: string }) {
 	if (typeof config !== 'function') return config
 
 	return await config()
+}
+
+export async function usingTypescript() {
+	try {
+		const cwd = process.cwd()
+		const tsconfig = await findUp('tsconfig.json', { cwd })
+
+		return !!tsconfig
+	} catch {
+		return false
+	}
+}
+
+export async function format(content: string) {
+	const config = await prettier.resolveConfig(process.cwd())
+
+	return prettier.format(content, {
+		arrowParens: 'always',
+		endOfLine: 'lf',
+		parser: 'typescript',
+		printWidth: 80,
+		semi: false,
+		singleQuote: true,
+		tabWidth: 4,
+		trailingComma: 'none',
+		...config,
+		// disable all prettier plugins due to potential ESM issues with prettier
+		// https://github.com/wagmi-dev/wagmi/issues/2971
+		plugins: []
+	})
 }

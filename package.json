@@ -25,11 +25,13 @@
         "abitype": "^0.9.9",
         "bundle-require": "^4.0.2",
         "commander": "^11.0.0",
+        "dedent": "^1.5.1",
         "ethers": "^6.7.1",
         "find-up": "^6.3.0",
         "fs-extra": "^11.1.1",
         "pathe": "^1.1.1",
         "picocolors": "^1.0.0",
+        "prettier": "^3.0.3",
         "tsup": "^7.2.0",
         "zod": "^3.22.4"
     }

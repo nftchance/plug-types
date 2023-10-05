@@ -4,6 +4,26 @@ import { readFileSync } from 'fs'
 
 import { INVOCATIONS_TYPES } from '../lib/constants'
 
+type Contract = {
+	authors: Array<string> | string
+	name: string
+	license: string
+	solidity: string
+}
+
+type Dangerous = {
+	excludeCoreTypes: boolean
+	useOverloads: boolean
+	packetHashName: (typeName: string) => string
+}
+
+export type Config = {
+	contract: Contract
+	types: TypedData
+	out: string
+	dangerous: Dangerous
+}
+
 const { version: LIBRARY_VERSION } = JSON.parse(
 	readFileSync('./package.json', 'utf8')
 )
@@ -11,23 +31,14 @@ const { version: LIBRARY_VERSION } = JSON.parse(
 export function config({
 	contract,
 	types,
-	output,
+	out,
 	dangerous
 }: Partial<{
-	contract: Partial<{
-		authors: Array<string>
-		name: string
-		license: string
-		solidity: string
-	}>
+	contract: Partial<Contract>
 	types: TypedData
-	output: string
-	dangerous: Partial<{
-		excludeCoreTypes: boolean
-		useOverloads: boolean
-		packetHashName: (typeName: string) => string
-	}>
-}> = {}) {
+	out: string
+	dangerous: Partial<Dangerous>
+}> = {}): Config {
 	return {
 		contract: {
 			...{
@@ -55,7 +66,7 @@ export function config({
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  }
 				: INVOCATIONS_TYPES,
-		output: output ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`,
+		out: out ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`,
 		dangerous: {
 			...{
 				excludeCoreTypes: false,

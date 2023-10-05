@@ -17,6 +17,9 @@ dependencies:
   commander:
     specifier: ^11.0.0
     version: 11.0.0
+  dedent:
+    specifier: ^1.5.1
+    version: 1.5.1
   ethers:
     specifier: ^6.7.1
     version: 6.7.1
@@ -32,6 +35,9 @@ dependencies:
   picocolors:
     specifier: ^1.0.0
     version: 1.0.0
+  prettier:
+    specifier: ^3.0.3
+    version: 3.0.3
   tsup:
     specifier: ^7.2.0
     version: 7.2.0
@@ -653,6 +659,15 @@ packages:
       ms: 2.1.2
     dev: false
 
+  /dedent@1.5.1:
+    resolution: {integrity: sha512-+LxW+KLWxu3HW3M2w2ympwtqPrqYRzU8fqi6Fhd18fBALe15blJPI/I4+UHveMVG6lJqB4JNd4UG0S5cnVHwIg==}
+    peerDependencies:
+      babel-plugin-macros: ^3.1.0
+    peerDependenciesMeta:
+      babel-plugin-macros:
+        optional: true
+    dev: false
+
   /dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
@@ -1071,6 +1086,12 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       yaml: 2.3.2
+    dev: false
+
+  /prettier@3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: false
 
   /punycode@2.3.0:
