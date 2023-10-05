@@ -53,8 +53,8 @@ The output file will contain:
 Due to the default configuration, if you do not create a `config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to directly control the Solidity and supporting documentation that is generated.
 
 ```typescript
-// path: ./config.ts
-import { config } from '@nftchance/emporium-types/config'
+// path: ./emporium.config.ts
+import { config } from '@nftchance/emporium-types'
 
 export default config({
     contract: { 
@@ -101,8 +101,8 @@ With this configuration, we have the types needed to send `Mail` from one `Walle
 With our types declared, we will initialize the `emporium-types` config with the `EIP-712` data types that we have just declared.
 
 ```typescript
-// path: ./<your-project>/config.ts
-import { config } from '@nftchance/emporium-types/config'
+// path: ./<your-project>/emporium.config.ts
+import { config } from '@nftchance/emporium-types'
 
 import { types } from "./lib/constants.ts"
 

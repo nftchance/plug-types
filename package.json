@@ -1,7 +1,21 @@
 {
     "name": "@nftchance/emporium-types",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "license": "BUSL-1.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nftchance/emporium-types.git"
+    },
+    "keywords": [
+        "nftchance",
+        "eip712",
+        "typehash",
+        "signatures",
+        "eth",
+        "ethereum",
+        "solidity",
+        "crypto"
+    ],
     "type": "module",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -21,7 +35,6 @@
         "typescript": "^5.0.0"
     },
     "dependencies": {
-        "@types/fs-extra": "^11.0.2",
         "abitype": "^0.9.9",
         "bundle-require": "^4.0.2",
         "commander": "^11.0.0",
@@ -34,5 +47,9 @@
         "prettier": "^3.0.3",
         "tsup": "^7.2.0",
         "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/dedent": "^0.7.0",
+        "@types/fs-extra": "^11.0.2"
     }
 }

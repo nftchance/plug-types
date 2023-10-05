@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@types/fs-extra':
-    specifier: ^11.0.2
-    version: 11.0.2
   abitype:
     specifier: ^0.9.9
     version: 0.9.9(zod@3.22.4)
@@ -47,6 +44,14 @@ dependencies:
   zod:
     specifier: ^3.22.4
     version: 3.22.4
+
+devDependencies:
+  '@types/dedent':
+    specifier: ^0.7.0
+    version: 0.7.0
+  '@types/fs-extra':
+    specifier: ^11.0.2
+    version: 11.0.2
 
 packages:
 
@@ -509,22 +514,25 @@ packages:
       fastq: 1.15.0
     dev: false
 
+  /@types/dedent@0.7.0:
+    resolution: {integrity: sha512-EGlKlgMhnLt/cM4DbUSafFdrkeJoC9Mvnj0PUCU7tFmTjMjNRT957kXCx0wYm3JuEq4o4ZsS5vG+NlkM2DMd2A==}
+    dev: true
+
   /@types/fs-extra@11.0.2:
     resolution: {integrity: sha512-c0hrgAOVYr21EX8J0jBMXGLMgJqVf/v6yxi0dLaJboW9aQPh16Id+z6w2Tx1hm+piJOLv8xPfVKZCLfjPw/IMQ==}
     dependencies:
       '@types/jsonfile': 6.1.2
       '@types/node': 18.15.13
-    dev: false
+    dev: true
 
   /@types/jsonfile@6.1.2:
     resolution: {integrity: sha512-8t92P+oeW4d/CRQfJaSqEwXujrhH4OEeHRjGU3v1Q8mUS8GPF3yiX26sw4svv6faL2HfBtGTe2xWIoVgN3dy9w==}
     dependencies:
       '@types/node': 18.15.13
-    dev: false
+    dev: true
 
   /@types/node@18.15.13:
     resolution: {integrity: sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==}
-    dev: false
 
   /abitype@0.9.9(zod@3.22.4):
     resolution: {integrity: sha512-rBModE9LGdPkV956XLnipCEQ0Z5SeqObjz60fD4RsAq9ky7Hih6fT5YQDM1eVy/NZJN1Z4wC7NFcdYKrd1+ffA==}
