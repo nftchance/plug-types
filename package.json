@@ -2,14 +2,14 @@
     "name": "@nftchance/emporium-types",
     "version": "0.0.8",
     "license": "BUSL-1.1",
-    "type": "commonjs",
+    "type": "module",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "bin": {
         "emporium": "dist/core/cli.js"
     },
     "scripts": {
-        "package:build": "tsc",
+        "package:build": "tsup",
         "emporium": "pnpm package:build && node dist/core/cli.js",
         "package:publish": "pnpm emporium generate && pnpm publish"
     },
@@ -21,8 +21,16 @@
         "typescript": "^5.0.0"
     },
     "dependencies": {
+        "@types/fs-extra": "^11.0.2",
         "abitype": "^0.9.9",
+        "bundle-require": "^4.0.2",
         "commander": "^11.0.0",
-        "ethers": "^6.7.1"
+        "ethers": "^6.7.1",
+        "find-up": "^6.3.0",
+        "fs-extra": "^11.1.1",
+        "pathe": "^1.1.1",
+        "picocolors": "^1.0.0",
+        "tsup": "^7.2.0",
+        "zod": "^3.22.4"
     }
 }

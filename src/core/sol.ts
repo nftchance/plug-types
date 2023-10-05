@@ -1,27 +1,13 @@
-import { TypedDataEncoder, TypedDataField } from 'ethers'
+import { TypedDataEncoder } from 'ethers'
 
-import fs from 'fs'
-import path from 'path'
-
-import { emporiumConfig } from '../config'
-import { Typename, Types } from './types'
+import { TypedData, TypedDataParameter } from 'abitype'
 import { TypedDataType } from 'abitype/zod'
 
-let userConfig: typeof emporiumConfig | undefined
+import fs from 'fs'
 
-const configPath = path.join(process.cwd(), 'config.ts')
+import { emporiumConfig } from '../config'
 
-import(configPath)
-	.then(module => {
-		userConfig = module && module.emporiumConfig
-	})
-	.catch(error => {
-		if (error.code !== 'MODULE_NOT_FOUND') {
-			throw error
-		}
-	})
-
-const config = userConfig || emporiumConfig
+const config = emporiumConfig
 
 const LICENSE = `// SPDX-License-Identifier: ${config.contract.license}\n`
 const VERSION = `pragma solidity ${config.contract.solidity};\n`
@@ -53,7 +39,7 @@ ${config.contract.authors}
  */
 abstract contract ${config.contract.name} is I${config.contract.name} {`
 
-export function getPacketHashGetterName(typeName: Typename) {
+export function getPacketHashGetterName(typeName: string) {
 	if (typeName.includes('[]')) {
 		if (config.dangerous.useOverloads) return `getArrayPacketHash`
 
@@ -67,7 +53,7 @@ export function getPacketHashGetterName(typeName: Typename) {
 	return `get${config.dangerous.packetHashName(typeName)}PacketHash`
 }
 
-export function getEncodedValueFor(field: TypedDataField) {
+export function getEncodedValueFor(field: TypedDataParameter) {
 	// * Hashed types.
 	if (field.type === 'bytes') return `keccak256($input.${field.name})`
 
@@ -81,8 +67,8 @@ export function getEncodedValueFor(field: TypedDataField) {
 }
 
 export function getPacketHashGetters<
-	TTypes extends Types,
-	TTypename extends Typename<TTypes>
+	TTypes extends TypedData,
+	TTypename extends keyof TTypes extends string ? keyof TTypes : never
 >(
 	typeName: TTypename,
 	fields: TTypes[TTypename],
@@ -123,7 +109,7 @@ export function getPacketHashGetters<
 	return packetHashGetters
 }
 
-export const getArrayPacketHashGetter = (typeName: Typename) => `\t/**
+export const getArrayPacketHashGetter = (typeName: string) => `\t/**
      * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
      *         from a packet hash to verify type compliance and value-width alignment.
      * @param $input The ${typeName} data to encode. 
@@ -155,10 +141,11 @@ export const getArrayPacketHashGetter = (typeName: Typename) => `\t/**
         $hash = keccak256(encoded);
     }`
 
-export function getSolidity(types: Types) {
+export function getSolidity(types: TypedData) {
 	const results: { struct: string; typeHash: string }[] = []
 	const packetHashGetters: string[] = []
 
+	// @ts-expect-error - Smashing abitype types into ethers.
 	const encoder = new TypedDataEncoder(types)
 
 	Object.keys(types).forEach(typeName => {
@@ -174,7 +161,7 @@ export function getSolidity(types: Types) {
      *      compatability for encoding and decoding.
      * 
      * ${typeHashName} extends TypeHash<EIP712<{
-     *   ${types[typeName]
+     *   ${types[typeName as keyof typeof types]
 			.map(field => {
 				return `{ name: '${field.name}', type: '${field.type}' }`
 			})
@@ -228,9 +215,7 @@ export function getSolidity(types: Types) {
 }
 
 export async function generate(filename: string | undefined) {
-	const { setup, packetHashGetters } = getSolidity(
-		config.types as unknown as Types
-	)
+	const { setup, packetHashGetters } = getSolidity(config.types)
 
 	filename = filename ?? config.output
 

@@ -1,6 +1,6 @@
-import { TypedDataField } from 'ethers'
+import { TypedData } from 'abitype'
 
-import { readFileSync } from 'node:fs'
+import { readFileSync } from 'fs'
 
 import { INVOCATIONS_TYPES } from '../lib/constants'
 
@@ -20,7 +20,7 @@ export function config({
 		license: string
 		solidity: string
 	}>
-	types: Record<string, Array<TypedDataField>>
+	types: TypedData
 	output: string
 	dangerous: Partial<{
 		excludeCoreTypes: boolean
@@ -47,10 +47,14 @@ export function config({
 				.map(author => ` * @author ${author}`)
 				.join('\n')
 		},
-		types: {
-			...INVOCATIONS_TYPES,
-			...types
-		},
+		types:
+			types !== undefined
+				? {
+						...INVOCATIONS_TYPES,
+						...types
+						// eslint-disable-next-line no-mixed-spaces-and-tabs
+				  }
+				: INVOCATIONS_TYPES,
 		output: output ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`,
 		dangerous: {
 			...{
@@ -61,5 +65,5 @@ export function config({
 			},
 			...dangerous
 		}
-	}
+	} as const
 }
