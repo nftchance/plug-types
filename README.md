@@ -15,7 +15,7 @@ With `emporium-types`:
 - 🧩 Auto-generate your `Types contract` in seconds.
 - 🥹 An approachable API designed after the personal experience of `EIP-712`.
 - ✅ Generate the decoders using the same method as the encoder.
-- 🚀 and several more small helper utilities. 
+- 🚀 and several more small helper utilities.
 
 Historically when developing an onchain EVM protocol, the first step is to build the base consumers and mechanisms with strict focus. When working with modern intent protocols though, you must approach it from a different angle: `types first`.
 
@@ -80,7 +80,7 @@ By default, when you providing your own types they will be loaded alongside the 
 To illustrate this, let's look at a quick example where we are signing `Mail` messages from one party to another.
 
 ```typescript
-// path: ./<your-project>/lib/constants.ts
+// path: ./lib/constants.ts
 export const types = {
     Person: [
         { name: 'name', type: 'string' },
@@ -101,7 +101,7 @@ With this configuration, we have the types needed to send `Mail` from one `Walle
 With our types declared, we will initialize the `emporium-types` config with the `EIP-712` data types that we have just declared.
 
 ```typescript
-// path: ./<your-project>/emporium.config.ts
+// path: ./emporium.config.ts
 import { config } from '@nftchance/emporium-types'
 
 import { types } from "./lib/constants.ts"
