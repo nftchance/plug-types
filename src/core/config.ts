@@ -1,8 +1,28 @@
-import { TypedDataField } from 'ethers'
+import { TypedData } from 'abitype'
 
-import { readFileSync } from 'node:fs'
+import { readFileSync } from 'fs'
 
 import { INVOCATIONS_TYPES } from '../lib/constants'
+
+type Contract = {
+	authors: Array<string> | string
+	name: string
+	license: string
+	solidity: string
+}
+
+type Dangerous = {
+	excludeCoreTypes: boolean
+	useOverloads: boolean
+	packetHashName: (typeName: string) => string
+}
+
+export type Config = {
+	contract: Contract
+	types: TypedData
+	out: string
+	dangerous: Dangerous
+}
 
 const { version: LIBRARY_VERSION } = JSON.parse(
 	readFileSync('./package.json', 'utf8')
@@ -11,23 +31,14 @@ const { version: LIBRARY_VERSION } = JSON.parse(
 export function config({
 	contract,
 	types,
-	output,
+	out,
 	dangerous
 }: Partial<{
-	contract: Partial<{
-		authors: Array<string>
-		name: string
-		license: string
-		solidity: string
-	}>
-	types: Record<string, Array<TypedDataField>>
-	output: string
-	dangerous: Partial<{
-		excludeCoreTypes: boolean
-		useOverloads: boolean
-		packetHashName: (typeName: string) => string
-	}>
-}> = {}) {
+	contract: Partial<Contract>
+	types: TypedData
+	out: string
+	dangerous: Partial<Dangerous>
+}> = {}): Config {
 	return {
 		contract: {
 			...{
@@ -47,11 +58,15 @@ export function config({
 				.map(author => ` * @author ${author}`)
 				.join('\n')
 		},
-		types: {
-			...INVOCATIONS_TYPES,
-			...types
-		},
-		output: output ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`,
+		types:
+			types !== undefined
+				? {
+						...INVOCATIONS_TYPES,
+						...types
+						// eslint-disable-next-line no-mixed-spaces-and-tabs
+				  }
+				: INVOCATIONS_TYPES,
+		out: out ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`,
 		dangerous: {
 			...{
 				excludeCoreTypes: false,
@@ -61,5 +76,5 @@ export function config({
 			},
 			...dangerous
 		}
-	}
+	} as const
 }
