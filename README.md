@@ -56,8 +56,11 @@ Due to the default configuration, if you do not create a `config.ts` then the li
 // path: ./config.ts
 import { config } from '@nftchance/emporium-types/config'
 
-export const emporiumConfig = config({
-    authors: ['<your name>']
+export default config({
+    contract: { 
+        authors: ['<your name'>]
+    },
+    out: './dist/contracts/'
 })
 ```
 
@@ -104,7 +107,10 @@ import { config } from '@nftchance/emporium-types/config'
 import { types } from "./lib/constants.ts"
 
 export const emporiumConfig = config({
-    authors: ['<your name>'],
+    contract: { 
+        authors: ['<your name'>]
+    },
+    out: './dist/contracts/',
     types
 })
 ```
