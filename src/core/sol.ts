@@ -3,7 +3,6 @@ import { TypedDataEncoder } from 'ethers'
 import { TypedData, TypedDataParameter } from 'abitype'
 import { TypedDataType } from 'abitype/zod'
 
-import fs from 'fs'
 import pc from 'picocolors'
 
 import { Config } from './config'
@@ -247,13 +246,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {`)
 	lines.push(typeHashes.join('\n'))
 	lines.push(packetHashGetters.join('\n'))
 
-	const dir = config.out.split('/').slice(0, -1).join('/')
-
-	await fs.promises.mkdir(dir, {
-		recursive: true
-	})
-
 	lines.push('}')
 
-	await fs.promises.writeFile(config.out, lines.join('\n'))
+	return lines.join('\n')
 }

@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import dedent from 'dedent'
-import { default as fse } from 'fs-extra'
-import { basename, resolve } from 'pathe'
+import { ensureDir, default as fse } from 'fs-extra'
+import { basename, dirname, resolve } from 'pathe'
 import pc from 'picocolors'
 
 import { find, format, load, usingTypescript } from '../lib/functions/config'
@@ -95,7 +95,7 @@ program
 program
 	.command('generate')
 	.option('-c --config <config>', 'Path to config file.')
-	.option('-o, --output <output>', 'Path to the generated Solidity file.')
+	.option('-r --root <root>', 'Path to root directory.')
 	.action(async options => {
 		const configPath = await find({
 			config: options.config,
@@ -110,10 +110,11 @@ program
 
 			const isArrayConfig = Array.isArray(resolvedConfigs)
 
-			if (isArrayConfig)
-				console.info(
+			console.info(
+				pc.blue(
 					`* Using config at index ${basename(pc.gray(configPath))}`
 				)
+			)
 
 			configs = isArrayConfig ? resolvedConfigs : [resolvedConfigs]
 		} else {
@@ -136,15 +137,24 @@ program
 			outNames.add(config.out)
 
 			await generate(config)
-				.then(() =>
+				.then(async solidity => {
 					console.info(
 						pc.green(
 							`✔︎ Generated Solidity code based on EIP-712 types to:\n\t${pc.gray(
-								config.out
+								`${config.out}${config.contract.name}.sol`
 							)}`
 						)
 					)
-				)
+
+					const cwd = process.cwd()
+					const outPath = resolve(
+						cwd,
+						config.out,
+						`${config.contract.name}.sol`
+					)
+					await ensureDir(dirname(outPath))
+					await fse.writeFile(outPath, solidity)
+				})
 				.catch(error => {
 					console.error(
 						pc.red(
