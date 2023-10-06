@@ -52,6 +52,14 @@ The output file will contain:
 
 Due to the default configuration, if you do not create a `config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to directly control the Solidity and supporting documentation that is generated.
 
+To generate an `emporium.config.ts` file run:
+
+```bash
+npm emporium init
+```
+
+or you also have the option of creating the file yourself. `init` functionality is intended to enable the ability for build-time compilation to enable the ability to use this one configuration through each stack of your EIP-712 consuming protocol.
+
 ```typescript
 // path: ./emporium.config.ts
 import { config } from '@nftchance/emporium-types'
