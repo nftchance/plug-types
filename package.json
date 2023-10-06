@@ -33,9 +33,6 @@
         "src",
         "dist"
     ],
-    "peerDependencies": {
-        "typescript": "^5.0.0"
-    },
     "dependencies": {
         "abitype": "^0.9.9",
         "bundle-require": "^4.0.2",
@@ -48,6 +45,7 @@
         "picocolors": "^1.0.0",
         "prettier": "^3.0.3",
         "tsup": "^7.2.0",
+        "typescript": "^5.0.0",
         "zod": "^3.22.4"
     },
     "devDependencies": {
