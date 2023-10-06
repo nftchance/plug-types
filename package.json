@@ -27,12 +27,15 @@
         "build": "tsup && pnpm emporium generate",
         "emporium": "node dist/core/cli.js",
         "lint": "tsc",
-        "package:publish": "pnpm emporium generate && pnpm publish"
+        "release": "changeset publish"
     },
     "files": [
         "src",
         "dist"
     ],
+    "publishConfig": {
+        "access": "public"
+    },
     "dependencies": {
         "@trivago/prettier-plugin-sort-imports": "^4.2.0",
         "abitype": "^0.9.9",
