@@ -58,7 +58,7 @@ import { config } from '@nftchance/emporium-types'
 
 export default config({
     contract: { 
-        authors: ['<your name'>]
+        authors: ['<your name>']
     },
     out: './dist/contracts/'
 })
@@ -108,7 +108,7 @@ import { types } from "./lib/constants.ts"
 
 export const emporiumConfig = config({
     contract: { 
-        authors: ['<your name'>]
+        authors: ['<your name>']
     },
     out: './dist/contracts/',
     types
