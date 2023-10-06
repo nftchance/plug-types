@@ -27,7 +27,9 @@
         "build": "tsup && pnpm emporium generate",
         "emporium": "node dist/core/cli.js",
         "lint": "tsc",
-        "release": "pnpm publish -r"
+        "ci:release": "pnpm publish -r",
+        "ci:version": "changeset version",
+        "ci:publish": "changeset publish"
     },
     "files": [
         "src",

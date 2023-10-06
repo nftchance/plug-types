@@ -3,9 +3,7 @@ on:
     push:
         branches:
             - 'main'
-env:
-    CI: true
-    PNPM_CACHE_FOLDER: .pnpm-store
+
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
@@ -27,12 +25,11 @@ jobs:
             - name: setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - run: pnpm install --frozen-lockfile
-            - name: create and publish versions
+            - name: Create Release Pull Request or Publish
+              id: changesets
               uses: changesets/action@v1
               with:
-                  version: pnpm ci:version
-                  commit: 'chore: update versions'
-                  title: 'chore: update versions'
-                  publish: pnpm ci:publish
+                  publish: pnpm changeset publish
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
