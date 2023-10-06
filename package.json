@@ -34,6 +34,7 @@
         "dist"
     ],
     "dependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^4.2.0",
         "abitype": "^0.9.9",
         "bundle-require": "^4.0.2",
         "commander": "^11.0.0",
