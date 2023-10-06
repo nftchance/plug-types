@@ -7,7 +7,7 @@ settings:
 dependencies:
   abitype:
     specifier: ^0.9.9
-    version: 0.9.9(zod@3.22.4)
+    version: 0.9.9(typescript@5.2.2)(zod@3.22.4)
   bundle-require:
     specifier: ^4.0.2
     version: 4.0.2(esbuild@0.19.4)
@@ -37,7 +37,7 @@ dependencies:
     version: 3.0.3
   tsup:
     specifier: ^7.2.0
-    version: 7.2.0
+    version: 7.2.0(typescript@5.2.2)
   typescript:
     specifier: ^5.0.0
     version: 5.2.2
@@ -789,7 +789,7 @@ packages:
     resolution: {integrity: sha512-OxepLK9EuNEIPxWNME+C6WwbRAOOI2o2BaQEGzz5Lu2e4Z5eDnEo+/aVEDMIXywoJitJ7xWd641wrGLZdtwRyw==}
     dev: true
 
-  /abitype@0.9.9(zod@3.22.4):
+  /abitype@0.9.9(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-rBModE9LGdPkV956XLnipCEQ0Z5SeqObjz60fD4RsAq9ky7Hih6fT5YQDM1eVy/NZJN1Z4wC7NFcdYKrd1+ffA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -800,6 +800,7 @@ packages:
       zod:
         optional: true
     dependencies:
+      typescript: 5.2.2
       zod: 3.22.4
     dev: false
 
@@ -2663,7 +2664,7 @@ packages:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: false
 
-  /tsup@7.2.0:
+  /tsup@7.2.0(typescript@5.2.2):
     resolution: {integrity: sha512-vDHlczXbgUvY3rWvqFEbSqmC1L7woozbzngMqTtL2PGBODTtWlRwGDDawhvWzr5c1QjKe4OAKqJGfE1xeXUvtQ==}
     engines: {node: '>=16.14'}
     hasBin: true
@@ -2693,6 +2694,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.34.0
       tree-kill: 1.2.2
+      typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
       - ts-node
