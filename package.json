@@ -25,7 +25,7 @@
     },
     "scripts": {
         "build": "tsup && pnpm emporium generate",
-        "emporium": "pnpm build && node dist/core/cli.js",
+        "emporium": "node dist/core/cli.js",
         "lint": "tsc",
         "package:publish": "pnpm emporium generate && pnpm publish"
     },
