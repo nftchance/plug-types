@@ -1,8 +1,8 @@
 # @nftchance/emporium-types
 
-![Header image](https://github.com/nftchance/emporium-types/blob/6aca329b4a75a50696b0b3ce241e00686c9f7ca3/README.png)
-
 Working with [EIP-712](https://eips.ethereum.org/EIPS/eip-712) signatures and types can be very confusing. Especially when you are working to create your own protocol rather than just writing a little bit of front-end code that interacts with something already deployed.
+
+![Header image](https://github.com/nftchance/emporium-types/blob/6aca329b4a75a50696b0b3ce241e00686c9f7ca3/README.png)
 
 Without `emporium-types`:
 
@@ -50,7 +50,7 @@ The output file will contain:
 
 ### Configuration
 
-Due to the default configuration, if you do not create a `config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to directly control the Solidity and supporting documentation that is generated.
+Due to the default configuration, if you do not create a `emporium.config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to directly control the Solidity and supporting documentation that is generated.
 
 To generate an `emporium.config.ts` file run:
 
@@ -58,7 +58,7 @@ To generate an `emporium.config.ts` file run:
 npm emporium init
 ```
 
-or you also have the option of creating the file yourself. `init` functionality is intended to enable the ability for build-time compilation to enable the ability to use this one configuration through each stack of your EIP-712 consuming protocol.
+or you also have the option of creating the file yourself. `init` functionality is intended to enable the ability for build-time compilation so that you can use this one configuration through each piece of EIP-712 consuming stack.
 
 ```typescript
 // path: ./emporium.config.ts
