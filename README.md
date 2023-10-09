@@ -31,28 +31,11 @@ To install `emporium-types` run:
 npm install @nftchance/emporium-types
 ```
 
-### Solidity Generation
-
-To run the `Solidity` generation based on the configuration provided:
-
-```bash
-npm emporium generate
-    -o --output <filename> "Output path of generated Solidity." `./dist/contracts/Types.sol`
-```
-
-The output file will contain:
-
-- An interface that contains the structs required to power verification of the `EIP-712` types.
-- An abstract contract that contains:
-  - The `constant` type hash of each data type.
-  - Optionally overloaded packet hash getters to verify and decode signature messages with arguments matching the generated data types.
-- All the pieces required to power the most up to date version of the `emporium` framework.
-
 ### Configuration
 
 Due to the default configuration, if you do not create a `emporium.config.ts` then the library will proceed with the use of the defaults. However, with the configuration file exposed you have the ability to directly control the Solidity and supporting documentation that is generated.
 
-To generate an `emporium.config.ts` file run:
+To generate an `emporium.config.ts` file run: 
 
 ```bash
 npm emporium init
@@ -71,6 +54,23 @@ export default config({
     out: './dist/contracts/'
 })
 ```
+
+### Solidity Generation
+
+To run the `Solidity` generation based on the configuration provided:
+
+```bash
+npm emporium generate
+    -o --output <filename> "Output path of generated Solidity." `./dist/contracts/Types.sol`
+```
+
+The output file will contain:
+
+- An interface that contains the structs required to power verification of the `EIP-712` types.
+- An abstract contract that contains:
+  - The `constant` type hash of each data type.
+  - Optionally overloaded packet hash getters to verify and decode signature messages with arguments matching the generated data types.
+- All the pieces required to power the most up to date version of the `emporium` framework.
 
 ## Advanced Usage (Adding Your Types)
 
