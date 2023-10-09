@@ -18,14 +18,20 @@ jobs:
               with:
                   node-version: 18
                   cache: 'pnpm'
-            - name: install pnpm
+
+            - name: 🔻 Install pnpm
               run: npm i pnpm@latest -g
-            - name: Setup npmrc
+
+            - name: 💼 Setup npmrc
               run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-            - name: setup pnpm config
+
+            - name: 🗒️ Setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-            - run: pnpm install --frozen-lockfile
-            - name: Create Release Pull Request or Publish
+
+            - name: 📦 Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: 🚀 Create Release Pull Request or Publish
               id: changesets
               uses: changesets/action@v1
               with:
