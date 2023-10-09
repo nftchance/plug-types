@@ -1,5 +1,12 @@
 # @nftchance/emporium-types
 
+## 0.0.13
+
+### Patch Changes
+
+-   a1c32fa: fix: better readme
+-   071aa1b: fix: docs
+
 ## 0.0.12
 
 ### Patch Changes
