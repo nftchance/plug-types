@@ -28,6 +28,9 @@ jobs:
             - name: 📦 Install dependencies
               run: pnpm install --frozen-lockfile
 
+            - name: 🧪 Build
+              run: pnpm build
+
             - name: 🚀 Create Release Pull Request or Publish
               id: changesets
               uses: changesets/action@v1
