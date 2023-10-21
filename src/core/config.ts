@@ -46,7 +46,8 @@ export function config({
 				`@nftchance/emporium-types (${
 					new Date().toISOString().split('T')[0]
 				})`,
-				'@danfinlay (https://github.com/delegatable/delegatable-sol)'
+				'@danfinlay (https://github.com/delegatable/delegatable-sol)',
+				'@KamesGeraghty (https://github.com/kamescg)'
 			]
 				.concat(contract?.authors ?? [])
 				.map(author => ` * @author ${author}`)

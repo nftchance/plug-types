@@ -30,8 +30,7 @@ export const INVOCATION_TYPES = {
 	],
 	SignedDelegation: [
 		{ name: 'delegation', type: 'Delegation' },
-		{ name: 'signature', type: 'bytes' },
-		{ name: 'signerIsContract', type: 'bool' }
+		{ name: 'signature', type: 'bytes' }
 	],
 	Invocation: [
 		{ name: 'transaction', type: 'Transaction' },

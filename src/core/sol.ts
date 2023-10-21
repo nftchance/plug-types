@@ -126,6 +126,7 @@ export function getSolidity(config: Config) {
 	const results: { struct: string; typeHash: string }[] = []
 	const packetHashGetters: string[] = []
 	const digestGetters: string[] = []
+	const signerGetters: string[] = []
 
 	// @ts-expect-error - Smashing abitype types into ethers.
 	const encoder = new TypedDataEncoder(config.types)
@@ -185,9 +186,8 @@ export function getSolidity(config: Config) {
 			typeHash
 		})
 
-		// * Generate the digest getter if the type has a signature field.
-		if (config.types[typeName].find(field => field.name === 'signature')) {
-			digestGetters.push(`\t/**
+		// * Generate the digest getter for each type.
+		digestGetters.push(`\t/**
     * @notice Encode ${typeName} data into a digest hash.
     * @param $input The ${typeName} data to encode.
     * @return $digest The digest hash of the encoded ${typeName} data.
@@ -207,11 +207,34 @@ export function getSolidity(config: Config) {
             )
         );
     }`)
+
+		// If the type has a field with the name "signature" then we need to generate a
+		// signer getter for it.
+		if (config.types[typeName].find(field => field.name === 'signature')) {
+			const dataFieldName = config.types[typeName].find(
+				field => field.name !== 'signature'
+			)?.name
+
+			signerGetters.push(`\t/**
+    * @notice Recover the signer of a digest hash.
+    * @param $input The digest hash to recover the signer from.
+    * @return $signer The signer of the digest hash.
+    */
+    function getSigner(
+        ${typeName} memory $input
+    )
+        public
+        view
+        returns (address $signer)
+    {
+        $signer = getDigest($input.${dataFieldName}).recover($input.signature);
+    }`)
 		}
 	})
 
 	const uniquePacketHashGetters = [...new Set(packetHashGetters)]
 	const uniqueDigestGetters = [...new Set(digestGetters)]
+	const uniqueSignerGetters = [...new Set(signerGetters)]
 
 	console.log(
 		pc.green(
@@ -224,7 +247,8 @@ export function getSolidity(config: Config) {
 	return {
 		setup: results,
 		packetHashGetters: uniquePacketHashGetters,
-		digestGetters: uniqueDigestGetters
+		digestGetters: uniqueDigestGetters,
+		signerGetters: uniqueSignerGetters
 	}
 }
 
@@ -232,7 +256,8 @@ export async function generate(config: Config) {
 	const { setup: eip721Setup, packetHashGetters: eip712PacketHashGetters } =
 		getSolidity(defaultConfig)
 
-	const { setup, packetHashGetters, digestGetters } = getSolidity(config)
+	const { setup, packetHashGetters, digestGetters, signerGetters } =
+		getSolidity(config)
 
 	// Combine the EIP-721 and EIP-712 types.
 	const combinedSetup = [...eip721Setup, ...setup]
@@ -244,6 +269,7 @@ export async function generate(config: Config) {
 	const lines: string[] = [
 		`// SPDX-License-Identifier: ${config.contract.license}\n`,
 		`pragma solidity ${config.contract.solidity};\n`,
+		`import {ECDSA} from 'solady/src/utils/ECDSA.sol';\n`,
 		`/**
  * @title Framework:${config.contract.name}
  * @notice The base EIP-712 types that power a modern intent framework.
@@ -283,6 +309,9 @@ ${config.contract.authors}
 ${config.contract.authors}
  */
 abstract contract ${config.contract.name} is I${config.contract.name} {
+    /// @notice Use the ECDSA library for signature verification.
+    using ECDSA for bytes32;
+
     /// @notice The hash of the domain separator used in the EIP712 domain hash.
     bytes32 public immutable domainHash;`)
 
@@ -311,6 +340,9 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
 
 	// * Digest getters.
 	lines.push(digestGetters.join('\n\n'))
+
+	// * Signer getters.
+	lines.push(signerGetters.join('\n\n'))
 
 	lines.push('}')
 
