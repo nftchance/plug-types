@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.1.2
+
+### Patch Changes
+
+-   f5d00ff: fix: release declaration
+
 ## 0.1.1
 
 ### Patch Changes
