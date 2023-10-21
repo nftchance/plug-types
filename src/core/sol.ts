@@ -125,6 +125,7 @@ export const getArrayPacketHashGetter = (
 export function getSolidity(config: Config) {
 	const results: { struct: string; typeHash: string }[] = []
 	const packetHashGetters: string[] = []
+	const digestGetters: string[] = []
 
 	// @ts-expect-error - Smashing abitype types into ethers.
 	const encoder = new TypedDataEncoder(config.types)
@@ -136,7 +137,6 @@ export function getSolidity(config: Config) {
 			.replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1_$2')
 			.replace(/([0-9])([A-Z])/g, '$1_$2')
 			.toUpperCase()}_TYPEHASH`
-		// This is extremely close however I if a capital letter is followed by another capital letter or number, we do not want to add an underscore.
 
 		// * Generate the basic solidity code for the type hash.
 		const typeHash = `\t/**
@@ -184,9 +184,34 @@ export function getSolidity(config: Config) {
 		.join('')}\t}`,
 			typeHash
 		})
+
+		// * Generate the digest getter if the type has a signature field.
+		if (config.types[typeName].find(field => field.name === 'signature')) {
+			digestGetters.push(`\t/**
+    * @notice Encode ${typeName} data into a digest hash.
+    * @param $input The ${typeName} data to encode.
+    * @return $digest The digest hash of the encoded ${typeName} data.
+    */
+    function getDigest(
+        ${typeName} memory $input
+    )
+        public
+        view
+        returns (bytes32 $digest)
+    {
+        $digest = keccak256(
+            abi.encodePacked(
+                "\\x19\\x01",
+                domainHash,
+                getPacketHash($input)
+            )
+        );
+    }`)
+		}
 	})
 
 	const uniquePacketHashGetters = [...new Set(packetHashGetters)]
+	const uniqueDigestGetters = [...new Set(digestGetters)]
 
 	console.log(
 		pc.green(
@@ -198,7 +223,8 @@ export function getSolidity(config: Config) {
 
 	return {
 		setup: results,
-		packetHashGetters: uniquePacketHashGetters
+		packetHashGetters: uniquePacketHashGetters,
+		digestGetters: uniqueDigestGetters
 	}
 }
 
@@ -206,7 +232,7 @@ export async function generate(config: Config) {
 	const { setup: eip721Setup, packetHashGetters: eip712PacketHashGetters } =
 		getSolidity(defaultConfig)
 
-	const { setup, packetHashGetters } = getSolidity(config)
+	const { setup, packetHashGetters, digestGetters } = getSolidity(config)
 
 	// Combine the EIP-721 and EIP-712 types.
 	const combinedSetup = [...eip721Setup, ...setup]
@@ -256,11 +282,35 @@ ${config.contract.authors}
  *      to power the processing of generalized intents.
 ${config.contract.authors}
  */
-abstract contract ${config.contract.name} is I${config.contract.name} {`)
+abstract contract ${config.contract.name} is I${config.contract.name} {
+    /// @notice The hash of the domain separator used in the EIP712 domain hash.
+    bytes32 public immutable domainHash;`)
 
 	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n'))
+
+	lines.push(`\t/**
+     * @notice Instantiate the contract with the name and version of the protocol.
+     * @param $name The name of the protocol.
+     * @param $version The version of the protocol.
+     * @dev The chainId is pulled from the block and the verifying contract is set to the
+     *      address of the contract.
+     */
+    constructor(string memory $name, string memory $version) {
+        /// @dev Sets the domain hash for the contract.
+        domainHash = getPacketHash(EIP712Domain({
+            name: $name,
+            version: $version,
+            chainId: block.chainid,
+            verifyingContract: address(this)
+        }));
+    }\n`)
+
+	// * Packet hash getters.
 	lines.push(combinedPacketHashGetters.join('\n'))
+
+	// * Digest getters.
+	lines.push(digestGetters.join('\n\n'))
 
 	lines.push('}')
 
