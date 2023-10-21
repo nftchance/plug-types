@@ -1,5 +1,16 @@
 # @nftchance/emporium-types
 
+## 0.2.0
+
+### Minor Changes
+
+-   4dcacd1: feat: enforce domain + generate digest getters
+-   5403605: feat: generate signer getters
+
+### Patch Changes
+
+-   dfbf31e: fix: broader support
+
 ## 0.1.2
 
 ### Patch Changes
