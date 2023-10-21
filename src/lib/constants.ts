@@ -39,3 +39,11 @@ export const INVOCATIONS_TYPES = {
 		{ name: 'replayProtection', type: 'ReplayProtection' }
 	]
 } as const
+
+export const SIGNED_INVOCATION_TYPES = {
+	...INVOCATIONS_TYPES,
+	SignedInvocation: [
+		{ name: 'invocations', type: 'Invocations' },
+		{ name: 'signature', type: 'bytes' }
+	]
+} as const

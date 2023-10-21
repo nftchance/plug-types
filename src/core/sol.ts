@@ -12,7 +12,7 @@ export function getPacketHashGetterName(config: Config, typeName: string) {
 		if (config.dangerous.useOverloads) return `getArrayPacketHash`
 
 		return `get${config.dangerous.packetHashName(
-			typeName.substr(0, typeName.length - 2)
+			typeName.slice(0, typeName.length - 2)
 		)}ArrayPacketHash`
 	}
 
@@ -52,19 +52,20 @@ export function getPacketHashGetters<
      * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
      *         from a packet hash to verify type compliance and value-width alignment.
      * @param $input The ${typeName} data to encode.
-     * @return $hash The packet hash of the encoded ${typeName} data.
+     * @return $packetHash The packet hash of the encoded ${typeName} data.
      */
     function ${getPacketHashGetterName(config, typeName)}(
         ${typeName} memory $input
     )
         public
         pure
-        returns (bytes32 $hash)
+        returns (bytes32 $packetHash)
     {
-        $hash = keccak256(abi.encode(
+        $packetHash = keccak256(abi.encode(
             ${typeName
-				.replace(/([A-Z])/g, '_$1')
-				.slice(1)
+				.replace(/([a-z])([A-Z])/g, '$1_$2')
+				.replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1_$2')
+				.replace(/([0-9])([A-Z])/g, '$1_$2')
 				.toUpperCase()}_TYPEHASH,
             ${fields
 				.map(field => {
@@ -91,14 +92,14 @@ export const getArrayPacketHashGetter = (
      * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
      *         from a packet hash to verify type compliance and value-width alignment.
      * @param $input The ${typeName} data to encode. 
-     * @return $hash The packet hash of the encoded ${typeName} data.
+     * @return $packetHash The packet hash of the encoded ${typeName} data.
      */
     function ${getPacketHashGetterName(config, typeName)}(
         ${typeName} memory $input
     ) 
         public 
         pure 
-        returns (bytes32 $hash) 
+        returns (bytes32 $packetHash) 
     {
         bytes memory encoded;
 
@@ -117,7 +118,7 @@ export const getArrayPacketHashGetter = (
             unchecked { i++; }
         }
         
-        $hash = keccak256(encoded);
+        $packetHash = keccak256(encoded);
     }`
 
 export function getSolidity(config: Config) {
@@ -130,9 +131,11 @@ export function getSolidity(config: Config) {
 	Object.keys(config.types).forEach(typeName => {
 		// * Determine the name of the type hash constant.
 		const typeHashName = `${typeName
-			.replace(/([A-Z])/g, '_$1')
-			.slice(1)
+			.replace(/([a-z])([A-Z])/g, '$1_$2')
+			.replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1_$2')
+			.replace(/([0-9])([A-Z])/g, '$1_$2')
 			.toUpperCase()}_TYPEHASH`
+		// This is extremely close however I if a capital letter is followed by another capital letter or number, we do not want to add an underscore.
 
 		// * Generate the basic solidity code for the type hash.
 		const typeHash = `\t/**
@@ -196,8 +199,43 @@ export function getSolidity(config: Config) {
 	}
 }
 
+const EIP721_TYPES = {
+	EIP712Domain: [
+		{ name: 'name', type: 'string' },
+		{ name: 'version', type: 'string' },
+		{ name: 'chainId', type: 'uint256' },
+		{ name: 'verifyingContract', type: 'address' }
+	]
+} as const
+
+const defaultConfig: Config = {
+	contract: {
+		name: 'Temp',
+		license: 'BUSL-1.1',
+		solidity: '^0.8.19',
+		authors: []
+	},
+	types: EIP721_TYPES,
+	dangerous: {
+		useOverloads: true,
+		packetHashName: (typeName: string) => typeName,
+		excludeCoreTypes: false
+	},
+	out: './temp'
+}
+
 export async function generate(config: Config) {
+	const { setup: eip721Setup, packetHashGetters: eip712PacketHashGetters } =
+		getSolidity(defaultConfig)
+
 	const { setup, packetHashGetters } = getSolidity(config)
+
+	// Combine the EIP-721 and EIP-712 types.
+	const combinedSetup = [...eip721Setup, ...setup]
+	const combinedPacketHashGetters = [
+		...eip712PacketHashGetters,
+		...packetHashGetters
+	]
 
 	const lines: string[] = [
 		`// SPDX-License-Identifier: ${config.contract.license}\n`,
@@ -221,7 +259,7 @@ ${config.contract.authors}
 	const structs: string[] = []
 	const typeHashes: string[] = []
 
-	setup.forEach(type => {
+	combinedSetup.forEach(type => {
 		structs.push(type.struct)
 		typeHashes.push(type.typeHash)
 	})
@@ -244,7 +282,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {`)
 
 	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n'))
-	lines.push(packetHashGetters.join('\n'))
+	lines.push(combinedPacketHashGetters.join('\n'))
 
 	lines.push('}')
 

@@ -2,7 +2,7 @@ import { TypedData } from 'abitype'
 
 import { readFileSync } from 'fs'
 
-import { INVOCATIONS_TYPES } from '../lib/constants'
+import { SIGNED_INVOCATION_TYPES } from '../lib/constants'
 
 type Contract = {
 	authors: Array<string> | string
@@ -61,12 +61,16 @@ export function config({
 		types:
 			types !== undefined
 				? {
-						...INVOCATIONS_TYPES,
+						...SIGNED_INVOCATION_TYPES,
 						...types
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  }
-				: INVOCATIONS_TYPES,
-		out: out ?? `./dist/contracts/${contract?.name ?? 'Types'}.sol`,
+				: SIGNED_INVOCATION_TYPES,
+		out:
+			out ??
+			`./dist/contracts/${contract?.name ?? 'Types'}${
+				contract?.name?.endsWith('.sol') ? '' : '.sol'
+			}`,
 		dangerous: {
 			...{
 				excludeCoreTypes: false,
