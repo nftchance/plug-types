@@ -216,9 +216,9 @@ export function getSolidity(config: Config) {
 			)?.name
 
 			signerGetters.push(`\t/**
-    * @notice Recover the signer of a digest hash.
-    * @param $input The digest hash to recover the signer from.
-    * @return $signer The signer of the digest hash.
+    * @notice Get the signer of a ${typeName} data type.
+    * @param $input The ${typeName} data to encode.
+    * @return $signer The signer of the ${typeName} data.
     */
     function getSigner(
         ${typeName} memory $input
@@ -340,6 +340,8 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
 
 	// * Digest getters.
 	lines.push(digestGetters.join('\n\n'))
+
+	lines.push('\n')
 
 	// * Signer getters.
 	lines.push(signerGetters.join('\n\n'))
