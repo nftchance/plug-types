@@ -22,9 +22,6 @@ jobs:
             - name: 🔻 Install pnpm
               run: npm i pnpm@latest -g
 
-            - name: 💼 Setup npmrc
-              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-
             - name: 🗒️ Setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
 
@@ -35,7 +32,7 @@ jobs:
               id: changesets
               uses: changesets/action@v1
               with:
-                  publish: pnpm changeset publish
+                  publish: pnpm ci:publish
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
