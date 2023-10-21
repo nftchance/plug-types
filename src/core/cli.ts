@@ -4,9 +4,9 @@ import { ensureDir, default as fse } from 'fs-extra'
 import { basename, dirname, resolve } from 'pathe'
 import pc from 'picocolors'
 
-import { find, format, load, usingTypescript } from '../lib/functions/config'
-import { config } from './config'
-import { generate } from './sol'
+import { config } from '@/core/config'
+import { generate } from '@/core/sol'
+import { find, format, load, usingTypescript } from '@/lib/functions/config'
 
 const program = new Command()
 

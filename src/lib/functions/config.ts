@@ -4,7 +4,7 @@ import { default as fse } from 'fs-extra'
 import { resolve } from 'pathe'
 import prettier from 'prettier'
 
-import { Config } from '../../core/config'
+import { Config } from '@/core/config'
 
 const name = 'emporium'
 

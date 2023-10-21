@@ -5,7 +5,8 @@ import { TypedDataType } from 'abitype/zod'
 
 import pc from 'picocolors'
 
-import { Config } from './config'
+import { Config } from '@/core/config'
+import { defaultConfig } from '@/lib/constants'
 
 export function getPacketHashGetterName(config: Config, typeName: string) {
 	if (typeName.includes('[]')) {
@@ -119,7 +120,7 @@ export const getArrayPacketHashGetter = (
         }
         
         $packetHash = keccak256(encoded);
-    }`
+    }\n`
 
 export function getSolidity(config: Config) {
 	const results: { struct: string; typeHash: string }[] = []
@@ -189,7 +190,9 @@ export function getSolidity(config: Config) {
 
 	console.log(
 		pc.green(
-			`✔︎ Generated ${uniquePacketHashGetters.length} packet hash getters.`
+			`✔︎ Generated packet hash getters:\n${uniquePacketHashGetters.join(
+				'\n'
+			)}`
 		)
 	)
 
@@ -197,31 +200,6 @@ export function getSolidity(config: Config) {
 		setup: results,
 		packetHashGetters: uniquePacketHashGetters
 	}
-}
-
-const EIP721_TYPES = {
-	EIP712Domain: [
-		{ name: 'name', type: 'string' },
-		{ name: 'version', type: 'string' },
-		{ name: 'chainId', type: 'uint256' },
-		{ name: 'verifyingContract', type: 'address' }
-	]
-} as const
-
-const defaultConfig: Config = {
-	contract: {
-		name: 'Temp',
-		license: 'BUSL-1.1',
-		solidity: '^0.8.19',
-		authors: []
-	},
-	types: EIP721_TYPES,
-	dangerous: {
-		useOverloads: true,
-		packetHashName: (typeName: string) => typeName,
-		excludeCoreTypes: false
-	},
-	out: './temp'
 }
 
 export async function generate(config: Config) {

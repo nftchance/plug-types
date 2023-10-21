@@ -1,3 +1,14 @@
+import { Config } from '@/core/config'
+
+export const EIP721_TYPES = {
+	EIP712Domain: [
+		{ name: 'name', type: 'string' },
+		{ name: 'version', type: 'string' },
+		{ name: 'chainId', type: 'uint256' },
+		{ name: 'verifyingContract', type: 'address' }
+	]
+} as const
+
 export const DELEGATION_TYPES = {
 	Delegation: [
 		{ name: 'delegate', type: 'address' },
@@ -47,3 +58,19 @@ export const SIGNED_INVOCATION_TYPES = {
 		{ name: 'signature', type: 'bytes' }
 	]
 } as const
+
+export const defaultConfig: Config = {
+	contract: {
+		name: 'Temp',
+		license: 'BUSL-1.1',
+		solidity: '^0.8.19',
+		authors: []
+	},
+	types: EIP721_TYPES,
+	dangerous: {
+		useOverloads: true,
+		packetHashName: (typeName: string) => typeName,
+		excludeCoreTypes: false
+	},
+	out: './temp'
+}

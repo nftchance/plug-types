@@ -1,8 +1,6 @@
 import { TypedData } from 'abitype'
 
-import { readFileSync } from 'fs'
-
-import { SIGNED_INVOCATION_TYPES } from '../lib/constants'
+import { SIGNED_INVOCATION_TYPES } from '@/lib/constants'
 
 type Contract = {
 	authors: Array<string> | string
@@ -23,10 +21,6 @@ export type Config = {
 	out: string
 	dangerous: Dangerous
 }
-
-const { version: LIBRARY_VERSION } = JSON.parse(
-	readFileSync('./package.json', 'utf8')
-)
 
 export function config({
 	contract,
@@ -49,7 +43,7 @@ export function config({
 			...contract,
 			authors: [
 				'@nftchance',
-				`emporium-types@${LIBRARY_VERSION} (${
+				`@nftchance/emporium-types (${
 					new Date().toISOString().split('T')[0]
 				})`,
 				'@danfinlay (https://github.com/delegatable/delegatable-sol)'
@@ -66,11 +60,7 @@ export function config({
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  }
 				: SIGNED_INVOCATION_TYPES,
-		out:
-			out ??
-			`./dist/contracts/${contract?.name ?? 'Types'}${
-				contract?.name?.endsWith('.sol') ? '' : '.sol'
-			}`,
+		out: out ?? `./dist/contracts/`,
 		dangerous: {
 			...{
 				excludeCoreTypes: false,

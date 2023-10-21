@@ -61,7 +61,7 @@ To run the `Solidity` generation based on the configuration provided:
 
 ```bash
 npm emporium generate
-    -o --output <filename> "Output path of generated Solidity." `./dist/contracts/Types.sol`
+    -o --output <filename> "Output path of generated Solidity." `./dist/contracts`
 ```
 
 The output file will contain:
