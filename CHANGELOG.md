@@ -1,5 +1,15 @@
 # @nftchance/emporium-types
 
+## 0.1.0
+
+### Minor Changes
+
+-   e604187: feat: include broader types by default
+
+### Patch Changes
+
+-   06ab357: feat: small bug fixes
+
 ## 0.0.13
 
 ### Patch Changes
