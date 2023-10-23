@@ -13,7 +13,8 @@ export const DELEGATION_TYPES = {
 	Delegation: [
 		{ name: 'delegate', type: 'address' },
 		{ name: 'authority', type: 'bytes32' },
-		{ name: 'caveats', type: 'Caveat[]' }
+		{ name: 'caveats', type: 'Caveat[]' },
+		{ name: 'salt', type: 'bytes32' }
 	],
 	Caveat: [
 		{ name: 'enforcer', type: 'address' },
