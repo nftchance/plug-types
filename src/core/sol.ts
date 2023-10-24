@@ -6,7 +6,7 @@ import { TypedDataType } from 'abitype/zod'
 import pc from 'picocolors'
 
 import { Config } from '@/core/config'
-import { defaultConfig } from '@/lib/constants'
+import constants from '@/lib/constants'
 
 export function getPacketHashGetterName(config: Config, typeName: string) {
 	if (typeName.includes('[]')) {
@@ -254,7 +254,7 @@ export function getSolidity(config: Config) {
 
 export async function generate(config: Config) {
 	const { setup: eip721Setup, packetHashGetters: eip712PacketHashGetters } =
-		getSolidity(defaultConfig)
+		getSolidity(constants.config)
 
 	const { setup, packetHashGetters, digestGetters, signerGetters } =
 		getSolidity(config)

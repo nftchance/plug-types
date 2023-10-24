@@ -1,6 +1,6 @@
 import { Config } from '@/core/config'
 
-export const EIP721_TYPES = {
+const EIP721_TYPES = {
 	EIP712Domain: [
 		{ name: 'name', type: 'string' },
 		{ name: 'version', type: 'string' },
@@ -9,7 +9,7 @@ export const EIP721_TYPES = {
 	]
 } as const
 
-export const DELEGATION_TYPES = {
+const DELEGATION_TYPES = {
 	Delegation: [
 		{ name: 'delegate', type: 'address' },
 		{ name: 'authority', type: 'bytes32' },
@@ -22,7 +22,7 @@ export const DELEGATION_TYPES = {
 	]
 } as const
 
-export const INVOCATION_TYPES = {
+const INVOCATION_TYPES = {
 	...DELEGATION_TYPES,
 	Transaction: [
 		{ name: 'to', type: 'address' },
@@ -39,7 +39,7 @@ export const INVOCATION_TYPES = {
 	]
 } as const
 
-export const INVOCATIONS_TYPES = {
+const INVOCATIONS_TYPES = {
 	...INVOCATION_TYPES,
 	ReplayProtection: [
 		{ name: 'nonce', type: 'uint256' },
@@ -51,7 +51,7 @@ export const INVOCATIONS_TYPES = {
 	]
 } as const
 
-export const SIGNED_INVOCATION_TYPES = {
+const SIGNED_INVOCATION_TYPES = {
 	...INVOCATIONS_TYPES,
 	SignedInvocation: [
 		{ name: 'invocations', type: 'Invocations' },
@@ -59,18 +59,23 @@ export const SIGNED_INVOCATION_TYPES = {
 	]
 } as const
 
-export const defaultConfig: Config = {
-	contract: {
-		name: 'Temp',
-		license: 'BUSL-1.1',
-		solidity: '^0.8.19',
-		authors: []
-	},
-	types: EIP721_TYPES,
-	dangerous: {
-		useOverloads: true,
-		packetHashName: (typeName: string) => typeName,
-		excludeCoreTypes: false
-	},
-	out: './temp'
-}
+export default {
+	config: {
+		contract: {
+			name: 'Temp',
+			license: 'BUSL-1.1',
+			solidity: '^0.8.19',
+			authors: []
+		},
+		types: EIP721_TYPES,
+		dangerous: {
+			useOverloads: true,
+			packetHashName: (typeName: string) => typeName,
+			excludeCoreTypes: false
+		},
+		out: './temp'
+	} as Config,
+	types: {
+		...SIGNED_INVOCATION_TYPES
+	}
+} as const

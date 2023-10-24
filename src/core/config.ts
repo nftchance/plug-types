@@ -1,6 +1,6 @@
 import { TypedData } from 'abitype'
 
-import { SIGNED_INVOCATION_TYPES } from '@/lib/constants'
+import constants from '@/lib/constants'
 
 type Contract = {
 	authors: Array<string> | string
@@ -56,11 +56,11 @@ export function config({
 		types:
 			types !== undefined
 				? {
-						...SIGNED_INVOCATION_TYPES,
+						...constants.types,
 						...types
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  }
-				: SIGNED_INVOCATION_TYPES,
+				: constants.types,
 		out: out ?? `./dist/contracts/`,
 		dangerous: {
 			...{

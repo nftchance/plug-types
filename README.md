@@ -112,14 +112,14 @@ With our types declared, we will initialize the `emporium-types` config with the
 // path: ./emporium.config.ts
 import { config } from '@nftchance/emporium-types'
 
-import { types } from "./lib/constants.ts"
+import constants from "./lib/constants.ts"
 
 export const emporiumConfig = config({
     contract: { 
         authors: ['<your name>']
     },
     out: './dist/contracts/',
-    types
+    constants.types
 })
 ```
 
