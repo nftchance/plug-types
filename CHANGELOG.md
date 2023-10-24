@@ -1,5 +1,12 @@
 # @nftchance/emporium-types
 
+## 0.3.1
+
+### Patch Changes
+
+-   86aa70d: fix: constant exports
+-   86aa70d: fix: docs
+
 ## 0.3.0
 
 ### Minor Changes
