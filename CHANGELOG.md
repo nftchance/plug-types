@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.0
+
+### Minor Changes
+
+-   109cfa6: feat: improved constants declaration pattern
+
 ## 0.2.0
 
 ### Minor Changes
