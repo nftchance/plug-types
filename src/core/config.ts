@@ -1,6 +1,6 @@
 import { TypedData } from 'abitype'
 
-import constants from '@/lib/constants'
+import { constants } from '@/lib/constants'
 
 type Contract = {
 	authors: Array<string> | string

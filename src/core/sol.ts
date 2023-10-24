@@ -6,7 +6,7 @@ import { TypedDataType } from 'abitype/zod'
 import pc from 'picocolors'
 
 import { Config } from '@/core/config'
-import constants from '@/lib/constants'
+import { constants } from '@/lib/constants'
 
 export function getPacketHashGetterName(config: Config, typeName: string) {
 	if (typeName.includes('[]')) {

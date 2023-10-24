@@ -59,7 +59,7 @@ const SIGNED_INVOCATION_TYPES = {
 	]
 } as const
 
-export default {
+export const constants = {
 	config: {
 		contract: {
 			name: 'Temp',

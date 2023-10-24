@@ -14,7 +14,9 @@
         "eth",
         "ethereum",
         "solidity",
-        "crypto"
+        "crypto",
+        "intent",
+        "intents"
     ],
     "type": "module",
     "main": "dist/index.js",
