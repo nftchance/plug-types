@@ -2,7 +2,7 @@
 
 Working with [EIP-712](https://eips.ethereum.org/EIPS/eip-712) signatures and types can be very confusing. Especially when you are working to create your own protocol rather than just writing a little bit of front-end code that interacts with something already deployed.
 
-![Header image](https://github.com/nftchance/emporium-types/blob/6aca329b4a75a50696b0b3ce241e00686c9f7ca3/README.png)
+![Header image](https://github.com/nftchance/emporium-types/blob/main/README.png?raw=true)
 
 Without `emporium-types`:
 
@@ -61,7 +61,6 @@ To run the `Solidity` generation based on the configuration provided:
 
 ```bash
 npm emporium generate
-    -o --output <filename> "Output path of generated Solidity." `./dist/contracts`
 ```
 
 The output file will contain:
