@@ -22,6 +22,18 @@ export function getPacketHashGetterName(config: Config, typeName: string) {
 	return `get${config.dangerous.packetHashName(typeName)}PacketHash`
 }
 
+export function getDigestGetterName(config: Config, typeName: string) {
+    if (config.dangerous.useOverloads) return `getDigest`
+
+    return `get${config.dangerous.packetHashName(typeName)}Digest`
+}
+
+export function getSignerGetterName(config: Config, typeName: string) {
+    if (config.dangerous.useOverloads) return `getSigner`
+
+    return `get${config.dangerous.packetHashName(typeName)}Signer`
+}
+
 export function getEncodedValueFor(config: Config, field: TypedDataParameter) {
 	// * Hashed types.
 	if (field.type === 'bytes') return `keccak256($input.${field.name})`
@@ -192,14 +204,9 @@ export function getSolidity(config: Config) {
     * @param $input The ${typeName} data to encode.
     * @return $digest The digest hash of the encoded ${typeName} data.
     */
-    function getDigest(
+    function ${getDigestGetterName(config, typeName)}(
         ${typeName} memory $input
-    )
-        public
-        view
-        virtual
-        returns (bytes32 $digest)
-    {
+    ) public view virtual returns (bytes32 $digest) {
         $digest = keccak256(
             abi.encodePacked(
                 "\\x19\\x01",
@@ -220,15 +227,12 @@ export function getSolidity(config: Config) {
     * @param $input The ${typeName} data to encode.
     * @return $signer The signer of the ${typeName} data.
     */
-    function getSigner(
+    function ${getSignerGetterName(config, typeName)}(
         ${typeName} memory $input
-    )
-        public
-        view
-        virtual
-        returns (address $signer)
-    {
-        $signer = getDigest($input.${dataFieldName}).recover($input.signature);
+    ) public view virtual returns (address $signer) {
+        $signer = ${getDigestGetterName(config, dataFieldName as string)}($input.${dataFieldName}).recover(
+            $input.signature
+        );
     }`)
 		}
 	})
