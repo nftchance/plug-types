@@ -65,7 +65,7 @@ export function config({
 		dangerous: {
 			...{
 				excludeCoreTypes: false,
-				useOverloads: true,
+				useOverloads: false,
 				packetHashName: (typeName: string) =>
 					typeName.slice(0, 1).toUpperCase() + typeName.slice(1)
 			},

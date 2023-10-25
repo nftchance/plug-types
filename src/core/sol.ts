@@ -100,6 +100,7 @@ export const getArrayPacketHashGetter = (
     ) 
         public 
         pure 
+        virtual
         returns (bytes32 $packetHash) 
     {
         bytes memory encoded;
@@ -196,13 +197,14 @@ export function getSolidity(config: Config) {
     )
         public
         view
+        virtual
         returns (bytes32 $digest)
     {
         $digest = keccak256(
             abi.encodePacked(
                 "\\x19\\x01",
                 domainHash,
-                getPacketHash($input)
+                ${getPacketHashGetterName(config, typeName)}($input)
             )
         );
     }`)
@@ -223,6 +225,7 @@ export function getSolidity(config: Config) {
     )
         public
         view
+        virtual
         returns (address $signer)
     {
         $signer = getDigest($input.${dataFieldName}).recover($input.signature);
@@ -311,7 +314,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
     using ECDSA for bytes32;
 
     /// @notice The hash of the domain separator used in the EIP712 domain hash.
-    bytes32 public immutable domainHash;`)
+    bytes32 public immutable domainHash;\n`)
 
 	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n'))
@@ -325,7 +328,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
      */
     constructor(string memory $name, string memory $version) {
         /// @dev Sets the domain hash for the contract.
-        domainHash = getPacketHash(EIP712Domain({
+        domainHash = ${getPacketHashGetterName(config, 'EIP712Domain')}(EIP712Domain({
             name: $name,
             version: $version,
             chainId: block.chainid,
