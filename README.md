@@ -118,7 +118,7 @@ export const emporiumConfig = config({
         authors: ['<your name>']
     },
     out: './dist/contracts/',
-    constants.types
+    types: constants.types
 })
 ```
 
