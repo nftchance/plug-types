@@ -131,7 +131,7 @@ export function getSolidity(config: Config) {
 	// @ts-expect-error - Smashing abitype types into ethers.
 	const encoder = new TypedDataEncoder(config.types)
 
-	Object.keys(config.types).forEach(typeName => {
+	Object.keys(config.types).forEach((typeName: keyof typeof config.types) => {
 		// * Determine the name of the type hash constant.
 		const typeHashName = `${typeName
 			.replace(/([a-z])([A-Z])/g, '$1_$2')
@@ -139,13 +139,17 @@ export function getSolidity(config: Config) {
 			.replace(/([0-9])([A-Z])/g, '$1_$2')
 			.toUpperCase()}_TYPEHASH`
 
+		const type = config.types[typeName]
+
+		if (!type) return
+
 		// * Generate the basic solidity code for the type hash.
 		const typeHash = `\t/**
      * @dev Type hash representing the ${typeName} data type providing EIP-712
      *      compatability for encoding and decoding.
      * 
      * ${typeHashName} extends TypeHash<EIP712<{
-     *   ${config.types[typeName as keyof typeof config.types]
+     *   ${type
 			.map(field => {
 				return `{ name: '${field.name}', type: '${field.type}' }`
 			})
@@ -157,12 +161,7 @@ export function getSolidity(config: Config) {
 	)}');\n`
 
 		packetHashGetters.push(
-			...getPacketHashGetters(
-				config,
-				typeName,
-				config.types[typeName],
-				packetHashGetters
-			)
+			...getPacketHashGetters(config, typeName, type, packetHashGetters)
 		)
 
 		results.push({
@@ -171,14 +170,14 @@ export function getSolidity(config: Config) {
      *         decode ${typeName} data from a packet hash.
      * 
      * ${typeName} extends EIP712<{ 
-     *    ${config.types[typeName]
+     *    ${type
 			.map(field => {
 				return `{ name: '${field.name}', type: '${field.type}' }`
 			})
 			.join('\n\t *    ')}
      * }>
      */
-    struct ${typeName} {\n${config.types[typeName]
+    struct ${typeName} {\n${type
 		.map(field => {
 			return `\t\t${field.type} ${field.name};\n`
 		})
@@ -210,10 +209,9 @@ export function getSolidity(config: Config) {
 
 		// If the type has a field with the name "signature" then we need to generate a
 		// signer getter for it.
-		if (config.types[typeName].find(field => field.name === 'signature')) {
-			const dataFieldName = config.types[typeName].find(
-				field => field.name !== 'signature'
-			)?.name
+		if (type.find(field => field.name === 'signature')) {
+			const dataFieldName = type.find(field => field.name !== 'signature')
+				?.name
 
 			signerGetters.push(`\t/**
     * @notice Get the signer of a ${typeName} data type.
