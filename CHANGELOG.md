@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.3
+
+### Patch Changes
+
+-   263af40: fix: no code splitting
+
 ## 0.3.2
 
 ### Patch Changes
