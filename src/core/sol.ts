@@ -69,11 +69,7 @@ export function getPacketHashGetters<
      */
     function ${getPacketHashGetterName(config, typeName)}(
         ${typeName} memory $input
-    )
-        public
-        pure
-        returns (bytes32 $packetHash)
-    {
+    ) public pure virtual returns (bytes32 $packetHash) {
         $packetHash = keccak256(abi.encode(
             ${typeName
 				.replace(/([a-z])([A-Z])/g, '$1_$2')
@@ -109,12 +105,7 @@ export const getArrayPacketHashGetter = (
      */
     function ${getPacketHashGetterName(config, typeName)}(
         ${typeName} memory $input
-    ) 
-        public 
-        pure 
-        virtual
-        returns (bytes32 $packetHash) 
-    {
+    )  public pure virtual returns (bytes32 $packetHash) {
         bytes memory encoded;
 
         uint256 i;
