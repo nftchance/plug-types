@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "module": "ESNext",
-        "target": "ESNext",
+        "target": "es2020",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "strict": true,
         "jsx": "preserve",

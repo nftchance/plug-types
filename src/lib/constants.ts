@@ -53,7 +53,7 @@ const INVOCATIONS_TYPES = {
 
 const SIGNED_INVOCATION_TYPES = {
 	...INVOCATIONS_TYPES,
-	SignedInvocation: [
+	SignedInvocations: [
 		{ name: 'invocations', type: 'Invocations' },
 		{ name: 'signature', type: 'bytes' }
 	]
