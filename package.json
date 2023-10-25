@@ -19,10 +19,10 @@
         "intents"
     ],
     "main": "dist/index.js",
-    "module": "dist/index.js",
+    "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
     "bin": {
-        "emporium": "dist/core/cli.js"
+        "emporium": "dist/core/cli.mjs"
     },
     "exports": {
         ".": {
