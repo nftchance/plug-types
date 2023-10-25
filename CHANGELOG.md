@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.5
+
+### Patch Changes
+
+-   b743c0b: fix: bundling
+
 ## 0.3.4
 
 ### Patch Changes

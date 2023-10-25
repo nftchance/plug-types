@@ -1,6 +1,6 @@
 {
     "name": "@nftchance/emporium-types",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "license": "BUSL-1.1",
     "repository": {
         "type": "git",
@@ -24,7 +24,7 @@
     "bin": {
         "emporium": "dist/core/cli.js"
     },
-    "exports":{
+    "exports": {
         ".": {
             "import": "./dist/index.js",
             "require": "./dist/index.js"
