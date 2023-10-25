@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.7
+
+### Patch Changes
+
+-   21059f1: fix: use module for cli
+
 ## 0.3.6
 
 ### Patch Changes
