@@ -4,8 +4,6 @@
         "module": "CommonJS",
         "moduleResolution": "node",
         "strict": true,
-        "jsx": "preserve",
-        "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "allowImportingTsExtensions": true,
         "noEmit": true,
