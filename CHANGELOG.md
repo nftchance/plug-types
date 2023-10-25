@@ -1,5 +1,13 @@
 # @nftchance/emporium-types
 
+## 0.3.6
+
+### Patch Changes
+
+-   adcd3a8: feat: non-overload support for each key type
+-   52377a3: fix: virtual functions
+-   17ef7b6: fix: turn off default overloads due to viem bug
+
 ## 0.3.5
 
 ### Patch Changes
