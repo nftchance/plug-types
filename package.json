@@ -18,16 +18,21 @@
         "intent",
         "intents"
     ],
-    "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "bin": {
         "emporium": "dist/core/cli.js"
     },
+    "exports":{
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.js"
+        }
+    },
     "scripts": {
         "build": "tsup && pnpm emporium generate",
-        "emporium": "node dist/core/cli.js",
+        "emporium": "node dist/core/cli.mjs",
         "lint": "tsc",
         "ci:release": "pnpm publish -r",
         "ci:version": "changeset version",
