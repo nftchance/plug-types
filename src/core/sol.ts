@@ -23,20 +23,23 @@ export function getPacketHashGetterName(config: Config, typeName: string) {
 }
 
 export function getDigestGetterName(config: Config, typeName: string) {
-    if (config.dangerous.useOverloads) return `getDigest`
+	if (config.dangerous.useOverloads) return `getDigest`
 
-    return `get${config.dangerous.packetHashName(typeName)}Digest`
+	return `get${config.dangerous.packetHashName(typeName)}Digest`
 }
 
 export function getSignerGetterName(config: Config, typeName: string) {
-    if (config.dangerous.useOverloads) return `getSigner`
+	if (config.dangerous.useOverloads) return `getSigner`
 
-    return `get${config.dangerous.packetHashName(typeName)}Signer`
+	return `get${config.dangerous.packetHashName(typeName)}Signer`
 }
 
 export function getEncodedValueFor(config: Config, field: TypedDataParameter) {
 	// * Hashed types.
 	if (field.type === 'bytes') return `keccak256($input.${field.name})`
+
+	// * String types.
+	if (field.type === 'string') return `keccak256(bytes($input.${field.name}))`
 
 	// * Basic types.
 	const isBasicType = TypedDataType.safeParse(field.type)
@@ -221,7 +224,10 @@ export function getSolidity(config: Config) {
     function ${getSignerGetterName(config, typeName)}(
         ${typeName} memory $input
     ) public view virtual returns (address $signer) {
-        $signer = ${getDigestGetterName(config, dataFieldName as string)}($input.${dataFieldName}).recover(
+        $signer = ${getDigestGetterName(
+			config,
+			dataFieldName as string
+		)}($input.${dataFieldName}).recover(
             $input.signature
         );
     }`)
@@ -323,7 +329,10 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
      */
     constructor(string memory $name, string memory $version) {
         /// @dev Sets the domain hash for the contract.
-        domainHash = ${getPacketHashGetterName(config, 'EIP712Domain')}(EIP712Domain({
+        domainHash = ${getPacketHashGetterName(
+			config,
+			'EIP712Domain'
+		)}(EIP712Domain({
             name: $name,
             version: $version,
             chainId: block.chainid,
