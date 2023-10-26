@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.8
+
+### Patch Changes
+
+-   42e482f: feat: string encoding in packet hashes
+
 ## 0.3.7
 
 ### Patch Changes
