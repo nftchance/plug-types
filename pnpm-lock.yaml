@@ -39,8 +39,8 @@ dependencies:
     specifier: ^3.0.3
     version: 3.0.3
   solady:
-    specifier: '>=0.0.129'
-    version: 0.0.132
+    specifier: ^0.0.129
+    version: 0.0.129
   tsup:
     specifier: ^7.2.0
     version: 7.2.0(typescript@5.2.2)
@@ -2605,8 +2605,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /solady@0.0.132:
-    resolution: {integrity: sha512-qMdj/Y5fgPmxcis3eTs1Z03Qt/DVt1VJmlugRNjw7DySkrMOW/rHNyUVqqvevsYaGXgbPT54z68chDNesFnH+Q==}
+  /solady@0.0.129:
+    resolution: {integrity: sha512-2i+8lsLLT7nAED+A9C+ZLi8YmpSnUNKGKozkesN2Qm3P3iMvorXAsD5LyT1MAC3eyVfhY3PuvBkvgd31nUzkoQ==}
     dev: false
 
   /source-map@0.5.7:
