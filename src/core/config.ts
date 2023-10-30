@@ -12,6 +12,7 @@ type Contract = {
 type Dangerous = {
 	excludeCoreTypes: boolean
 	useOverloads: boolean
+	useDocs: boolean
 	packetHashName: (typeName: string) => string
 }
 
@@ -66,6 +67,7 @@ export function config({
 			...{
 				excludeCoreTypes: false,
 				useOverloads: false,
+				useDocs: false,
 				packetHashName: (typeName: string) =>
 					typeName.slice(0, 1).toUpperCase() + typeName.slice(1)
 			},

@@ -70,6 +70,7 @@ export const constants = {
 		types: EIP721_TYPES,
 		dangerous: {
 			useOverloads: false,
+			useDocs: false,
 			packetHashName: (typeName: string) => typeName,
 			excludeCoreTypes: false
 		},

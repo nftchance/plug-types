@@ -3,23 +3,21 @@ import { TypedDataEncoder } from 'ethers'
 import { TypedData, TypedDataParameter } from 'abitype'
 import { TypedDataType } from 'abitype/zod'
 
-import pc from 'picocolors'
-
 import { Config } from '@/core/config'
 import { constants } from '@/lib/constants'
 
 export function getPacketHashGetterName(config: Config, typeName: string) {
 	if (typeName.includes('[]')) {
-		if (config.dangerous.useOverloads) return `getArrayPacketHash`
+		if (config.dangerous.useOverloads) return `getArrayHash`
 
 		return `get${config.dangerous.packetHashName(
 			typeName.slice(0, typeName.length - 2)
-		)}ArrayPacketHash`
+		)}ArrayHash`
 	}
 
-	if (config.dangerous.useOverloads) return `getPacketHash`
+	if (config.dangerous.useOverloads) return `getHash`
 
-	return `get${config.dangerous.packetHashName(typeName)}PacketHash`
+	return `get${config.dangerous.packetHashName(typeName)}Hash`
 }
 
 export function getDigestGetterName(config: Config, typeName: string) {
@@ -52,61 +50,25 @@ export function getEncodedValueFor(config: Config, field: TypedDataParameter) {
 	})`
 }
 
-export function getPacketHashGetters<
-	TTypes extends TypedData,
-	TTypename extends keyof TTypes extends string ? keyof TTypes : never
->(
-	config: Config,
-	typeName: TTypename,
-	fields: TTypes[TTypename],
-	packetHashGetters: Array<string> = []
-) {
-	if (typeName.includes('[]')) {
-		packetHashGetters.push(getArrayPacketHashGetter(config, typeName))
-	} else {
-		packetHashGetters.push(`\t/**
-     * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
-     *         from a packet hash to verify type compliance and value-width alignment.
-     * @param $input The ${typeName} data to encode.
-     * @return $packetHash The packet hash of the encoded ${typeName} data.
-     */
-    function ${getPacketHashGetterName(config, typeName)}(
-        ${typeName} memory $input
-    ) public pure virtual returns (bytes32 $packetHash) {
-        $packetHash = keccak256(abi.encode(
-            ${typeName
-				.replace(/([a-z])([A-Z])/g, '$1_$2')
-				.replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1_$2')
-				.replace(/([0-9])([A-Z])/g, '$1_$2')
-				.toUpperCase()}_TYPEHASH,
-            ${fields
-				.map(field => {
-					return getEncodedValueFor(config, field)
-				})
-				.join(',\n\t\t\t')}
-        ));
-    }\n`)
-	}
-
-	fields.forEach(field => {
-		if (field.type.includes('[]')) {
-			packetHashGetters.push(getArrayPacketHashGetter(config, field.type))
-		}
-	})
-
-	return packetHashGetters
-}
-
 export const getArrayPacketHashGetter = (
 	config: Config,
 	typeName: string
-) => `\t/**
-     * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
+): [
+	{
+		path: string
+		markdown: string
+	},
+	string
+] => {
+	const documentation = `* @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
      *         from a packet hash to verify type compliance and value-width alignment.
      * @param $input The ${typeName} data to encode. 
-     * @return $packetHash The packet hash of the encoded ${typeName} data.
-     */
-    function ${getPacketHashGetterName(config, typeName)}(
+     * @return $packetHash The packet hash of the encoded ${typeName} data.`
+
+	const implementation = `function ${getPacketHashGetterName(
+		config,
+		typeName
+	)}(
         ${typeName} memory $input
     )  public pure virtual returns (bytes32 $packetHash) {
         bytes memory encoded;
@@ -127,13 +89,141 @@ export const getArrayPacketHashGetter = (
         }
         
         $packetHash = keccak256(encoded);
-    }\n`
+    }`
+
+	const markdown = `# ${getPacketHashGetterName(config, typeName)}
+
+Encode [${typeName}](/decoders/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/decoders/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
+
+## Parameters
+
+- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+
+## Returns
+
+- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/decoders/base-types/${typeName}) data.
+
+## Onchain Implementation
+
+::: code-group
+
+\`\`\` solidity [Types.sol:${getPacketHashGetterName(config, typeName)}]
+${implementation
+	.replace(/ {4}/g, '\t')
+	.replace(/\n\t/g, '\n')
+	.replace(/^\s+/g, '')}
+\`\`\` 
+
+:::`
+
+	return [
+		{
+			path: `/decoders/hash-getters/${getPacketHashGetterName(
+				config,
+				typeName
+			)}.md`,
+			markdown
+		},
+		`\t/**
+     ${documentation}
+     */
+    ${implementation}`
+	]
+}
+
+export function getPacketHashGetters<
+	TTypes extends TypedData,
+	TTypename extends keyof TTypes extends string ? keyof TTypes : never
+>(
+	config: Config,
+	typeName: TTypename,
+	fields: TTypes[TTypename],
+	packetHashGetters: Array<[{ path: string; markdown: string }, string]> = []
+) {
+	if (typeName.includes('[]')) {
+		packetHashGetters.push(getArrayPacketHashGetter(config, typeName))
+	} else {
+		const documentation = `* @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
+     *         from a packet hash to verify type compliance and value-width alignment.
+     * @param $input The ${typeName} data to encode.
+     * @return $packetHash The packet hash of the encoded ${typeName} data.`
+
+		// * Generate the Solidity.
+		const implementation = `
+    function ${getPacketHashGetterName(config, typeName)}(
+        ${typeName} memory $input
+    ) public pure virtual returns (bytes32 $packetHash) {
+        $packetHash = keccak256(abi.encode(
+            ${typeName
+				.replace(/([a-z])([A-Z])/g, '$1_$2')
+				.replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1_$2')
+				.replace(/([0-9])([A-Z])/g, '$1_$2')
+				.toUpperCase()}_TYPEHASH,
+            ${fields
+				.map(field => `${getEncodedValueFor(config, field)}`)
+				.join(',\n\t\t\t')}
+        ));
+    }`
+
+		// * Generate the Markdown documentation.
+		const markdown = `# ${getPacketHashGetterName(config, typeName)}
+
+Encode [${typeName}](/decoders/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/decoders/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
+
+## Parameters
+
+- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+
+## Returns
+
+- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/decoders/base-types/${typeName}) data.
+
+## Onchain Implementation
+
+::: code-group
+
+\`\`\` solidity [Types.sol:${getPacketHashGetterName(config, typeName)}]
+${implementation
+	.replace(/ {4}/g, '\t')
+	.replace(/\n\t/g, '\n')
+	.replace(/^\s+/g, '')}
+\`\`\` 
+
+:::`
+
+		packetHashGetters.push([
+			{
+				path: `/decoders/hash-getters/${getPacketHashGetterName(
+					config,
+					typeName
+				)}.md`,
+				markdown
+			},
+			`\t/**
+     ${documentation}
+     */
+    ${implementation}`
+		])
+	}
+
+	fields.forEach(field => {
+		if (field.type.includes('[]')) {
+			packetHashGetters.push(getArrayPacketHashGetter(config, field.type))
+		}
+	})
+
+	return packetHashGetters
+}
+
+type Documentation = { path: string; markdown: string }
+type Getters = Array<[Documentation, string]>
 
 export function getSolidity(config: Config) {
 	const results: { struct: string; typeHash: string }[] = []
-	const packetHashGetters: string[] = []
-	const digestGetters: string[] = []
-	const signerGetters: string[] = []
+	const typeHashGetters: Array<Documentation> = []
+	const packetHashGetters: Getters = []
+	const digestGetters: Getters = []
+	const signerGetters: Getters = []
 
 	// @ts-expect-error - Smashing abitype types into ethers.
 	const encoder = new TypedDataEncoder(config.types)
@@ -150,39 +240,86 @@ export function getSolidity(config: Config) {
 
 		if (!type) return
 
-		// * Generate the basic solidity code for the type hash.
-		const typeHash = `\t/**
+		const typeHashDocumentation = `
      * @dev Type hash representing the ${typeName} data type providing EIP-712
      *      compatability for encoding and decoding.
      * 
      * ${typeHashName} extends TypeHash<EIP712<{
-     *   ${type
+     *       ${type
 			.map(field => {
 				return `{ name: '${field.name}', type: '${field.type}' }`
 			})
 			.join('\n\t *   ')} 
-     * }>>
-     */
+     *     }>>
+        `
+
+		const typeHashImplementation = `
     bytes32 constant ${typeHashName} = keccak256('${encoder.encodeType(
 		typeName
-	)}');\n`
+	)}');`
+
+		const typeHashMarkdown = `# ${typeName}
+        
+Type hash representing the [${typeName}](/decoders/base-types/${typeName}) data type providing EIP-712 compatability for encoding and decoding.
+
+## EIP-712 Type Definition
+
+::: code-group
+
+\`\`\`json [Types.json:${typeName}]
+{
+    ${type
+		.map(field => {
+			return `{ 'name': '${field.name}', 'type': '${field.type}' }`
+		})
+		.join(',\n\t')} 
+}
+\`\`\`
+
+:::
+
+## Onchain Implementation
+
+::: code-group
+
+\`\`\`solidity [Types.sol:${typeHashName}]
+${typeHashImplementation
+	.replace(/ {4}/g, '\t')
+	.replace(/\n\t/g, '\n')
+	.replace(/^\s+/g, '')}
+\`\`\`
+
+:::`
+
+		typeHashGetters.push({
+			path: `/decoders/base-types/${typeName}.md`,
+			markdown: typeHashMarkdown
+		})
+
+		// * Generate the basic solidity code for the type hash.
+		const typeHash = `\t/**
+        ${typeHashDocumentation}
+        */
+       ${typeHashImplementation}`
 
 		packetHashGetters.push(
 			...getPacketHashGetters(config, typeName, type, packetHashGetters)
 		)
 
-		results.push({
-			struct: `\t/**
-     * @notice This struct is used to encode ${typeName} data into a packet hash and
+		const documentation = `* @notice This struct is used to encode ${typeName} data into a packet hash and
      *         decode ${typeName} data from a packet hash.
      * 
-     * ${typeName} extends EIP712<{ 
+     * @dev ${typeName} extends EIP712<{ 
      *    ${type
 			.map(field => {
 				return `{ name: '${field.name}', type: '${field.type}' }`
 			})
 			.join('\n\t *    ')}
-     * }>
+     * }>`
+
+		results.push({
+			struct: `\t/**
+     ${documentation}
      */
     struct ${typeName} {\n${type
 		.map(field => {
@@ -192,12 +329,13 @@ export function getSolidity(config: Config) {
 			typeHash
 		})
 
-		// * Generate the digest getter for each type.
-		digestGetters.push(`\t/**
-    * @notice Encode ${typeName} data into a digest hash.
-    * @param $input The ${typeName} data to encode.
-    * @return $digest The digest hash of the encoded ${typeName} data.
-    */
+		const digestDocumentation = `
+        * @notice Encode ${typeName} data into a digest hash.
+        * @param $input The ${typeName} data to encode.
+        * @return $digest The digest hash of the encoded ${typeName} data.
+        `
+
+		const digestImplementation = `
     function ${getDigestGetterName(config, typeName)}(
         ${typeName} memory $input
     ) public view virtual returns (bytes32 $digest) {
@@ -208,7 +346,47 @@ export function getSolidity(config: Config) {
                 ${getPacketHashGetterName(config, typeName)}($input)
             )
         );
-    }`)
+    }`
+
+		const digestMarkdown = `# ${getDigestGetterName(config, typeName)}
+        
+Encode [${typeName}](/decoders/base-types/${typeName}) data into a digest hash.
+
+## Parameters
+
+- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+
+## Returns
+
+- \`$digest\` : \`bytes32\` : The digest hash of the encoded [${typeName}](/decoders/base-types/${typeName}) data.
+
+## Onchain Implementation
+
+::: code-group
+
+\`\`\` solidity [Types.sol:${getDigestGetterName(config, typeName)}]
+${digestImplementation
+	.replace(/ {4}/g, '\t')
+	.replace(/\n\t/g, '\n')
+	.replace(/^\s+/g, '')}
+\`\`\`
+
+:::`
+
+		// * Generate the digest getter for each type.
+		digestGetters.push([
+			{
+				path: `/decoders/digest-getters/${getDigestGetterName(
+					config,
+					typeName
+				)}.md`,
+				markdown: digestMarkdown
+			},
+			`\t/**
+        ${digestDocumentation}
+        */
+       ${digestImplementation}`
+		])
 
 		// If the type has a field with the name "signature" then we need to generate a
 		// signer getter for it.
@@ -216,11 +394,13 @@ export function getSolidity(config: Config) {
 			const dataFieldName = type.find(field => field.name !== 'signature')
 				?.name
 
-			signerGetters.push(`\t/**
-    * @notice Get the signer of a ${typeName} data type.
-    * @param $input The ${typeName} data to encode.
-    * @return $signer The signer of the ${typeName} data.
-    */
+			const signerDocumentation = `
+        * @notice Get the signer of a ${typeName} data type.
+        * @param $input The ${typeName} data to encode.
+        * @return $signer The signer of the ${typeName} data.
+            `
+
+			const signerImplementation = `
     function ${getSignerGetterName(config, typeName)}(
         ${typeName} memory $input
     ) public view virtual returns (address $signer) {
@@ -230,24 +410,57 @@ export function getSolidity(config: Config) {
 		)}($input.${dataFieldName}).recover(
             $input.signature
         );
-    }`)
+    }`
+
+			const signerMarkdown = `# ${getSignerGetterName(config, typeName)}
+
+Get the signer of a [${typeName}](/decoders/base-types/${typeName}) data type.
+
+## Parameters
+
+- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+
+## Returns
+
+- \`$signer\` : \`address\` : The signer of the [${typeName}](/decoders/base-types/${typeName}) data.
+
+## Onchain Implementation
+
+::: code-group
+
+\`\`\` solidity [Types.sol:${getSignerGetterName(config, typeName)}]
+${signerImplementation
+	.replace(/ {4}/g, '\t')
+	.replace(/\n\t/g, '\n')
+	.replace(/^\s+/g, '')}
+\`\`\`
+
+:::`
+
+			signerGetters.push([
+				{
+					path: `/decoders/signer-getters/${getSignerGetterName(
+						config,
+						typeName
+					)}.md`,
+					markdown: signerMarkdown
+				},
+				`\t/**
+        ${signerDocumentation}
+        */
+       ${signerImplementation}`
+			])
 		}
 	})
 
+	const uniqueTypeHashGetters = [...new Set(typeHashGetters)]
 	const uniquePacketHashGetters = [...new Set(packetHashGetters)]
 	const uniqueDigestGetters = [...new Set(digestGetters)]
 	const uniqueSignerGetters = [...new Set(signerGetters)]
 
-	console.log(
-		pc.green(
-			`✔︎ Generated packet hash getters:\n${uniquePacketHashGetters.join(
-				'\n'
-			)}`
-		)
-	)
-
 	return {
 		setup: results,
+		typeHashGetters: uniqueTypeHashGetters,
 		packetHashGetters: uniquePacketHashGetters,
 		digestGetters: uniqueDigestGetters,
 		signerGetters: uniqueSignerGetters
@@ -255,14 +468,26 @@ export function getSolidity(config: Config) {
 }
 
 export async function generate(config: Config) {
-	const { setup: eip721Setup, packetHashGetters: eip712PacketHashGetters } =
-		getSolidity(constants.config)
+	const {
+		setup: eip721Setup,
+		typeHashGetters: eip712TypeHashGetters,
+		packetHashGetters: eip712PacketHashGetters
+	} = getSolidity(constants.config)
 
-	const { setup, packetHashGetters, digestGetters, signerGetters } =
-		getSolidity(config)
+	const {
+		setup,
+		typeHashGetters,
+		packetHashGetters,
+		digestGetters,
+		signerGetters
+	} = getSolidity(config)
 
 	// Combine the EIP-721 and EIP-712 types.
 	const combinedSetup = [...eip721Setup, ...setup]
+	const combinedTypeHashGetters = [
+		...eip712TypeHashGetters,
+		...typeHashGetters
+	]
 	const combinedPacketHashGetters = [
 		...eip712PacketHashGetters,
 		...packetHashGetters
@@ -340,18 +565,23 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
         }));
     }\n`)
 
-	// * Packet hash getters.
-	lines.push(combinedPacketHashGetters.join('\n'))
+	const documentation = combinedTypeHashGetters
+		.concat(combinedPacketHashGetters.map(x => x[0]))
+		.concat(digestGetters.map(x => x[0]))
+		.concat(signerGetters.map(x => x[0]))
 
-	// * Digest getters.
-	lines.push(digestGetters.join('\n\n'))
+	const solidity = {
+		packetHashGetters: combinedPacketHashGetters.map(x => x[1]),
+		digestGetters: digestGetters.map(x => x[1]),
+		signerGetters: signerGetters.map(x => x[1])
+	}
 
-	lines.push('\n')
+	lines.push(solidity.packetHashGetters.join('\n'))
+	lines.push(solidity.digestGetters.join('\n\n'))
+	lines.push(solidity.signerGetters.join('\n\n'))
 
-	// * Signer getters.
-	lines.push(signerGetters.join('\n\n'))
-
+	// * Close the smart contract.
 	lines.push('}')
 
-	return lines.join('\n')
+	return { lines: lines.join('\n'), documentation }
 }
