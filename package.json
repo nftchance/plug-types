@@ -16,7 +16,8 @@
         "solidity",
         "crypto",
         "intent",
-        "intents"
+        "intents",
+        "emporium"
     ],
     "main": "dist/index.js",
     "module": "dist/index.mjs",
@@ -31,7 +32,8 @@
         }
     },
     "scripts": {
-        "build": "tsup && pnpm emporium generate",
+        "prebuild": "pnpm lint && rm -rf ./dist",
+        "build": "tsup && pnpm emporium generate -d",
         "emporium": "node dist/core/cli.mjs",
         "lint": "tsc",
         "ci:release": "pnpm publish -r",
