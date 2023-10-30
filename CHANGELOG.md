@@ -1,5 +1,12 @@
 # @nftchance/emporium-types
 
+## 0.3.9
+
+### Patch Changes
+
+-   cea880f: feat: automated documentation generation
+-   d12a5ec: feat: independent generation of contracts and documentation
+
 ## 0.3.8
 
 ### Patch Changes
