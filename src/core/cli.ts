@@ -86,7 +86,8 @@ program
 	.command('generate')
 	.option('-c --config <config>', 'Path to config file.')
 	.option('-r --root <root>', 'Path to root directory.')
-	.option('-d --docs', 'Generate documentation.')
+	.option('-c --contracts <contracts>', 'true or false', true)
+	.option('-d --docs <docs>', 'true or false', false)
 	.action(async options => {
 		const configPath = await find({
 			config: options.config,
@@ -133,7 +134,9 @@ program
 
 					if (
 						documentation &&
-						(config.dangerous?.useDocs || options.docs)
+						(config.dangerous?.useDocs === true ||
+							options.docs === 'true' ||
+							options.docs === true)
 					) {
 						for await (const element of documentation) {
 							const cwd = process.cwd()
@@ -162,23 +165,28 @@ program
 						)
 					}
 
-					console.info(
-						pc.green(
-							`✔︎ Generated Solidity code based on EIP-712 types to:\n\t${pc.gray(
-								`${config.out}${config.contract.name}.sol`
-							)}`
+					if (
+						options.contracts === true ||
+						options.contracts === 'true'
+					) {
+						console.info(
+							pc.green(
+								`✔︎ Generated Solidity code based on EIP-712 types to:\n\t${pc.gray(
+									`${config.out}${config.contract.name}.sol`
+								)}`
+							)
 						)
-					)
 
-					const cwd = process.cwd()
-					const outPath = resolve(
-						cwd,
-						config.out,
-						`${config.contract.name}.sol`
-					)
+						const cwd = process.cwd()
+						const outPath = resolve(
+							cwd,
+							config.out,
+							`${config.contract.name}.sol`
+						)
 
-					await ensureDir(dirname(outPath))
-					await fse.writeFile(outPath, lines)
+						await ensureDir(dirname(outPath))
+						await fse.writeFile(outPath, lines)
+					}
 				})
 				.catch(error => {
 					console.error(
