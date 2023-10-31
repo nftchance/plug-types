@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.10
+
+### Patch Changes
+
+-   c940ad5: feat: unique docs command
+
 ## 0.3.9
 
 ### Patch Changes
