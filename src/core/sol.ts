@@ -266,11 +266,11 @@ Type hash representing the [${typeName}](/base-types/${typeName}) data type prov
 
 ::: code-group
 
-\`\`\`json [Types.json:${typeName}]
+\`\`\`typescript [${typeName}]
 {
     ${type
 		.map(field => {
-			return `{ 'name': '${field.name}', 'type': '${field.type}' }`
+			return `{ name: '${field.name}', type: '${field.type}' }`
 		})
 		.join(',\n\t')} 
 }

@@ -231,7 +231,7 @@ program
 					console.info(
 						pc.green(
 							`✔︎ Generated documentation based on contracts at:\n\t${pc.gray(
-								`./dist/docs/`
+								`${config.outDocs}`
 							)}`
 						)
 					)
