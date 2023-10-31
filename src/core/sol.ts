@@ -299,6 +299,14 @@ type Documentation = { path: string; markdown: string }
 type Getters = Array<[Documentation, string]>
 
 export function getSolidity(config: Config) {
+	const typeKeys = Object.keys(config.types).filter(key => {
+		return Object.keys(config.types).includes(`Signed${key}`)
+	})
+
+	const signerKeys = Object.keys(config.types).filter(key => {
+		return Object.keys(config.types).includes(key.replace('Signed', ''))
+	})
+
 	const results: { struct: string; typeHash: string }[] = []
 	const typeHashGetters: Array<Documentation> = []
 	const packetHashGetters: Getters = []
@@ -543,10 +551,6 @@ ${digestImplementation
 
 :::`
 
-		const typeKeys = Object.keys(config.types).filter(key => {
-			return Object.keys(config.types).includes(`Signed${key}`)
-		})
-
 		if (typeKeys.includes(typeName))
 			digestGetters.push([
 				{
@@ -605,12 +609,6 @@ ${signerImplementation
 \`\`\`
 
 :::`
-
-			const signerKeys = Object.keys(config.types).filter(key => {
-				return Object.keys(config.types).includes(
-					key.replace('Signed', '')
-				)
-			})
 
 			if (signerKeys.includes(typeName))
 				signerGetters.push([
