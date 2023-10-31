@@ -93,15 +93,15 @@ export const getArrayPacketHashGetter = (
 
 	const markdown = `# ${getPacketHashGetterName(config, typeName)}
 
-Encode [${typeName}](/decoders/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/decoders/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
+Encode [${typeName}](/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/decoders/base-types/${typeName}) data.
+- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
@@ -118,7 +118,7 @@ ${implementation
 
 	return [
 		{
-			path: `/decoders/hash-getters/${getPacketHashGetterName(
+			path: `/hash-getters/${getPacketHashGetterName(
 				config,
 				typeName
 			)}.md`,
@@ -168,15 +168,15 @@ export function getPacketHashGetters<
 		// * Generate the Markdown documentation.
 		const markdown = `# ${getPacketHashGetterName(config, typeName)}
 
-Encode [${typeName}](/decoders/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/decoders/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
+Encode [${typeName}](/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/decoders/base-types/${typeName}) data.
+- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
@@ -193,7 +193,7 @@ ${implementation
 
 		packetHashGetters.push([
 			{
-				path: `/decoders/hash-getters/${getPacketHashGetterName(
+				path: `/hash-getters/${getPacketHashGetterName(
 					config,
 					typeName
 				)}.md`,
@@ -260,7 +260,7 @@ export function getSolidity(config: Config) {
 
 		const typeHashMarkdown = `# ${typeName}
         
-Type hash representing the [${typeName}](/decoders/base-types/${typeName}) data type providing EIP-712 compatability for encoding and decoding.
+Type hash representing the [${typeName}](/base-types/${typeName}) data type providing EIP-712 compatability for encoding and decoding.
 
 ## EIP-712 Type Definition
 
@@ -292,7 +292,7 @@ ${typeHashImplementation
 :::`
 
 		typeHashGetters.push({
-			path: `/decoders/base-types/${typeName}.md`,
+			path: `/base-types/${typeName}.md`,
 			markdown: typeHashMarkdown
 		})
 
@@ -350,15 +350,15 @@ ${typeHashImplementation
 
 		const digestMarkdown = `# ${getDigestGetterName(config, typeName)}
         
-Encode [${typeName}](/decoders/base-types/${typeName}) data into a digest hash.
+Encode [${typeName}](/base-types/${typeName}) data into a digest hash.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$digest\` : \`bytes32\` : The digest hash of the encoded [${typeName}](/decoders/base-types/${typeName}) data.
+- \`$digest\` : \`bytes32\` : The digest hash of the encoded [${typeName}](/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
@@ -376,7 +376,7 @@ ${digestImplementation
 		// * Generate the digest getter for each type.
 		digestGetters.push([
 			{
-				path: `/decoders/digest-getters/${getDigestGetterName(
+				path: `/digest-getters/${getDigestGetterName(
 					config,
 					typeName
 				)}.md`,
@@ -414,15 +414,15 @@ ${digestImplementation
 
 			const signerMarkdown = `# ${getSignerGetterName(config, typeName)}
 
-Get the signer of a [${typeName}](/decoders/base-types/${typeName}) data type.
+Get the signer of a [${typeName}](/base-types/${typeName}) data type.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/decoders/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$signer\` : \`address\` : The signer of the [${typeName}](/decoders/base-types/${typeName}) data.
+- \`$signer\` : \`address\` : The signer of the [${typeName}](/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
@@ -439,7 +439,7 @@ ${signerImplementation
 
 			signerGetters.push([
 				{
-					path: `/decoders/signer-getters/${getSignerGetterName(
+					path: `/signer-getters/${getSignerGetterName(
 						config,
 						typeName
 					)}.md`,
