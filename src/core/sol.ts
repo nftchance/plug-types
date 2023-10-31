@@ -485,8 +485,8 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 			...getPacketHashGetters(config, typeName, type, packetHashGetters)
 		)
 
-		const documentation = `* @notice This struct is used to encode ${typeName} data into a packet hash and
-     *         decode ${typeName} data from a packet hash.
+		const documentation = `* @notice This struct is used to encode ${typeName} data into a hash and
+     *         decode ${typeName} data from a hash.
      * 
      * @dev ${typeName} extends EIP712<{ 
      *    ${type
@@ -509,7 +509,8 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 		})
 
 		const digestDocumentation = `
-     * @notice Encode ${typeName} data into a digest hash.
+     * @notice Encode ${typeName} data into a digest hash that has been 
+     *         localized to the domain of the contract.
      * @param $input The ${typeName} data to encode.
      * @return $digest The digest hash of the encoded ${typeName} data.`
 
@@ -528,7 +529,7 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 
 		const digestMarkdown = `# ${getDigestGetterName(config, typeName)}
         
-Encode [${typeName}](/generated/base-types/${typeName}) data into a digest hash.
+Encode [${typeName}](/generated/base-types/${typeName}) data into a digest hash that has been localized to the domain of the contract.
 
 ## Parameters
 
