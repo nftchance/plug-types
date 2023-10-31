@@ -1,5 +1,12 @@
 # @nftchance/emporium-types
 
+## 0.3.13
+
+### Patch Changes
+
+-   b840e0b: feat: better digest description
+-   9657859: feat: tree shake contract and docs
+
 ## 0.3.12
 
 ### Patch Changes
