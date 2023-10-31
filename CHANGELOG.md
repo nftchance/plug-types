@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.11
+
+### Patch Changes
+
+-   c71a82e: feat: absolute docs path
+
 ## 0.3.10
 
 ### Patch Changes
