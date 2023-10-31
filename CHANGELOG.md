@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.12
+
+### Patch Changes
+
+-   067cdb2: feat: convert json to typescript
+
 ## 0.3.11
 
 ### Patch Changes
