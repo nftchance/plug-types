@@ -33,7 +33,7 @@
     },
     "scripts": {
         "prebuild": "pnpm lint && rm -rf ./dist",
-        "build": "tsup && pnpm emporium generate --docs true",
+        "build": "tsup && pnpm emporium generate && pnpm emporium docs",
         "emporium": "node dist/core/cli.mjs",
         "lint": "tsc",
         "ci:release": "pnpm publish -r",

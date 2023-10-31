@@ -74,7 +74,8 @@ export const constants = {
 			packetHashName: (typeName: string) => typeName,
 			excludeCoreTypes: false
 		},
-		out: './temp'
+		out: './temp',
+		outDocs: './temp/docs'
 	} as Config,
 	types: {
 		...SIGNED_INVOCATION_TYPES

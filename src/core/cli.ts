@@ -46,7 +46,10 @@ program
 			outPath = resolve(rootDir, `emporium.config.${extension}`)
 		}
 
-		const defaultConfig = { out: './dist/contracts/' }
+		const defaultConfig = {
+			out: './dist/contracts/',
+			outDocs: './dist/docs/'
+		}
 
 		let content: string
 		if (isUsingTypescript) {
@@ -86,8 +89,6 @@ program
 	.command('generate')
 	.option('-c --config <config>', 'Path to config file.')
 	.option('-r --root <root>', 'Path to root directory.')
-	.option('-c --contracts <contracts>', 'true or false', true)
-	.option('-d --docs <docs>', 'true or false', false)
 	.action(async options => {
 		const configPath = await find({
 			config: options.config,
@@ -129,69 +130,116 @@ program
 			outNames.add(config.out)
 
 			await generate(config)
-				.then(async ({ lines, documentation }) => {
+				.then(async ({ lines }) => {
 					if (!lines) return undefined
 
-					if (
-						documentation &&
-						(config.dangerous?.useDocs === true ||
-							options.docs === 'true' ||
-							options.docs === true)
-					) {
-						for await (const element of documentation) {
-							const cwd = process.cwd()
-
-							const restOfPath = element.path.split('/')
-							const fileName = restOfPath.pop()
-							const folderPath = restOfPath.join('/')
-
-							const outPath = resolve(
-								cwd,
-								`./dist/docs/${folderPath}`,
-								`${fileName}`
-							)
-
-							await ensureDir(dirname(outPath))
-
-							await fse.writeFile(outPath, element.markdown)
-						}
-
-						console.info(
-							pc.green(
-								`✔︎ Generated documentation based on generated contracts:\n\t${pc.gray(
-									`./dist/docs/`
-								)}`
-							)
+					console.info(
+						pc.green(
+							`✔︎ Generated Solidity code based on EIP-712 types to:\n\t${pc.gray(
+								`${config.out}${config.contract.name}.sol`
+							)}`
 						)
-					}
+					)
 
-					if (
-						options.contracts === true ||
-						options.contracts === 'true'
-					) {
-						console.info(
-							pc.green(
-								`✔︎ Generated Solidity code based on EIP-712 types to:\n\t${pc.gray(
-									`${config.out}${config.contract.name}.sol`
-								)}`
-							)
-						)
+					const cwd = process.cwd()
+					const outPath = resolve(
+						cwd,
+						config.out,
+						`${config.contract.name}.sol`
+					)
 
-						const cwd = process.cwd()
-						const outPath = resolve(
-							cwd,
-							config.out,
-							`${config.contract.name}.sol`
-						)
-
-						await ensureDir(dirname(outPath))
-						await fse.writeFile(outPath, lines)
-					}
+					await ensureDir(dirname(outPath))
+					await fse.writeFile(outPath, lines)
 				})
 				.catch(error => {
 					console.error(
 						pc.red(
 							'✘ Failed to generate Solidity code based on EIP-712 types.'
+						)
+					)
+
+					console.error(pc.red(error))
+				})
+		}
+	})
+
+program
+	.command('docs')
+	.option('-c --config <config>', 'Path to config file.')
+	.option('-r --root <root>', 'Path to root directory.')
+	.action(async options => {
+		const configPath = await find({
+			config: options.config,
+			root: options.root
+		})
+
+		let configs
+		const outNames = new Set<string>()
+
+		if (configPath) {
+			const resolvedConfigs = await load({ configPath })
+
+			const isArrayConfig = Array.isArray(resolvedConfigs)
+
+			console.info(
+				pc.blue(
+					`* Using config at index ${basename(pc.gray(configPath))}`
+				)
+			)
+
+			configs = isArrayConfig ? resolvedConfigs : [resolvedConfigs]
+		} else {
+			console.info(
+				pc.yellow(
+					`! Could not find Emporium configuration file. Using default.`
+				)
+			)
+
+			configs = [config()]
+		}
+
+		for (const config of configs) {
+			if (!config.out)
+				throw new Error('No output path specified in config')
+
+			if (outNames.has(config.out))
+				throw new Error('Duplicate output path specified in config')
+
+			outNames.add(config.out)
+
+			await generate(config)
+				.then(async ({ documentation }) => {
+					if (!documentation) return
+
+					for await (const element of documentation) {
+						const cwd = process.cwd()
+
+						const restOfPath = element.path.split('/')
+						const fileName = restOfPath.pop()
+						const folderPath = restOfPath.join('/')
+
+						const outPath = resolve(
+							cwd,
+							`${config.outDocs}${folderPath}`,
+							`${fileName}`
+						)
+
+						await ensureDir(dirname(outPath))
+						await fse.writeFile(outPath, element.markdown)
+					}
+
+					console.info(
+						pc.green(
+							`✔︎ Generated documentation based on contracts at:\n\t${pc.gray(
+								`./dist/docs/`
+							)}`
+						)
+					)
+				})
+				.catch(error => {
+					console.error(
+						pc.red(
+							'✘ Failed to generate documentation based on EIP-712 types.'
 						)
 					)
 

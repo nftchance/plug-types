@@ -20,6 +20,7 @@ export type Config = {
 	contract: Contract
 	types: TypedData
 	out: string
+	outDocs: string
 	dangerous: Dangerous
 }
 
@@ -27,11 +28,13 @@ export function config({
 	contract,
 	types,
 	out,
+	outDocs,
 	dangerous
 }: Partial<{
 	contract: Partial<Contract>
 	types: TypedData
 	out: string
+	outDocs: string
 	dangerous: Partial<Dangerous>
 }> = {}): Config {
 	return {
@@ -63,6 +66,7 @@ export function config({
 				  }
 				: constants.types,
 		out: out ?? `./dist/contracts/`,
+		outDocs: outDocs ?? `./dist/docs/`,
 		dangerous: {
 			...{
 				excludeCoreTypes: false,
