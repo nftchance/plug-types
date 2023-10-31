@@ -93,15 +93,15 @@ export const getArrayPacketHashGetter = (
 
 	const markdown = `# ${getPacketHashGetterName(config, typeName)}
 
-Encode [${typeName}](/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
+Encode [${typeName}](/generated/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/generated/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/generated/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/base-types/${typeName}) data.
+- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/generated/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
@@ -168,15 +168,15 @@ export function getPacketHashGetters<
 		// * Generate the Markdown documentation.
 		const markdown = `# ${getPacketHashGetterName(config, typeName)}
 
-Encode [${typeName}](/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
+Encode [${typeName}](/generated/base-types/${typeName}) data into a packet hash and verify decoded [${typeName}](/generated/base-types/${typeName}) data from a hash to verify type compliance and value-width alignment.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/generated/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/base-types/${typeName}) data.
+- \`$packetHash\` : \`bytes32\` : The packet hash of the encoded [${typeName}](/generated/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
@@ -266,10 +266,10 @@ export function getSolidity(config: Config) {
 
 		const typeMarkdown = `# ${typeName}
 
-A [${typeName}](/base-types/${typeName}) data type provides EIP-712 compatability for encoding and decoding. ${(nestedTypes.length >
+A [${typeName}](/generated/base-types/${typeName}) data type provides EIP-712 compatability for encoding and decoding. ${(nestedTypes.length >
 		0
 			? `Inside the declaration of a \`${typeName}\` data type there are nested ${nestedTypes
-					.map(type => `[${type}](/base-types/${type})`)
+					.map(type => `[${type}](/generated/base-types/${type})`)
 					.join(', ')
 					.replace(
 						/, ([^,]*)$/,
@@ -418,15 +418,15 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 
 		const digestMarkdown = `# ${getDigestGetterName(config, typeName)}
         
-Encode [${typeName}](/base-types/${typeName}) data into a digest hash.
+Encode [${typeName}](/generated/base-types/${typeName}) data into a digest hash.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/generated/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$digest\` : \`bytes32\` : The digest hash of the encoded [${typeName}](/base-types/${typeName}) data.
+- \`$digest\` : \`bytes32\` : The digest hash of the encoded [${typeName}](/generated/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
@@ -482,15 +482,15 @@ ${digestImplementation
 
 			const signerMarkdown = `# ${getSignerGetterName(config, typeName)}
 
-Get the signer of a [${typeName}](/base-types/${typeName}) data type.
+Get the signer of a [${typeName}](/generated/base-types/${typeName}) data type.
 
 ## Parameters
 
-- \`$input\` : [${typeName}](/base-types/${typeName}) : The \`${typeName}\` data to encode.
+- \`$input\` : [${typeName}](/generated/base-types/${typeName}) : The \`${typeName}\` data to encode.
 
 ## Returns
 
-- \`$signer\` : \`address\` : The signer of the [${typeName}](/base-types/${typeName}) data.
+- \`$signer\` : \`address\` : The signer of the [${typeName}](/generated/base-types/${typeName}) data.
 
 ## Onchain Implementation
 
