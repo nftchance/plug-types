@@ -1,4 +1,4 @@
-import { TypedDataEncoder } from 'ethers'
+import { ethers, TypedDataEncoder } from 'ethers'
 
 import { TypedData, TypedDataParameter } from 'abitype'
 import { TypedDataType } from 'abitype/zod'
@@ -254,19 +254,64 @@ export function getSolidity(config: Config) {
         `
 
 		const typeHashImplementation = `
-    bytes32 constant ${typeHashName} = keccak256('${encoder.encodeType(
-		typeName
-	)}');`
+    bytes32 constant ${typeHashName} = keccak256(
+        '${encoder.encodeType(typeName)}'
+    );`
 
-		const typeHashMarkdown = `# ${typeName}
+		const nestedTypes = type
+			.map(field => field.type.replace('[]', ''))
+			.filter(type => {
+				return type.charAt(0) === type.charAt(0).toUpperCase()
+			})
+
+		const typeMarkdown = `# ${typeName}
+
+A [${typeName}](/base-types/${typeName}) data type provides EIP-712 compatability for encoding and decoding. ${(nestedTypes.length >
+		0
+			? `Inside the declaration of a \`${typeName}\` data type there are nested ${nestedTypes
+					.map(type => `[${type}](/base-types/${type})`)
+					.join(', ')
+					.replace(
+						/, ([^,]*)$/,
+						' and $1'
+					)} data types that need to be built independently.`
+			: ''
+		).replace(/\n/g, '')}
         
-Type hash representing the [${typeName}](/base-types/${typeName}) data type providing EIP-712 compatability for encoding and decoding.
-
-## EIP-712 Type Definition
+## The Data Type
 
 ::: code-group
 
-\`\`\`typescript [${typeName}]
+\`\`\` typescript [Typescript/Javascript]
+{
+    ${type
+		.map(field => {
+			if (field.type.includes('[]'))
+				return `${field.name}: Array<${field.type.slice(
+					0,
+					field.type.length - 2
+				)}>`
+
+			if (
+				field.type.includes('bytes') ||
+				['address'].includes(field.type)
+			)
+				return `${field.name}: '0x$\{string}'`
+
+			if (field.type.includes('uint') || field.type.includes('int'))
+				return `${field.name}: bigint`
+
+			if (field.type.includes('string')) return `${field.name}: string`
+
+			if (field.type.includes('bool')) return `${field.name}: boolean`
+
+			return `${field.name}: ${field.type}`
+		})
+		.join(',\n\t')} 
+}
+\`\`\`
+
+\`\`\`typescript [EIP-712]
 {
     ${type
 		.map(field => {
@@ -280,20 +325,43 @@ Type hash representing the [${typeName}](/base-types/${typeName}) data type prov
 
 ## Onchain Implementation
 
+With ${type
+			.map(field => `\`${field.name}\``)
+			.join(', ')
+			.replace(
+				/, ([^,]*)$/,
+				' and $1'
+			)} as the fields of the \`${typeName}\` data type we can generate the type hash as follows:
+
 ::: code-group
 
-\`\`\`solidity [Types.sol:${typeHashName}]
-${typeHashImplementation
-	.replace(/ {4}/g, '\t')
-	.replace(/\n\t/g, '\n')
-	.replace(/^\s+/g, '')}
+\`\`\`solidity [Verbose.sol]
+bytes32 constant ${typeHashName} = keccak256(
+    abi.encodePacked(
+        "${typeName}(",
+${type.map(field => `\t\t"${field.type} ${field.name}"`).join(',\n')},
+        ")"
+    )
+);
+\`\`\`
+
+\`\`\`solidity [Inline.sol]
+bytes32 constant ${typeHashName} = keccak256(
+    '${encoder.encodeType(typeName)}'
+);
+\`\`\`
+
+\`\`\`solidity [Hash.sol]
+bytes32 constant ${typeHashName} = ${ethers.keccak256(
+			ethers.toUtf8Bytes(encoder.encodeType(typeName))
+		)}
 \`\`\`
 
 :::`
 
 		typeHashGetters.push({
 			path: `/base-types/${typeName}.md`,
-			markdown: typeHashMarkdown
+			markdown: typeMarkdown
 		})
 
 		// * Generate the basic solidity code for the type hash.
