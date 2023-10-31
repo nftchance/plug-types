@@ -60,8 +60,8 @@ export const getArrayPacketHashGetter = (
 	},
 	string
 ] => {
-	const documentation = `* @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
-     *         from a packet hash to verify type compliance.
+	const documentation = `* @notice Encode ${typeName} data into hash and verify the 
+     *         decoded ${typeName} data from a packet hash to verify type compliance.
      * @param $input The ${typeName} data to encode. 
      * @return $hash The packet hash of the encoded ${typeName} data.`
 
@@ -172,8 +172,7 @@ ${implementation
 			)}.md`,
 			markdown
 		},
-		`\t/**
-     ${documentation}
+		`\t/**${documentation}
      */
     ${implementation}`
 	]
@@ -191,7 +190,8 @@ export function getPacketHashGetters<
 	if (typeName.includes('[]')) {
 		packetHashGetters.push(getArrayPacketHashGetter(config, typeName))
 	} else {
-		const documentation = `* @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
+		const documentation = `
+     * @notice Encode ${typeName} data into a packet hash and verify decoded ${typeName} data 
      *         from a packet hash to verify type compliance.
      * @param $input The ${typeName} data to encode.
      * @return $hash The packet hash of the encoded ${typeName} data.`
@@ -281,10 +281,8 @@ ${implementation
 				)}.md`,
 				markdown
 			},
-			`\t/**
-     ${documentation}
-     */
-    ${implementation}`
+			`\t/**${documentation}
+     */${implementation}`
 		])
 	}
 
@@ -323,17 +321,15 @@ export function getSolidity(config: Config) {
 		if (!type) return
 
 		const typeHashDocumentation = `
-     * @dev Type hash representing the ${typeName} data type providing EIP-712
+     * @notice Type hash representing the ${typeName} data type providing EIP-712
      *      compatability for encoding and decoding.
-     * 
-     * ${typeHashName} extends TypeHash<EIP712<{
+     * @dev ${typeHashName} extends TypeHash<EIP712<{
      *       ${type
 			.map(field => {
 				return `{ name: '${field.name}', type: '${field.type}' }`
 			})
-			.join('\n\t *   ')} 
-     *     }>>
-        `
+			.join('\n\t * .     ')} 
+     *      }>>`
 
 		const typeHashImplementation = `
     bytes32 constant ${typeHashName} = keccak256(
@@ -474,10 +470,8 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 		})
 
 		// * Generate the basic solidity code for the type hash.
-		const typeHash = `\t/**
-        ${typeHashDocumentation}
-        */
-       ${typeHashImplementation}`
+		const typeHash = `\t/**${typeHashDocumentation}
+        */${typeHashImplementation}`
 
 		packetHashGetters.push(
 			...getPacketHashGetters(config, typeName, type, packetHashGetters)
@@ -507,10 +501,9 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 		})
 
 		const digestDocumentation = `
-        * @notice Encode ${typeName} data into a digest hash.
-        * @param $input The ${typeName} data to encode.
-        * @return $digest The digest hash of the encoded ${typeName} data.
-        `
+     * @notice Encode ${typeName} data into a digest hash.
+     * @param $input The ${typeName} data to encode.
+     * @return $digest The digest hash of the encoded ${typeName} data.`
 
 		const digestImplementation = `
     function ${getDigestGetterName(config, typeName)}(
@@ -550,32 +543,31 @@ ${digestImplementation
 
 :::`
 
-		// * Generate the digest getter for each type.
-		digestGetters.push([
-			{
-				path: `/digest-getters/${getDigestGetterName(
-					config,
-					typeName
-				)}.md`,
-				markdown: digestMarkdown
-			},
-			`\t/**
-        ${digestDocumentation}
-        */
-       ${digestImplementation}`
-		])
+		const typeKeys = Object.keys(config.types).filter(key => {
+			return Object.keys(config.types).includes(`Signed${key}`)
+		})
 
-		// If the type has a field with the name "signature" then we need to generate a
-		// signer getter for it.
+		if (typeKeys.includes(typeName))
+			digestGetters.push([
+				{
+					path: `/digest-getters/${getDigestGetterName(
+						config,
+						typeName
+					)}.md`,
+					markdown: digestMarkdown
+				},
+				`\t/**${digestDocumentation}
+     */${digestImplementation}`
+			])
+
 		if (type.find(field => field.name === 'signature')) {
 			const dataFieldName = type.find(field => field.name !== 'signature')
 				?.name
 
 			const signerDocumentation = `
-        * @notice Get the signer of a ${typeName} data type.
-        * @param $input The ${typeName} data to encode.
-        * @return $signer The signer of the ${typeName} data.
-            `
+     * @notice Get the signer of a ${typeName} data type.
+     * @param $input The ${typeName} data to encode.
+     * @return $signer The signer of the ${typeName} data.`
 
 			const signerImplementation = `
     function ${getSignerGetterName(config, typeName)}(
@@ -614,19 +606,24 @@ ${signerImplementation
 
 :::`
 
-			signerGetters.push([
-				{
-					path: `/signer-getters/${getSignerGetterName(
-						config,
-						typeName
-					)}.md`,
-					markdown: signerMarkdown
-				},
-				`\t/**
-        ${signerDocumentation}
-        */
-       ${signerImplementation}`
-			])
+			const signerKeys = Object.keys(config.types).filter(key => {
+				return Object.keys(config.types).includes(
+					key.replace('Signed', '')
+				)
+			})
+
+			if (signerKeys.includes(typeName))
+				signerGetters.push([
+					{
+						path: `/signer-getters/${getSignerGetterName(
+							config,
+							typeName
+						)}.md`,
+						markdown: signerMarkdown
+					},
+					`\t/**${signerDocumentation}
+    */${signerImplementation}`
+				])
 		}
 	})
 
@@ -720,7 +717,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
     bytes32 public immutable domainHash;\n`)
 
 	// * Base abstract contract pieces.
-	lines.push(typeHashes.join('\n'))
+	lines.push(typeHashes.join('\n\n'))
 
 	lines.push(`\t/**
      * @notice Instantiate the contract with the name and version of the protocol.
@@ -753,7 +750,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
 		signerGetters: signerGetters.map(x => x[1])
 	}
 
-	lines.push(solidity.packetHashGetters.join('\n'))
+	lines.push(solidity.packetHashGetters.join('\n\n'))
 	lines.push(solidity.digestGetters.join('\n\n'))
 	lines.push(solidity.signerGetters.join('\n\n'))
 
