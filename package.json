@@ -1,6 +1,6 @@
 {
     "name": "@nftchance/emporium-types",
-    "version": "0.3.14",
+    "version": "0.3.13",
     "license": "BUSL-1.1",
     "repository": {
         "type": "git",
@@ -29,6 +29,10 @@
         ".": {
             "import": "./dist/index.js",
             "require": "./dist/index.js"
+        },
+        "./zod": {
+            "import": "./dist/zod/index.js",
+            "require": "./dist/zod/index.js"
         }
     },
     "scripts": {
