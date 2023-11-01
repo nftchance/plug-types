@@ -8,7 +8,8 @@
         "noUncheckedIndexedAccess": true,
         "noEmit": true,
         "allowJs": true,
-        "rootDir": "./src",
+        "baseUrl": "./",
+        "rootDir": "./",
         "outDir": "./dist",
         "esModuleInterop": true,
         "sourceMap": true,
@@ -16,9 +17,13 @@
         "declarationMap": true,
         "skipLibCheck": true,
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["./src/*"],
+            "@nftchance/emporium-types/zod": ["src/zod"],
+            "@nftchance/emporium-types/zod/*": ["src/zod/*"],
+            "zod": ["node_modules/zod/"],
+            "zod/*": ["node_modules/zod/*"],
         }
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist", "tsup.config.ts"]
+    "exclude": ["node_modules/**", "dist/**"],
 }

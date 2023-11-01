@@ -1,12 +1,11 @@
 import { defineConfig } from 'tsup'
 
-export default defineConfig({
-	entryPoints: ['src/index.ts', 'src/zod/index.ts', 'src/core/cli.ts'],
-	outDir: 'dist',
-	dts: true,
-	sourcemap: true,
-	clean: true,
-	format: ['cjs', 'esm'],
-	minify: true,
-	splitting: false
-})
+import { dependencies } from './package.json'
+import { getConfig } from './src/lib/functions/tsup'
+
+export default defineConfig(
+	getConfig({
+		entry: ['src/index.ts', 'src/core/cli.ts', 'src/zod/index.ts'],
+		external: [...Object.keys(dependencies)]
+	})
+)
