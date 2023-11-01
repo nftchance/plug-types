@@ -43,10 +43,11 @@
   "sideEffects": false,
   "scripts": {
     "dev": "DEV=true tsup",
-    "build": "tsup && pnpm emporium generate && pnpm emporium docs",
     "prebuild": "pnpm lint && tsup && pnpm emporium zod",
+    "build": "tsup && pnpm emporium generate && pnpm emporium docs && pnpm format",
     "emporium": "node dist/core/cli.js",
-    "lint": "tsc",
+    "lint": "tsc --noEmit",
+    "format": "pnpm prettier --write .",
     "ci:release": "pnpm publish -r",
     "ci:version": "changeset version",
     "ci:publish": "changeset publish"
