@@ -10,15 +10,15 @@ const EIP721_TYPES = {
 } as const
 
 const DELEGATION_TYPES = {
+	Caveat: [
+		{ name: 'enforcer', type: 'address' },
+		{ name: 'terms', type: 'bytes' }
+	],
 	Delegation: [
 		{ name: 'delegate', type: 'address' },
 		{ name: 'authority', type: 'bytes32' },
 		{ name: 'caveats', type: 'Caveat[]' },
 		{ name: 'salt', type: 'bytes32' }
-	],
-	Caveat: [
-		{ name: 'enforcer', type: 'address' },
-		{ name: 'terms', type: 'bytes' }
 	]
 } as const
 

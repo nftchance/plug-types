@@ -248,4 +248,99 @@ program
 		}
 	})
 
+program
+	.command('zod')
+	.option('-c --config <config>', 'Path to config file.')
+	.option('-r --root <root>', 'Path to root directory.')
+	.action(async options => {
+		const configPath = await find({
+			config: options.config,
+			root: options.root
+		})
+
+		let configs
+		const outNames = new Set<string>()
+
+		if (configPath) {
+			const resolvedConfigs = await load({ configPath })
+
+			const isArrayConfig = Array.isArray(resolvedConfigs)
+
+			console.info(
+				pc.blue(
+					`* Using config at index ${basename(pc.gray(configPath))}`
+				)
+			)
+
+			configs = isArrayConfig ? resolvedConfigs : [resolvedConfigs]
+		} else {
+			console.info(
+				pc.yellow(
+					`! Could not find Emporium configuration file. Using default.`
+				)
+			)
+
+			configs = [config()]
+		}
+
+		for (const config of configs) {
+			if (!config.out)
+				throw new Error('No output path specified in config')
+
+			if (outNames.has(config.out))
+				throw new Error('Duplicate output path specified in config')
+
+			outNames.add(config.out)
+
+			const schemas: string[] = []
+
+			for await (const element of Object.keys(config.types)) {
+				const fields = config.types[element]
+
+				const getPrimitiveType = (type: string): string => {
+					if (type.includes('[]')) {
+						return `z.array(${getPrimitiveType(
+							type.replace('[]', '')
+						)})`
+					}
+
+					if (type === 'address') return 'Address'
+					if (type === 'bool') return 'SolidityBool'
+					if (type.includes('uint')) return 'SolidityInt'
+					if (type.includes('bytes')) return 'SolidityBytes'
+
+					return `${type}Schema`
+				}
+
+				if (!fields || fields.length === 0) continue
+
+				schemas.push(`export const ${element}Schema = z.object({${fields
+					.map(field => {
+						return `\n\t${field.name}: ${getPrimitiveType(
+							field.type
+						)}`
+					})
+					.join(',')}\n})
+
+                    export type ${element} = z.infer<typeof ${element}Schema>`)
+			}
+
+			const cwd = process.cwd()
+
+			const outPath = resolve(cwd, './dist/zod/', 'index.ts')
+
+			await ensureDir(dirname(outPath))
+
+			const formatted = await format(
+				[
+					"import { z } from 'zod'",
+					"import { Address, SolidityInt, SolidityBytes } from 'abitype/zod'",
+					`\n${schemas.join('\n\n')}`
+				].join('\n')
+			)
+
+			await fse.writeFile(outPath, formatted)
+		}
+	})
+
 program.parse()
