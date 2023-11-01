@@ -37,10 +37,14 @@
         "./zod": {
             "import": "./dist/zod/index.js",
             "require": "./dist/zod/index.js"
+        },
+        "./zod/*": {
+            "import": "./dist/zod/*.js",
+            "require": "./dist/zod/*.js"
         }
     },
     "scripts": {
-        "prebuild": "pnpm lint && rm -rf ./dist && tsup && rm -rf ./src/zod && pnpm emporium zod",
+        "prebuild": "pnpm lint && rm -rf ./dist && tsup && rm -rf ./zod.ts && pnpm emporium zod",
         "build": "tsup && pnpm emporium generate && pnpm emporium docs",
         "emporium": "node dist/core/cli.mjs",
         "lint": "tsc",
@@ -49,8 +53,7 @@
         "ci:publish": "changeset publish"
     },
     "files": [
-        "src",
-        "dist"
+        "src"
     ],
     "publishConfig": {
         "access": "public"
