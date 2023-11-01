@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+-   ce0bf18: fix: zod export path
+
+## 0.3.14
+
+### Patch Changes
+
 -   86e1ece: feat: zod schema generation
 
 ## 0.3.13
