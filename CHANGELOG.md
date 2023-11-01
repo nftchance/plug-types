@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.16
+
+### Patch Changes
+
+-   7a7660d: fix: zod export path
+
 ## 0.3.15
 
 ### Patch Changes
