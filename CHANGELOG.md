@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.14
+
+### Patch Changes
+
+-   86e1ece: feat: zod schema generation
+
 ## 0.3.13
 
 ### Patch Changes
