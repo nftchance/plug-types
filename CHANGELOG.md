@@ -1,5 +1,12 @@
 # @nftchance/emporium-types
 
+## 0.4.1
+
+### Patch Changes
+
+-   dad06c8: fix: export paths
+-   4e62357: feat: functional package export paths
+
 ## 0.4.0
 
 ### Minor Changes
