@@ -89,7 +89,7 @@ async function generateExports(entry: string[], noExport?: string[]) {
 		const extension = path.extname(file)
 		const fileWithoutExtension = file.replace(extension, '')
 		const name = fileWithoutExtension
-			.replace(/^src\//g, './')
+			.replace(/^src\//g, '')
 			.replace(/\/index$/, '')
 		const distSourceFile = `${fileWithoutExtension.replace(
 			/^src\//g,
@@ -105,7 +105,7 @@ async function generateExports(entry: string[], noExport?: string[]) {
 		}
 	}
 
-	exports['./package.json'] = './package.json'
+	exports['package.json'] = './package.json'
 
 	const packageJson = await fs.readJSON('package.json')
 	packageJson.exports = exports

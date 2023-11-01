@@ -26,23 +26,23 @@
     "emporium": "dist/core/cli.js"
   },
   "exports": {
-    ".": {
+    "index": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./core/cli": {
+    "core/cli": {
       "types": "./dist/core/cli.d.ts",
       "default": "./dist/core/cli.js"
     },
-    "./zod": {
+    "zod": {
       "types": "./dist/zod/index.d.ts",
       "default": "./dist/zod/index.js"
     },
-    "./package.json": "./package.json"
+    "package.json": "./package.json"
   },
   "sideEffects": false,
   "scripts": {
-    "dev": "DEV=true tsup --watch",
+    "dev": "DEV=true tsup",
     "build": "tsup",
     "emporium": "node dist/core/cli.js",
     "lint": "tsc",
@@ -51,6 +51,7 @@
     "ci:publish": "changeset publish"
   },
   "files": [
+    "/index",
     "/core",
     "/zod",
     "/dist"
