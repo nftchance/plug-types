@@ -30,13 +30,17 @@
             "import": "./dist/index.js",
             "require": "./dist/index.js"
         },
+        "./*": {
+            "import": "./dist/*.js",
+            "require": "./dist/*.js"
+        },
         "./zod": {
-            "import": "./dist/zod.js",
-            "require": "./dist/zod.js"
+            "import": "./dist/zod/index.js",
+            "require": "./dist/zod/index.js"
         }
     },
     "scripts": {
-        "prebuild": "pnpm lint && rm -rf ./dist && tsup && pnpm emporium generate",
+        "prebuild": "pnpm lint && rm -rf ./dist && tsup && rm -rf ./src/zod && pnpm emporium zod",
         "build": "tsup && pnpm emporium generate && pnpm emporium docs",
         "emporium": "node dist/core/cli.mjs",
         "lint": "tsc",

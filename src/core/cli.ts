@@ -327,7 +327,7 @@ program
 
 			const cwd = process.cwd()
 
-			const outPath = resolve(cwd, './src', 'zod.ts')
+			const outPath = resolve(cwd, './src/zod', 'index.ts')
 
 			await ensureDir(dirname(outPath))
 
