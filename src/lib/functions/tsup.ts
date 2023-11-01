@@ -142,7 +142,7 @@ async function generateProxyPackages(exports: Exports) {
         "main": "${entrypoint}"
       }`
 		)
-		ignorePaths.push(key.replace(/^\.\//g, ''))
+		ignorePaths.push('/' + key.replace(/^\.\//g, ''))
 
 		const file = key.replace(/^\.\//g, '').split('/')[0]
 		if (!file || files.has(file)) continue
