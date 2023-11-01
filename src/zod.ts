@@ -8,14 +8,14 @@ export const CaveatSchema = z.object({
 
 export type Caveat = z.infer<typeof CaveatSchema>
 
-export const DelegationSchema = z.object({
+export const PermissionSchema = z.object({
 	delegate: Address,
 	authority: SolidityBytes,
 	caveats: z.array(CaveatSchema),
 	salt: SolidityBytes
 })
 
-export type Delegation = z.infer<typeof DelegationSchema>
+export type Permission = z.infer<typeof PermissionSchema>
 
 export const TransactionSchema = z.object({
 	to: Address,
@@ -25,19 +25,19 @@ export const TransactionSchema = z.object({
 
 export type Transaction = z.infer<typeof TransactionSchema>
 
-export const SignedDelegationSchema = z.object({
-	delegation: DelegationSchema,
+export const SignedPermissionSchema = z.object({
+	permission: PermissionSchema,
 	signature: SolidityBytes
 })
 
-export type SignedDelegation = z.infer<typeof SignedDelegationSchema>
+export type SignedPermission = z.infer<typeof SignedPermissionSchema>
 
-export const InvocationSchema = z.object({
+export const IntentSchema = z.object({
 	transaction: TransactionSchema,
-	authority: z.array(SignedDelegationSchema)
+	authority: z.array(SignedPermissionSchema)
 })
 
-export type Invocation = z.infer<typeof InvocationSchema>
+export type Intent = z.infer<typeof IntentSchema>
 
 export const ReplayProtectionSchema = z.object({
 	nonce: SolidityInt,
@@ -46,16 +46,16 @@ export const ReplayProtectionSchema = z.object({
 
 export type ReplayProtection = z.infer<typeof ReplayProtectionSchema>
 
-export const InvocationsSchema = z.object({
-	batch: z.array(InvocationSchema),
+export const IntentsSchema = z.object({
+	batch: z.array(IntentSchema),
 	replayProtection: ReplayProtectionSchema
 })
 
-export type Invocations = z.infer<typeof InvocationsSchema>
+export type Intents = z.infer<typeof IntentsSchema>
 
-export const SignedInvocationsSchema = z.object({
-	invocations: InvocationsSchema,
+export const SignedIntentsSchema = z.object({
+	intents: IntentsSchema,
 	signature: SolidityBytes
 })
 
-export type SignedInvocations = z.infer<typeof SignedInvocationsSchema>
+export type SignedIntents = z.infer<typeof SignedIntentsSchema>

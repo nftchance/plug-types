@@ -1,6 +1,6 @@
 import { Config } from '@/core/config'
 
-const EIP721_TYPES = {
+const EIP712_TYPES = {
 	EIP712Domain: [
 		{ name: 'name', type: 'string' },
 		{ name: 'version', type: 'string' },
@@ -9,12 +9,12 @@ const EIP721_TYPES = {
 	]
 } as const
 
-const DELEGATION_TYPES = {
+const PERMISSION_TYPES = {
 	Caveat: [
 		{ name: 'enforcer', type: 'address' },
 		{ name: 'terms', type: 'bytes' }
 	],
-	Delegation: [
+	Permission: [
 		{ name: 'delegate', type: 'address' },
 		{ name: 'authority', type: 'bytes32' },
 		{ name: 'caveats', type: 'Caveat[]' },
@@ -22,39 +22,39 @@ const DELEGATION_TYPES = {
 	]
 } as const
 
-const INVOCATION_TYPES = {
-	...DELEGATION_TYPES,
+const INTENT_TYPES = {
+	...PERMISSION_TYPES,
 	Transaction: [
 		{ name: 'to', type: 'address' },
 		{ name: 'gasLimit', type: 'uint256' },
 		{ name: 'data', type: 'bytes' }
 	],
-	SignedDelegation: [
-		{ name: 'delegation', type: 'Delegation' },
+	SignedPermission: [
+		{ name: 'permission', type: 'Permission' },
 		{ name: 'signature', type: 'bytes' }
 	],
-	Invocation: [
+	Intent: [
 		{ name: 'transaction', type: 'Transaction' },
-		{ name: 'authority', type: 'SignedDelegation[]' }
+		{ name: 'authority', type: 'SignedPermission[]' }
 	]
 } as const
 
-const INVOCATIONS_TYPES = {
-	...INVOCATION_TYPES,
+const INTENTS_TYPES = {
+	...INTENT_TYPES,
 	ReplayProtection: [
 		{ name: 'nonce', type: 'uint256' },
 		{ name: 'queue', type: 'uint256' }
 	],
-	Invocations: [
-		{ name: 'batch', type: 'Invocation[]' },
+	Intents: [
+		{ name: 'batch', type: 'Intent[]' },
 		{ name: 'replayProtection', type: 'ReplayProtection' }
 	]
 } as const
 
-const SIGNED_INVOCATION_TYPES = {
-	...INVOCATIONS_TYPES,
-	SignedInvocations: [
-		{ name: 'invocations', type: 'Invocations' },
+const SIGNED_INTENT_TYPES = {
+	...INTENTS_TYPES,
+	SignedIntents: [
+		{ name: 'intents', type: 'Intents' },
 		{ name: 'signature', type: 'bytes' }
 	]
 } as const
@@ -67,7 +67,7 @@ export const constants = {
 			solidity: '^0.8.19',
 			authors: []
 		},
-		types: EIP721_TYPES,
+		types: EIP712_TYPES,
 		dangerous: {
 			useOverloads: false,
 			useDocs: false,
@@ -78,6 +78,6 @@ export const constants = {
 		outDocs: './temp/docs'
 	} as Config,
 	types: {
-		...SIGNED_INVOCATION_TYPES
+		...SIGNED_INTENT_TYPES
 	}
 } as const

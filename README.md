@@ -73,7 +73,7 @@ The output file will contain:
 
 ## Advanced Usage (Adding Your Types)
 
-In some cases you will want access to more than just the base `emporium` types of `Delegation`, `Invocations`, and all the supporting shapes such as `Transaction`, `ReplayProtection`, etc. In this case, you need to extend the types and prepare your protocol to consume a framework that has already been initialized with all the confusing [EIP-712 data types and decoders](https://eips.ethereum.org/EIPS/eip-712) taken care of.
+In some cases you will want access to more than just the base `emporium` types of `Permission`, `Intents`, and all the supporting shapes such as `Transaction`, `ReplayProtection`, etc. In this case, you need to extend the types and prepare your protocol to consume a framework that has already been initialized with all the confusing [EIP-712 data types and decoders](https://eips.ethereum.org/EIPS/eip-712) taken care of.
 
 > **Important**
 > If you are at this level, it is assumed that you are familiar with `EIP-712` -- verification of signatures can be very complex.
