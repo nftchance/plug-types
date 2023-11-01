@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.3.18
+
+### Patch Changes
+
+-   0419908: fix: export path
+
 ## 0.3.17
 
 ### Patch Changes
