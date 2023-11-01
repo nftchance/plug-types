@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.4.0
+
+### Minor Changes
+
+-   6d19bb6: feat: new nomenclature
+
 ## 0.3.18
 
 ### Patch Changes
