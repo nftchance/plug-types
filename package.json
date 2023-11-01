@@ -42,7 +42,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "prebuild": "pnpm lint && rm -rf ./dist && tsup && rm -rf ./src/zod/index.ts && pnpm emporium zod",
+    "prebuild": "rm -rf ./dist && tsup && rm -rf ./src/zod/index.ts && pnpm emporium zod && pnpm lint",
     "build": "tsup && pnpm emporium generate && pnpm emporium docs",
     "emporium": "node dist/core/cli.js",
     "lint": "tsc",
