@@ -42,8 +42,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsup && pnpm emporium generate && pnpm emporium docs",
-    "postbuild": "rm -rf ./src/zod/index.ts && pnpm emporium zod && tsup",
+    "build": "tsup",
     "emporium": "node dist/core/cli.js",
     "lint": "tsc",
     "ci:release": "pnpm publish -r",
