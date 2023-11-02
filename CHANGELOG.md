@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.4.6
+
+### Patch Changes
+
+-   511e32e: feat: better zod types
+
 ## 0.4.5
 
 ### Patch Changes
