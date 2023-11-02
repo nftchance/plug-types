@@ -62,3 +62,12 @@ export const SignedIntentsSchema = z.object({
 })
 
 export type SignedIntents = z.infer<typeof SignedIntentsSchema>
+
+export const EIP712DomainSchema = z.object({
+	name: z.string(),
+	version: z.string(),
+	chainId: SolidityInt,
+	verifyingContract: Address
+})
+
+export type EIP712Domain = z.infer<typeof EIP712DomainSchema>

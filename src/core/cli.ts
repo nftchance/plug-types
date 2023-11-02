@@ -6,6 +6,7 @@ import pc from 'picocolors'
 
 import { config } from '@/core/config'
 import { generate } from '@/core/sol'
+import { EIP712_TYPES } from '@/lib/constants'
 import { find, format, load, usingTypescript } from '@/lib/functions/config'
 
 const program = new Command()
@@ -294,8 +295,13 @@ program
 
 			const schemas: string[] = []
 
-			for await (const element of Object.keys(config.types)) {
-				const fields = config.types[element]
+			const types = {
+				...config.types,
+				...EIP712_TYPES
+			}
+
+			for await (const element of Object.keys(types)) {
+				const fields = types[element as keyof typeof types]
 
 				const getPrimitiveType = (type: string): string => {
 					if (type.includes('[]')) {
@@ -306,6 +312,7 @@ program
 
 					if (type === 'address') return 'Address'
 					if (type === 'bool') return 'SolidityBool'
+					if (type === 'string') return 'z.string()'
 					if (type.includes('uint')) return 'SolidityInt'
 					if (type.includes('bytes32')) return 'Bytes32'
 					if (type.includes('bytes')) return 'Bytes'
@@ -313,7 +320,7 @@ program
 					return `${type}Schema`
 				}
 
-				if (!fields || fields.length === 0) continue
+				if (!fields) continue
 
 				schemas.push(`export const ${element}Schema = z.object({${fields
 					.map(field => {

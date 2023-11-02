@@ -1,6 +1,6 @@
 {
   "name": "@nftchance/emporium-types",
-  "version": "0.4.3",
+  "version": "0.4.2",
   "license": "BUSL-1.1",
   "repository": {
     "type": "git",
@@ -47,7 +47,7 @@
   "sideEffects": false,
   "scripts": {
     "dev": "DEV=true tsup",
-    "prebuild": "pnpm lint && tsup && rm -rf src/zod/index.ts && pnpm emporium zod",
+    "prebuild": "tsup && rm -rf src/zod/index.ts && pnpm emporium zod && pnpm lint",
     "build": "tsup && pnpm emporium generate && pnpm emporium docs",
     "emporium": "node dist/core/cli.js",
     "lint": "tsc --noEmit",

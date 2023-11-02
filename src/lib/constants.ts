@@ -1,6 +1,6 @@
 import { Config } from '@/core/config'
 
-const EIP712_TYPES = {
+export const EIP712_TYPES = {
 	EIP712Domain: [
 		{ name: 'name', type: 'string' },
 		{ name: 'version', type: 'string' },
@@ -9,7 +9,7 @@ const EIP712_TYPES = {
 	]
 } as const
 
-const PERMISSION_TYPES = {
+export const PERMISSION_TYPES = {
 	Caveat: [
 		{ name: 'enforcer', type: 'address' },
 		{ name: 'terms', type: 'bytes' }
@@ -22,7 +22,7 @@ const PERMISSION_TYPES = {
 	]
 } as const
 
-const INTENT_TYPES = {
+export const INTENT_TYPES = {
 	...PERMISSION_TYPES,
 	Transaction: [
 		{ name: 'to', type: 'address' },
@@ -39,7 +39,7 @@ const INTENT_TYPES = {
 	]
 } as const
 
-const INTENTS_TYPES = {
+export const INTENTS_TYPES = {
 	...INTENT_TYPES,
 	ReplayProtection: [
 		{ name: 'nonce', type: 'uint256' },
@@ -51,7 +51,7 @@ const INTENTS_TYPES = {
 	]
 } as const
 
-const SIGNED_INTENT_TYPES = {
+export const SIGNED_INTENT_TYPES = {
 	...INTENTS_TYPES,
 	SignedIntents: [
 		{ name: 'intents', type: 'Intents' },
