@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+-   321e82b: feat: include eip712domain schema
+
+## 0.4.3
+
+### Patch Changes
+
 -   c7009fc: fix: better zod types
 
 ## 0.4.2
