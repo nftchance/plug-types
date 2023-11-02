@@ -1,5 +1,6 @@
+import { Address, SolidityBytes, SolidityInt } from 'abitype/zod'
+
 import { z } from 'zod'
-import { Address, SolidityInt, SolidityBytes } from 'abitype/zod'
 
 export const CaveatSchema = z.object({
 	enforcer: Address,
