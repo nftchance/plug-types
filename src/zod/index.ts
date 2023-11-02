@@ -1,19 +1,21 @@
-import { Address, SolidityBytes, SolidityInt } from 'abitype/zod'
+import { SolidityInt } from 'abitype/zod'
 
 import { z } from 'zod'
 
+import { Address, Bytes, Bytes32 } from './types'
+
 export const CaveatSchema = z.object({
 	enforcer: Address,
-	terms: SolidityBytes
+	terms: Bytes
 })
 
 export type Caveat = z.infer<typeof CaveatSchema>
 
 export const PermissionSchema = z.object({
 	delegate: Address,
-	authority: SolidityBytes,
+	authority: Bytes32,
 	caveats: z.array(CaveatSchema),
-	salt: SolidityBytes
+	salt: Bytes32
 })
 
 export type Permission = z.infer<typeof PermissionSchema>
@@ -21,14 +23,14 @@ export type Permission = z.infer<typeof PermissionSchema>
 export const TransactionSchema = z.object({
 	to: Address,
 	gasLimit: SolidityInt,
-	data: SolidityBytes
+	data: Bytes
 })
 
 export type Transaction = z.infer<typeof TransactionSchema>
 
 export const SignedPermissionSchema = z.object({
 	permission: PermissionSchema,
-	signature: SolidityBytes
+	signature: Bytes
 })
 
 export type SignedPermission = z.infer<typeof SignedPermissionSchema>
@@ -56,7 +58,7 @@ export type Intents = z.infer<typeof IntentsSchema>
 
 export const SignedIntentsSchema = z.object({
 	intents: IntentsSchema,
-	signature: SolidityBytes
+	signature: Bytes
 })
 
 export type SignedIntents = z.infer<typeof SignedIntentsSchema>

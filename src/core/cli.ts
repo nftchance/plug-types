@@ -307,7 +307,8 @@ program
 					if (type === 'address') return 'Address'
 					if (type === 'bool') return 'SolidityBool'
 					if (type.includes('uint')) return 'SolidityInt'
-					if (type.includes('bytes')) return 'SolidityBytes'
+					if (type.includes('bytes32')) return 'Bytes32'
+					if (type.includes('bytes')) return 'Bytes'
 
 					return `${type}Schema`
 				}
@@ -334,7 +335,8 @@ program
 			const formatted = await format(
 				[
 					"import { z } from 'zod'",
-					"import { Address, SolidityInt, SolidityBytes } from 'abitype/zod'",
+					"import { SolidityInt } from 'abitype/zod'",
+					"import { Address, Bytes, Bytes32 } from './types'",
 					`\n${schemas.join('\n\n')}`
 				].join('\n')
 			)

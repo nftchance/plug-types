@@ -171,4 +171,5 @@ dist
 
 /index/**
 /core/cli/**
-/zod/
+/zod/**
+/zod/types/
