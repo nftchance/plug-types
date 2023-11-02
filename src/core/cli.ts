@@ -295,6 +295,7 @@ program
 
 			const schemas: string[] = []
 
+			// * Always include the domain type as it will be needed to build domain-localized signatures.
 			const types = {
 				...config.types,
 				...EIP712_TYPES
