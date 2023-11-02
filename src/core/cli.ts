@@ -344,6 +344,14 @@ program
 
 			await fse.writeFile(outPath, formatted)
 		}
+
+		console.info(
+			pc.green(
+				`✔︎ Generated Zod types on contracts at:\n\t${pc.gray(
+					`${'./src/zod/index.ts'}`
+				)}`
+			)
+		)
 	})
 
 program.parse()
