@@ -8,6 +8,7 @@ import { config } from '@/core/config'
 import { generate } from '@/core/sol'
 import { EIP712_TYPES } from '@/lib/constants'
 import { find, format, load, usingTypescript } from '@/lib/functions/config'
+import { getTypeSchema } from '@/zod/types'
 
 const program = new Command()
 
@@ -301,33 +302,24 @@ program
 				...EIP712_TYPES
 			}
 
+			const typesUsed = new Set<string>()
+
 			for await (const element of Object.keys(types)) {
 				const fields = types[element as keyof typeof types]
-
-				const getPrimitiveType = (type: string): string => {
-					if (type.includes('[]')) {
-						return `z.array(${getPrimitiveType(
-							type.replace('[]', '')
-						)})`
-					}
-
-					if (type === 'address') return 'Address'
-					if (type === 'bool') return 'SolidityBool'
-					if (type === 'string') return 'z.string()'
-					if (type.includes('uint')) return 'SolidityInt'
-					if (type.includes('bytes32')) return 'Bytes32'
-					if (type.includes('bytes')) return 'Bytes'
-
-					return `${type}Schema`
-				}
 
 				if (!fields) continue
 
 				schemas.push(`export const ${element}Schema = z.object({${fields
 					.map(field => {
-						return `\n\t${field.name}: ${getPrimitiveType(
-							field.type
-						)}`
+						const typeUsed = getTypeSchema(field.type)
+
+						if (
+							typeUsed.startsWith('z.') === false &&
+							typeUsed.endsWith('Schema') == false
+						)
+							typesUsed.add(typeUsed)
+
+						return `\n\t${field.name}: ${typeUsed}`
 					})
 					.join(',')}\n})
 
@@ -343,8 +335,9 @@ program
 			const formatted = await format(
 				[
 					"import { z } from 'zod'",
-					"import { SolidityInt } from 'abitype/zod'",
-					"import { Address, Bytes, Bytes32 } from './types'",
+					`import { ${Array.from(typesUsed.values()).join(
+						','
+					)} } from './types'`,
 					`\n${schemas.join('\n\n')}`
 				].join('\n')
 			)

@@ -1,7 +1,4 @@
-import { SolidityInt } from 'abitype/zod'
-
 import { z } from 'zod'
-
 import { Address, Bytes, Bytes32 } from './types'
 
 export const CaveatSchema = z.object({
@@ -22,7 +19,7 @@ export type Permission = z.infer<typeof PermissionSchema>
 
 export const TransactionSchema = z.object({
 	to: Address,
-	gasLimit: SolidityInt,
+	gasLimit: z.number(),
 	data: Bytes
 })
 
@@ -43,8 +40,8 @@ export const IntentSchema = z.object({
 export type Intent = z.infer<typeof IntentSchema>
 
 export const ReplayProtectionSchema = z.object({
-	nonce: SolidityInt,
-	queue: SolidityInt
+	nonce: z.number(),
+	queue: z.number()
 })
 
 export type ReplayProtection = z.infer<typeof ReplayProtectionSchema>
@@ -66,7 +63,7 @@ export type SignedIntents = z.infer<typeof SignedIntentsSchema>
 export const EIP712DomainSchema = z.object({
 	name: z.string(),
 	version: z.string(),
-	chainId: SolidityInt,
+	chainId: z.number(),
 	verifyingContract: Address
 })
 
