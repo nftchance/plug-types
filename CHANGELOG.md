@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.4.2
+
+### Patch Changes
+
+-   af30a27: feat: update abitype
+
 ## 0.4.1
 
 ### Patch Changes
