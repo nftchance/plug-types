@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.4.5
+
+### Patch Changes
+
+-   ab2a4a1: fix: bump
+
 ## 0.4.4
 
 ### Patch Changes
