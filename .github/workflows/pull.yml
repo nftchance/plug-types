@@ -28,7 +28,8 @@ jobs:
               run: pnpm lint && pnpm build
 
             - name: 📏 Check size
-              uses: preactjs/compressed-size-action@v2
+              uses: preactjs/compressed-size-action@2.5.0
               with:
-                  pattern: 'dist/**'
+                  pattern: '**/dist/**'
+                  exclude: '{**/*.map,**/node_modules/**}'
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
