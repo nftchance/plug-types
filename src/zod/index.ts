@@ -19,7 +19,7 @@ export type Permission = z.infer<typeof PermissionSchema>
 
 export const TransactionSchema = z.object({
 	to: Address,
-	gasLimit: z.number(),
+	gasLimit: z.bigint(),
 	data: Bytes
 })
 
@@ -40,8 +40,8 @@ export const IntentSchema = z.object({
 export type Intent = z.infer<typeof IntentSchema>
 
 export const ReplayProtectionSchema = z.object({
-	nonce: z.number(),
-	queue: z.number()
+	nonce: z.bigint(),
+	queue: z.bigint()
 })
 
 export type ReplayProtection = z.infer<typeof ReplayProtectionSchema>

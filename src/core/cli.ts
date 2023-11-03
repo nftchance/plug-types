@@ -311,7 +311,10 @@ program
 
 				schemas.push(`export const ${element}Schema = z.object({${fields
 					.map(field => {
-						const typeUsed = getTypeSchema(field.type)
+						const typeUsed =
+							field.name === 'chainId'
+								? 'z.number()'
+								: getTypeSchema(field.type)
 
 						if (
 							typeUsed.startsWith('z.') === false &&
