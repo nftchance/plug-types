@@ -2,7 +2,7 @@ import dedent from 'dedent'
 import { execa } from 'execa'
 import { default as fs } from 'fs-extra'
 import path from 'path'
-import type { Format, Options } from 'tsup'
+import type { Options } from 'tsup'
 
 type GetConfig = Omit<
 	Options,
@@ -25,7 +25,7 @@ export function getConfig({ dev, noExport, ...options }: GetConfig): Options {
 			clean: true,
 			// Only need to generate one file with tsup for development since we will create links in `onSuccess`
 			entry: [entry[0] as string],
-			format: [(process.env.FORMAT as Format) ?? 'esm'],
+			format: ['cjs', 'esm'],
 			silent: true,
 			async onSuccess() {
 				// remove all files in dist
@@ -59,7 +59,10 @@ export function getConfig({ dev, noExport, ...options }: GetConfig): Options {
 		bundle: true,
 		clean: true,
 		dts: true,
-		format: [(process.env.FORMAT as Format) ?? 'esm'],
+		minify: true,
+		minifyWhitespace: true,
+		treeshake: true,
+		format: ['cjs', 'esm'],
 		splitting: true,
 		target: 'es2021',
 		async onSuccess() {
@@ -89,7 +92,7 @@ async function generateExports(entry: string[], noExport?: string[]) {
 		const extension = path.extname(file)
 		const fileWithoutExtension = file.replace(extension, '')
 		const name = fileWithoutExtension
-			.replace(/^src\//g, '')
+			.replace(/^src\//g, './')
 			.replace(/\/index$/, '')
 		const distSourceFile = `${fileWithoutExtension.replace(
 			/^src\//g,
@@ -105,7 +108,7 @@ async function generateExports(entry: string[], noExport?: string[]) {
 		}
 	}
 
-	exports['package.json'] = './package.json'
+	exports['./package.json'] = './package.json'
 
 	const packageJson = await fs.readJSON('package.json')
 	packageJson.exports = exports
@@ -138,9 +141,8 @@ async function generateProxyPackages(exports: Exports) {
 		await fs.outputFile(
 			`${key}/package.json`,
 			dedent`{
-        "type": "module",
-        "main": "${entrypoint}"
-      }`
+                "main": "${entrypoint}"
+            }`
 		)
 		ignorePaths.push('/' + key.replace(/^\.\//g, ''))
 
@@ -332,7 +334,7 @@ dist
 .yarn/install-state.gz
 .pnp.\*
 
-    ${ignorePaths.join('/**\n')}/
+    ${ignorePaths.join('/**\n')}/**
   `
 	)
 }

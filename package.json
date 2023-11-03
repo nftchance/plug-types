@@ -19,49 +19,18 @@
     "intents",
     "emporium"
   ],
-  "main": "dist/index.js",
-  "type": "module",
-  "types": "dist/index.d.ts",
-  "bin": {
-    "emporium": "dist/core/cli.js"
-  },
-  "exports": {
-    "index": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "core/cli": {
-      "types": "./dist/core/cli.d.ts",
-      "default": "./dist/core/cli.js"
-    },
-    "zod": {
-      "types": "./dist/zod/index.d.ts",
-      "default": "./dist/zod/index.js"
-    },
-    "zod/types": {
-      "types": "./dist/zod/types.d.ts",
-      "default": "./dist/zod/types.js"
-    },
-    "package.json": "./package.json"
-  },
   "sideEffects": false,
   "scripts": {
     "dev": "DEV=true tsup",
     "prebuild": "tsup && pnpm emporium zod && pnpm lint",
     "build": "tsup && pnpm emporium generate && pnpm emporium docs",
-    "emporium": "node dist/core/cli.js",
+    "emporium": "node dist/core/cli.mjs",
     "lint": "tsc --noEmit",
     "format": "pnpm prettier --write .",
     "ci:release": "pnpm publish -r",
     "ci:version": "changeset version",
     "ci:publish": "changeset publish"
   },
-  "files": [
-    "/index",
-    "/core",
-    "/zod",
-    "/dist"
-  ],
   "publishConfig": {
     "access": "public"
   },
@@ -88,5 +57,34 @@
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^11.0.2",
     "@types/node": "^20.8.10"
-  }
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "emporium": "dist/core/cli.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./core/cli": {
+      "types": "./dist/core/cli.d.ts",
+      "default": "./dist/core/cli.js"
+    },
+    "./zod": {
+      "types": "./dist/zod/index.d.ts",
+      "default": "./dist/zod/index.js"
+    },
+    "./zod/types": {
+      "types": "./dist/zod/types.d.ts",
+      "default": "./dist/zod/types.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "/core",
+    "/zod",
+    "/dist"
+  ]
 }
