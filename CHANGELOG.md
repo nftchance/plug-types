@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.4.9
+
+### Patch Changes
+
+-   8aa630b: fix: handle abitype domain
+
 ## 0.4.8
 
 ### Patch Changes
