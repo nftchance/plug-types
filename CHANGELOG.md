@@ -1,5 +1,11 @@
 # @nftchance/emporium-types
 
+## 0.4.8
+
+### Patch Changes
+
+-   7f7ed73: feat: dependency cleanup
+
 ## 0.4.7
 
 ### Patch Changes
