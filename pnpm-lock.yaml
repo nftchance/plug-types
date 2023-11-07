@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@nftchance/emporium-types':
-    specifier: ^0.4.9
-    version: 0.4.9(esbuild@0.19.5)(typescript@5.2.2)
   '@trivago/prettier-plugin-sort-imports':
     specifier: ^4.2.1
     version: 4.2.1(prettier@3.0.3)
@@ -830,34 +827,6 @@ packages:
       globby: 11.1.0
       read-yaml-file: 1.1.0
     dev: true
-
-  /@nftchance/emporium-types@0.4.9(esbuild@0.19.5)(typescript@5.2.2):
-    resolution: {integrity: sha512-Z0aFONEOIi9vrI0Kq04A6oG8iBPt9Nb0Ct0rvecXfD2RiillElF3JwV3W6ifnyLIoqxETYnVi2uZLSveB96Mfw==}
-    hasBin: true
-    dependencies:
-      '@trivago/prettier-plugin-sort-imports': 4.2.1(prettier@3.0.3)
-      abitype: 0.10.2(typescript@5.2.2)(zod@3.22.4)
-      bundle-require: 4.0.2(esbuild@0.19.5)
-      commander: 11.1.0
-      dedent: 1.5.1
-      ethers: 6.8.1
-      execa: 8.0.1
-      find-up: 6.3.0
-      fs-extra: 11.1.1
-      pathe: 1.1.1
-      picocolors: 1.0.0
-      prettier: 3.0.3
-      solady: 0.0.129
-      zod: 3.22.4
-    transitivePeerDependencies:
-      - '@vue/compiler-sfc'
-      - babel-plugin-macros
-      - bufferutil
-      - esbuild
-      - supports-color
-      - typescript
-      - utf-8-validate
-    dev: false
 
   /@noble/curves@1.2.0:
     resolution: {integrity: sha512-oYclrNgRaM9SsBUBVbb8M6DTV7ZHRTKugureoYEncY5c65HOmRzvSiTE3y5CYaPYJA/GVkrhXEoF0M3Ya9PMnw==}
