@@ -35,6 +35,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@nftchance/emporium-types": "^0.4.9",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "abitype": "^0.10.2",
     "bundle-require": "^4.0.2",

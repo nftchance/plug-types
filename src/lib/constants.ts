@@ -1,5 +1,7 @@
 import { Config } from '@/core/config'
 
+export const BASE_AUTH = '0x0000000000000000000000000000000000000000000000000000000000000000'
+
 export const EIP712_TYPES = {
 	EIP712Domain: [
 		{ name: 'name', type: 'string' },
