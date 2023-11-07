@@ -1,5 +1,12 @@
 # @nftchance/emporium-types
 
+## 0.4.10
+
+### Patch Changes
+
+-   f3f3010: fix: nested dependency
+-   3bb62d1: feat: allow building of unsigned types
+
 ## 0.4.9
 
 ### Patch Changes
