@@ -718,7 +718,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
 	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n\n'))
 
-	lines.push(`\t/**
+	lines.push(`\n\t/**
      * @notice Instantiate the contract with the name and version of the protocol.
      * @param $name The name of the protocol.
      * @param $version The version of the protocol.

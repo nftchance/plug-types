@@ -12,6 +12,7 @@ export default defineConfig(
 			'src/zod/index.ts',
 			'src/zod/types.ts'
 		],
-		external: [...Object.keys(dependencies)]
+		external: [...Object.keys(dependencies)],
+        noExport: ['src/core/cli.ts'],
 	})
 )
