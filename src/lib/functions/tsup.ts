@@ -63,7 +63,7 @@ export function getConfig({ dev, noExport, ...options }: GetConfig): Options {
 		minifyWhitespace: true,
 		treeshake: true,
 		format: ['cjs', 'esm'],
-		splitting: true,
+		// splitting: true,
 		target: 'es2021',
 		async onSuccess() {
 			if (typeof options.onSuccess === 'function')

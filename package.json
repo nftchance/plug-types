@@ -69,6 +69,10 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./core/cli": {
+      "types": "./dist/core/cli.d.ts",
+      "default": "./dist/core/cli.js"
+    },
     "./zod": {
       "types": "./dist/zod/index.d.ts",
       "default": "./dist/zod/index.js"
@@ -80,6 +84,7 @@
     "./package.json": "./package.json"
   },
   "files": [
+    "/core",
     "/zod",
     "/dist"
   ]

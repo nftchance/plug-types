@@ -173,5 +173,6 @@ dist
 .yarn/install-state.gz
 .pnp.\*
 
+/core/cli/**
 /zod/**
 /zod/types/**
