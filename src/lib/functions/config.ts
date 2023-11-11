@@ -6,7 +6,7 @@ import prettier from 'prettier'
 
 import { Config } from '@/core/config'
 
-const name = 'emporium'
+const name = 'plug'
 
 const configFiles = [
 	`${name}.config.ts`,

@@ -18,8 +18,8 @@
 		"skipLibCheck": true,
 		"paths": {
 			"@/*": ["./src/*"],
-			"@nftchance/emporium-types/zod": ["./src/zod"],
-			"@nftchance/emporium-types/zod/*": ["./src/zod/*"],
+			"@nftchance/plug-types/zod": ["./src/zod"],
+			"@nftchance/plug-types/zod/*": ["./src/zod/*"],
 			"zod": ["./node_modules/zod/"],
 			"zod/*": ["./node_modules/zod/*"]
 		},

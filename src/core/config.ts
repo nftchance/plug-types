@@ -47,7 +47,7 @@ export function config({
 			...contract,
 			authors: [
 				'@nftchance',
-				`@nftchance/emporium-types (${
+				`@nftchance/plug-types (${
 					new Date().toISOString().split('T')[0]
 				})`,
 				'@danfinlay (https://github.com/delegatable/delegatable-sol)',

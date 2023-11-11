@@ -1,10 +1,10 @@
 {
-  "name": "@nftchance/emporium-types",
+  "name": "@nftchance/plug-types",
   "version": "0.4.10",
   "license": "BUSL-1.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nftchance/emporium-types.git"
+    "url": "https://github.com/nftchance/plug-types.git"
   },
   "keywords": [
     "nftchance",
@@ -17,14 +17,14 @@
     "crypto",
     "intent",
     "intents",
-    "emporium"
+    "plug"
   ],
   "sideEffects": false,
   "scripts": {
     "dev": "DEV=true tsup",
-    "prebuild": "tsup && pnpm emporium zod && pnpm lint",
-    "build": "tsup && pnpm emporium generate && pnpm emporium docs",
-    "emporium": "node dist/core/cli.mjs",
+    "prebuild": "tsup && pnpm plug zod && pnpm lint",
+    "build": "tsup && pnpm plug generate && pnpm plug docs",
+    "plug": "node dist/core/cli.mjs",
     "lint": "tsc --noEmit",
     "format": "pnpm prettier --write .",
     "ci:release": "pnpm publish -r",
@@ -62,7 +62,7 @@
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
   "bin": {
-    "emporium": "dist/core/cli.mjs"
+    "plug": "dist/core/cli.mjs"
   },
   "exports": {
     ".": {

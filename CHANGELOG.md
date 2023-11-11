@@ -1,4 +1,4 @@
-# @nftchance/emporium-types
+# @nftchance/plug-types
 
 ## 0.4.10
 
