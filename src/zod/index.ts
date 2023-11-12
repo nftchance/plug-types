@@ -1,64 +1,64 @@
 import { z } from 'zod'
 import { Address, Bytes, Bytes32 } from './types'
 
-export const CaveatSchema = z.object({
-	enforcer: Address,
-	terms: Bytes
+export const FuseSchema = z.object({
+	neutral: Address,
+	live: Bytes
 })
 
-export type Caveat = z.infer<typeof CaveatSchema>
+export type Fuse = z.infer<typeof FuseSchema>
 
-export const PermissionSchema = z.object({
-	delegate: Address,
-	authority: Bytes32,
-	caveats: z.array(CaveatSchema),
+export const PinSchema = z.object({
+	neutral: Address,
+	live: Bytes32,
+	fuses: z.array(FuseSchema),
 	salt: Bytes32
 })
 
-export type Permission = z.infer<typeof PermissionSchema>
+export type Pin = z.infer<typeof PinSchema>
 
-export const TransactionSchema = z.object({
-	to: Address,
-	gasLimit: z.bigint(),
+export const CurrentSchema = z.object({
+	ground: Address,
+	voltage: z.bigint(),
 	data: Bytes
 })
 
-export type Transaction = z.infer<typeof TransactionSchema>
+export type Current = z.infer<typeof CurrentSchema>
 
-export const SignedPermissionSchema = z.object({
-	permission: PermissionSchema,
+export const LivePinSchema = z.object({
+	pin: PinSchema,
 	signature: Bytes
 })
 
-export type SignedPermission = z.infer<typeof SignedPermissionSchema>
+export type LivePin = z.infer<typeof LivePinSchema>
 
-export const IntentSchema = z.object({
-	transaction: TransactionSchema,
-	authority: z.array(SignedPermissionSchema)
+export const PlugSchema = z.object({
+	current: CurrentSchema,
+	pins: z.array(LivePinSchema)
 })
 
-export type Intent = z.infer<typeof IntentSchema>
+export type Plug = z.infer<typeof PlugSchema>
 
-export const ReplayProtectionSchema = z.object({
+export const BreakerSchema = z.object({
 	nonce: z.bigint(),
 	queue: z.bigint()
 })
 
-export type ReplayProtection = z.infer<typeof ReplayProtectionSchema>
+export type Breaker = z.infer<typeof BreakerSchema>
 
-export const IntentsSchema = z.object({
-	batch: z.array(IntentSchema),
-	replayProtection: ReplayProtectionSchema
+export const PlugsSchema = z.object({
+	plugs: z.array(PlugSchema),
+	breaker: BreakerSchema
 })
 
-export type Intents = z.infer<typeof IntentsSchema>
+export type Plugs = z.infer<typeof PlugsSchema>
 
-export const SignedIntentsSchema = z.object({
-	intents: IntentsSchema,
+export const LivePlugsSchema = z.object({
+	plugs: PlugsSchema,
 	signature: Bytes
 })
 
-export type SignedIntents = z.infer<typeof SignedIntentsSchema>
+export type LivePlugs = z.infer<typeof LivePlugsSchema>
 
 export const EIP712DomainSchema = z.object({
 	name: z.string(),

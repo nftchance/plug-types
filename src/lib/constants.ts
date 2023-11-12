@@ -1,6 +1,7 @@
 import { Config } from '@/core/config'
 
-export const BASE_AUTH = '0x0000000000000000000000000000000000000000000000000000000000000000'
+export const BASE_AUTH =
+	'0x0000000000000000000000000000000000000000000000000000000000000000'
 
 export const EIP712_TYPES = {
 	EIP712Domain: [
@@ -11,52 +12,52 @@ export const EIP712_TYPES = {
 	]
 } as const
 
-export const PERMISSION_TYPES = {
-	Caveat: [
-		{ name: 'enforcer', type: 'address' },
-		{ name: 'terms', type: 'bytes' }
+export const PIN_TYPES = {
+	Fuse: [
+		{ name: 'neutral', type: 'address' },
+		{ name: 'live', type: 'bytes' }
 	],
-	Permission: [
-		{ name: 'delegate', type: 'address' },
-		{ name: 'authority', type: 'bytes32' },
-		{ name: 'caveats', type: 'Caveat[]' },
+	Pin: [
+		{ name: 'neutral', type: 'address' },
+		{ name: 'live', type: 'bytes32' },
+		{ name: 'fuses', type: 'Fuse[]' },
 		{ name: 'salt', type: 'bytes32' }
 	]
 } as const
 
-export const INTENT_TYPES = {
-	...PERMISSION_TYPES,
-	Transaction: [
-		{ name: 'to', type: 'address' },
-		{ name: 'gasLimit', type: 'uint256' },
+export const PLUG_TYPES = {
+	...PIN_TYPES,
+	Current: [
+		{ name: 'ground', type: 'address' },
+		{ name: 'voltage', type: 'uint256' },
 		{ name: 'data', type: 'bytes' }
 	],
-	SignedPermission: [
-		{ name: 'permission', type: 'Permission' },
+	LivePin: [
+		{ name: 'pin', type: 'Pin' },
 		{ name: 'signature', type: 'bytes' }
 	],
-	Intent: [
-		{ name: 'transaction', type: 'Transaction' },
-		{ name: 'authority', type: 'SignedPermission[]' }
+	Plug: [
+		{ name: 'current', type: 'Current' },
+		{ name: 'pins', type: 'LivePin[]' }
 	]
 } as const
 
-export const INTENTS_TYPES = {
-	...INTENT_TYPES,
-	ReplayProtection: [
+export const PLUGS_TYPES = {
+	...PLUG_TYPES,
+	Breaker: [
 		{ name: 'nonce', type: 'uint256' },
 		{ name: 'queue', type: 'uint256' }
 	],
-	Intents: [
-		{ name: 'batch', type: 'Intent[]' },
-		{ name: 'replayProtection', type: 'ReplayProtection' }
+	Plugs: [
+		{ name: 'plugs', type: 'Plug[]' },
+		{ name: 'breaker', type: 'Breaker' }
 	]
 } as const
 
-export const SIGNED_INTENT_TYPES = {
-	...INTENTS_TYPES,
-	SignedIntents: [
-		{ name: 'intents', type: 'Intents' },
+export const LIVE_PLUGS_TYPES = {
+	...PLUGS_TYPES,
+	LivePlugs: [
+		{ name: 'plugs', type: 'Plugs' },
 		{ name: 'signature', type: 'bytes' }
 	]
 } as const
@@ -80,6 +81,6 @@ export const constants = {
 		outDocs: './temp/docs'
 	} as Config,
 	types: {
-		...SIGNED_INTENT_TYPES
+		...LIVE_PLUGS_TYPES
 	}
 } as const

@@ -16,7 +16,7 @@
     "solidity",
     "crypto",
     "intent",
-    "intents",
+    "plugs",
     "plug"
   ],
   "sideEffects": false,
