@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.5.0
+
+### Minor Changes
+
+-   d7991e5: feat: plug-focused nomenclature
+
 ## 0.4.11
 
 ### Patch Changes
