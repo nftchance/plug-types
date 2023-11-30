@@ -60,7 +60,7 @@ export const getArrayPacketHashGetter = (
 	},
 	string
 ] => {
-	const documentation = `* @notice Encode ${typeName} data into hash and verify the 
+	const documentation = `\n     * @notice Encode ${typeName} data into hash and verify the 
      *         decoded ${typeName} data from a packet hash to verify type compliance.
      * @param $input The ${typeName} data to encode. 
      * @return $hash The packet hash of the encoded ${typeName} data.`
@@ -69,7 +69,7 @@ export const getArrayPacketHashGetter = (
 		config,
 		typeName
 	)}(
-        ${typeName} memory $input
+        ${config.contract.name}Lib.${typeName} memory $input
     )  public pure virtual returns (bytes32 $hash) {
         /// @dev Load the stack.
         bytes memory encoded;
@@ -172,7 +172,7 @@ ${implementation
 			)}.md`,
 			markdown
 		},
-		`\t/**${documentation}
+		`    /**${documentation}
      */
     ${implementation}`
 	]
@@ -199,7 +199,7 @@ export function getPacketHashGetters<
 		// * Generate the Solidity.
 		const implementation = `
     function ${getPacketHashGetterName(config, typeName)}(
-        ${typeName} memory $input
+        ${config.contract.name}Lib.${typeName} memory $input
     ) public pure virtual returns (bytes32 $hash) {
         $hash = keccak256(abi.encode(
             ${typeName
@@ -209,7 +209,7 @@ export function getPacketHashGetters<
 				.toUpperCase()}_TYPEHASH,
             ${fields
 				.map(field => `${getEncodedValueFor(config, field)}`)
-				.join(',\n\t\t\t')}
+				.join(',\n\t    ')}
         ));
     }`
 
@@ -281,7 +281,7 @@ ${implementation
 				)}.md`,
 				markdown
 			},
-			`\t/**${documentation}
+			`    /**${documentation}
      */${implementation}`
 		])
 	}
@@ -330,14 +330,14 @@ export function getSolidity(config: Config) {
 
 		const typeHashDocumentation = `
      * @notice Type hash representing the ${typeName} data type providing EIP-712
-     *      compatability for encoding and decoding.
+     *         compatability for encoding and decoding.
      * @dev ${typeHashName} extends TypeHash<EIP712<{
-     *       ${type
+     *      ${type
 			.map(field => {
 				return `{ name: '${field.name}', type: '${field.type}' }`
 			})
-			.join('\n\t * .     ')} 
-     *      }>>`
+			.join('\n     *      ')} 
+     * }>>`
 
 		const typeHashImplementation = `
     bytes32 constant ${typeHashName} = keccak256(
@@ -478,8 +478,8 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 		})
 
 		// * Generate the basic solidity code for the type hash.
-		const typeHash = `\t/**${typeHashDocumentation}
-        */${typeHashImplementation}`
+		const typeHash = `    /**${typeHashDocumentation}
+     */${typeHashImplementation}`
 
 		packetHashGetters.push(
 			...getPacketHashGetters(config, typeName, type, packetHashGetters)
@@ -488,23 +488,21 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 		const documentation = `* @notice This struct is used to encode ${typeName} data into a hash and
      *         decode ${typeName} data from a hash.
      * 
-     * @dev ${typeName} extends EIP712<{ 
-     *    ${type
-			.map(field => {
-				return `{ name: '${field.name}', type: '${field.type}' }`
-			})
-			.join('\n\t *    ')}
+     * @dev ${typeName} extends EIP712<{
+     * \t\t${type
+			.map(field => `{ name: '${field.name}', type: '${field.type}' }`)
+			.join('\n     * \t\t')}
      * }>`
 
 		results.push({
-			struct: `\t/**
+			struct: `    /**
      ${documentation}
      */
     struct ${typeName} {\n${type
 		.map(field => {
-			return `\t\t${field.type} ${field.name};\n`
+			return `\t${field.type} ${field.name};\n`
 		})
-		.join('')}\t}`,
+		.join('')}    }`,
 			typeHash
 		})
 
@@ -516,7 +514,7 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
 
 		const digestImplementation = `
     function ${getDigestGetterName(config, typeName)}(
-        ${typeName} memory $input
+        ${config.contract.name}Lib.${typeName} memory $input
     ) public view virtual returns (bytes32 $digest) {
         $digest = keccak256(
             abi.encodePacked(
@@ -561,7 +559,7 @@ ${digestImplementation
 					)}.md`,
 					markdown: digestMarkdown
 				},
-				`\t/**${digestDocumentation}
+				`\n    /**${digestDocumentation}
      */${digestImplementation}`
 			])
 
@@ -576,7 +574,7 @@ ${digestImplementation
 
 			const signerImplementation = `
     function ${getSignerGetterName(config, typeName)}(
-        ${typeName} memory $input
+        ${config.contract.name}Lib.${typeName} memory $input
     ) public view virtual returns (address $signer) {
         $signer = ${getDigestGetterName(
 			config,
@@ -620,8 +618,8 @@ ${signerImplementation
 						)}.md`,
 						markdown: signerMarkdown
 					},
-					`\t/**${signerDocumentation}
-    */${signerImplementation}`
+					`\n    /**${signerDocumentation}
+     */${signerImplementation}`
 				])
 		}
 	})
@@ -683,7 +681,7 @@ export async function generate(config: Config) {
  *      and Plugs.
 ${config.contract.authors}
  */`,
-		`interface I${config.contract.name} {`
+		`library ${config.contract.name}Lib {`
 	]
 
 	const structs: string[] = []
@@ -708,7 +706,7 @@ ${config.contract.authors}
  *      to power the processing of generalized plugs.
 ${config.contract.authors}
  */
-abstract contract ${config.contract.name} is I${config.contract.name} {
+abstract contract ${config.contract.name} {
     /// @notice Use the ECDSA library for signature verification.
     using ECDSA for bytes32;
 
@@ -718,7 +716,7 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
 	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n\n'))
 
-	lines.push(`\n\t/**
+	lines.push(`\n    /**
      * @notice Instantiate the contract with the name and version of the protocol.
      * @param $name The name of the protocol.
      * @param $version The version of the protocol.
@@ -727,10 +725,9 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
      */
     constructor(string memory $name, string memory $version) {
         /// @dev Sets the domain hash for the contract.
-        domainHash = ${getPacketHashGetterName(
-			config,
-			'EIP712Domain'
-		)}(EIP712Domain({
+        domainHash = ${getPacketHashGetterName(config, 'EIP712Domain')}(${
+			config.contract.name
+		}Lib.EIP712Domain({
             name: $name,
             version: $version,
             chainId: block.chainid,
@@ -750,8 +747,8 @@ abstract contract ${config.contract.name} is I${config.contract.name} {
 	}
 
 	lines.push(solidity.packetHashGetters.join('\n\n'))
-	lines.push(solidity.digestGetters.join('\n\n'))
-	lines.push(solidity.signerGetters.join('\n\n'))
+	lines.push(solidity.digestGetters.join('\n'))
+	lines.push(solidity.signerGetters.join('\n'))
 
 	// * Close the smart contract.
 	lines.push('}')
