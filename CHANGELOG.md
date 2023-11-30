@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.5.1
+
+### Patch Changes
+
+-   1a4c8aa: feat: interface -> library conversion
+
 ## 0.5.0
 
 ### Minor Changes
