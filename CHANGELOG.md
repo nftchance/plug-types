@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.5.2
+
+### Patch Changes
+
+-   f65f17c: feat: explicit filename
+
 ## 0.5.1
 
 ### Patch Changes
