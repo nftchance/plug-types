@@ -138,7 +138,7 @@ program
 					console.info(
 						pc.green(
 							`✔︎ Generated Solidity code based on EIP-712 types to:\n\t${pc.gray(
-								`${config.out}${config.contract.name}.sol`
+								`${config.out}${config.contract.filename}.sol`
 							)}`
 						)
 					)
@@ -147,7 +147,7 @@ program
 					const outPath = resolve(
 						cwd,
 						config.out,
-						`${config.contract.name}.sol`
+						`${config.contract.filename}.sol`
 					)
 
 					await ensureDir(dirname(outPath))

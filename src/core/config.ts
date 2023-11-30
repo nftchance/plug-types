@@ -5,6 +5,7 @@ import { constants } from '@/lib/constants'
 type Contract = {
 	authors: Array<string> | string
 	name: string
+	filename: string
 	license: string
 	solidity: string
 }
@@ -41,6 +42,7 @@ export function config({
 		contract: {
 			...{
 				name: 'Types',
+				filename: 'Types',
 				license: 'BUSL-1.1',
 				solidity: '^0.8.19'
 			},

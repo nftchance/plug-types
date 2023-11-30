@@ -66,6 +66,7 @@ export const constants = {
 	config: {
 		contract: {
 			name: 'Temp',
+			filename: 'Temp',
 			license: 'BUSL-1.1',
 			solidity: '^0.8.19',
 			authors: []
