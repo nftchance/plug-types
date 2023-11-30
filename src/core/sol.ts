@@ -643,7 +643,10 @@ export async function generate(config: Config) {
 		setup: eip712Setup,
 		typeHashGetters: eip712TypeHashGetters,
 		packetHashGetters: eip712PacketHashGetters
-	} = getSolidity(constants.config)
+	} = getSolidity({
+		...constants.config,
+		contract: config.contract
+	})
 
 	const {
 		setup,
