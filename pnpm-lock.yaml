@@ -21,8 +21,8 @@ dependencies:
     specifier: ^1.5.1
     version: 1.5.1
   ethers:
-    specifier: ^6.7.1
-    version: 6.8.1
+    specifier: ^6.9.0
+    version: 6.9.0
   execa:
     specifier: ^8.0.1
     version: 8.0.1
@@ -1481,8 +1481,8 @@ packages:
     hasBin: true
     dev: true
 
-  /ethers@6.8.1:
-    resolution: {integrity: sha512-iEKm6zox5h1lDn6scuRWdIdFJUCGg3+/aQWu0F4K0GVyEZiktFkqrJbRjTn1FlYEPz7RKA707D6g5Kdk6j7Ljg==}
+  /ethers@6.9.0:
+    resolution: {integrity: sha512-pmfNyQzc2mseLe91FnT2vmNaTt8dDzhxZ/xItAV7uGsF4dI4ek2ufMu3rAkgQETL/TIs0GS5A+U05g9QyWnv3Q==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@adraffy/ens-normalize': 1.10.0
