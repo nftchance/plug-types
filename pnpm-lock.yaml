@@ -42,8 +42,8 @@ dependencies:
     specifier: ^3.0.3
     version: 3.0.3
   solady:
-    specifier: ^0.0.129
-    version: 0.0.129
+    specifier: ^0.0.145
+    version: 0.0.145
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -2558,8 +2558,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /solady@0.0.129:
-    resolution: {integrity: sha512-2i+8lsLLT7nAED+A9C+ZLi8YmpSnUNKGKozkesN2Qm3P3iMvorXAsD5LyT1MAC3eyVfhY3PuvBkvgd31nUzkoQ==}
+  /solady@0.0.145:
+    resolution: {integrity: sha512-A6DORrEb3BXqcwxltXPjDeFNFhRcat06SXK2Vl+8zDeUnXX3+06cVkZNyeqqTHeaeqM9XSCKJNop5S2fpS6sAQ==}
     dev: false
 
   /source-map@0.5.7:
