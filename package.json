@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
-    "abitype": "^0.10.2",
+    "abitype": "^0.10.3",
     "bundle-require": "^4.0.2",
     "commander": "^11.0.0",
     "dedent": "^1.5.1",
