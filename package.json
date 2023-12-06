@@ -47,7 +47,7 @@
     "pathe": "^1.1.1",
     "picocolors": "^1.0.0",
     "prettier": "^3.0.3",
-    "solady": "^0.0.129",
+    "solady": "^0.0.145",
     "zod": "^3.22.4"
   },
   "devDependencies": {
