@@ -723,13 +723,16 @@ abstract contract ${config.contract.name} {
      * @notice Initialize the contract with the name and version of the protocol.
      * @param $name The name of the protocol.
      * @param $version The version of the protocol.
-     * @dev The chainId is pulled from the block and the verifying contract is set to the
-     *      address of the contract.
+     * @dev The chainId is pulled from the block and the verifying contract is set 
+     *	    to the address of the contract.
      */
     function _initializeSocket(
-	string memory $name, 
-	string memory $version
+        string memory $name, 
+        string memory $version
     ) internal virtual {
+	if (domainHash != 0x0) 
+            revert('${config.contract.name}:already-initialized.');
+
         /// @dev Sets the domain hash for the contract.
         domainHash = ${getPacketHashGetterName(config, 'EIP712Domain')}(${
 			config.contract.name
