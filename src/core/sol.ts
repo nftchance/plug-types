@@ -726,7 +726,7 @@ abstract contract ${config.contract.name} {
      * @dev The chainId is pulled from the block and the verifying contract is set to the
      *      address of the contract.
      */
-    function initialize(
+    function _initializeSocket(
 	string memory $name, 
 	string memory $version
     ) internal virtual {
