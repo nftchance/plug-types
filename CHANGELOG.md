@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.8.0
+
+### Minor Changes
+
+-   d56f908: feat: initialize to \_initializeSocket
+
 ## 0.7.0
 
 ### Minor Changes
