@@ -714,19 +714,22 @@ abstract contract ${config.contract.name} {
     using ECDSA for bytes32;
 
     /// @notice The hash of the domain separator used in the EIP712 domain hash.
-    bytes32 public immutable domainHash;\n`)
+    bytes32 public domainHash;\n`)
 
 	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n\n'))
 
 	lines.push(`\n    /**
-     * @notice Instantiate the contract with the name and version of the protocol.
+     * @notice Initialize the contract with the name and version of the protocol.
      * @param $name The name of the protocol.
      * @param $version The version of the protocol.
      * @dev The chainId is pulled from the block and the verifying contract is set to the
      *      address of the contract.
      */
-    constructor(string memory $name, string memory $version) {
+    function initialize(
+	string memory $name, 
+	string memory $version
+    ) internal virtual {
         /// @dev Sets the domain hash for the contract.
         domainHash = ${getPacketHashGetterName(config, 'EIP712Domain')}(${
 			config.contract.name
