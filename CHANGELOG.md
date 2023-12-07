@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.6.0
+
+### Minor Changes
+
+-   1a3d23f: feat: add `.forced` (enabling optionals) on key protocol circuit pieces.
+
 ## 0.5.2
 
 ### Patch Changes
