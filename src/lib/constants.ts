@@ -15,13 +15,15 @@ export const EIP712_TYPES = {
 export const PIN_TYPES = {
 	Fuse: [
 		{ name: 'neutral', type: 'address' },
-		{ name: 'live', type: 'bytes' }
+		{ name: 'live', type: 'bytes' },
+		{ name: 'forced', type: 'bool' }
 	],
 	Pin: [
 		{ name: 'neutral', type: 'address' },
 		{ name: 'live', type: 'bytes32' },
 		{ name: 'fuses', type: 'Fuse[]' },
-		{ name: 'salt', type: 'bytes32' }
+		{ name: 'salt', type: 'bytes32' },
+		{ name: 'forced', type: 'bool' }
 	]
 } as const
 
@@ -38,7 +40,8 @@ export const PLUG_TYPES = {
 	],
 	Plug: [
 		{ name: 'current', type: 'Current' },
-		{ name: 'pins', type: 'LivePin[]' }
+		{ name: 'pins', type: 'LivePin[]' },
+		{ name: 'forced', type: 'bool' }
 	]
 } as const
 

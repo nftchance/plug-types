@@ -3,7 +3,8 @@ import { Address, Bytes, Bytes32 } from './types'
 
 export const FuseSchema = z.object({
 	neutral: Address,
-	live: Bytes
+	live: Bytes,
+	forced: z.boolean()
 })
 
 export type Fuse = z.infer<typeof FuseSchema>
@@ -12,7 +13,8 @@ export const PinSchema = z.object({
 	neutral: Address,
 	live: Bytes32,
 	fuses: z.array(FuseSchema),
-	salt: Bytes32
+	salt: Bytes32,
+	forced: z.boolean()
 })
 
 export type Pin = z.infer<typeof PinSchema>
@@ -34,7 +36,8 @@ export type LivePin = z.infer<typeof LivePinSchema>
 
 export const PlugSchema = z.object({
 	current: CurrentSchema,
-	pins: z.array(LivePinSchema)
+	pins: z.array(LivePinSchema),
+	forced: z.boolean()
 })
 
 export type Plug = z.infer<typeof PlugSchema>
