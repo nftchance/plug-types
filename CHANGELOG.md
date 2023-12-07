@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.7.0
+
+### Minor Changes
+
+-   3ab95b3: feat: migrate from constructor to initializer
+
 ## 0.6.0
 
 ### Minor Changes
