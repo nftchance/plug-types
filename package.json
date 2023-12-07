@@ -1,7 +1,7 @@
 {
   "name": "@nftchance/plug-types",
   "version": "0.5.2",
-  "license": "BUSL-1.1",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/nftchance/plug-types.git"
