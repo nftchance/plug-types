@@ -40,7 +40,7 @@
     "bundle-require": "^4.0.2",
     "commander": "^11.0.0",
     "dedent": "^1.5.1",
-    "ethers": "^6.9.0",
+    "ethers": "^6.10.0",
     "execa": "^8.0.1",
     "find-up": "^7.0.0",
     "fs-extra": "^11.2.0",
