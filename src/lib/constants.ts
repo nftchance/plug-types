@@ -12,53 +12,28 @@ export const EIP712_TYPES = {
 	]
 } as const
 
-export const PIN_TYPES = {
-	Fuse: [
-		{ name: 'neutral', type: 'address' },
-		{ name: 'live', type: 'bytes' },
-		{ name: 'forced', type: 'bool' }
-	],
-	Pin: [
-		{ name: 'neutral', type: 'address' },
-		{ name: 'live', type: 'bytes32' },
-		{ name: 'fuses', type: 'Fuse[]' },
-		{ name: 'salt', type: 'bytes32' },
-		{ name: 'forced', type: 'bool' }
-	]
-} as const
-
 export const PLUG_TYPES = {
-	...PIN_TYPES,
 	Current: [
 		{ name: 'ground', type: 'address' },
 		{ name: 'voltage', type: 'uint256' },
 		{ name: 'data', type: 'bytes' }
 	],
-	LivePin: [
-		{ name: 'pin', type: 'Pin' },
-		{ name: 'signature', type: 'bytes' }
+	Fuse: [
+		{ name: 'neutral', type: 'address' },
+		{ name: 'live', type: 'bytes' }
 	],
 	Plug: [
 		{ name: 'current', type: 'Current' },
-		{ name: 'pins', type: 'LivePin[]' },
-		{ name: 'forced', type: 'bool' }
-	]
-} as const
-
-export const PLUGS_TYPES = {
-	...PLUG_TYPES,
-	Breaker: [
-		{ name: 'nonce', type: 'uint256' },
-		{ name: 'queue', type: 'uint256' }
-	],
-	Plugs: [
-		{ name: 'plugs', type: 'Plug[]' },
-		{ name: 'breaker', type: 'Breaker' }
+		{ name: 'fuses', type: 'Fuse[]' }
 	]
 } as const
 
 export const LIVE_PLUGS_TYPES = {
-	...PLUGS_TYPES,
+	...PLUG_TYPES,
+	Plugs: [
+		{ name: 'plugs', type: 'Plug[]' },
+		{ name: 'salt', type: 'bytes32' }
+	],
 	LivePlugs: [
 		{ name: 'plugs', type: 'Plugs' },
 		{ name: 'signature', type: 'bytes' }
@@ -70,8 +45,8 @@ export const constants = {
 		contract: {
 			name: 'Temp',
 			filename: 'Temp',
-			license: 'BUSL-1.1',
-			solidity: '^0.8.19',
+			license: 'MIT',
+			solidity: '0.8.23',
 			authors: []
 		},
 		types: EIP712_TYPES,
