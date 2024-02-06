@@ -1,24 +1,6 @@
 import { z } from 'zod'
 import { Address, Bytes, Bytes32 } from './types'
 
-export const FuseSchema = z.object({
-	neutral: Address,
-	live: Bytes,
-	forced: z.boolean()
-})
-
-export type Fuse = z.infer<typeof FuseSchema>
-
-export const PinSchema = z.object({
-	neutral: Address,
-	live: Bytes32,
-	fuses: z.array(FuseSchema),
-	salt: Bytes32,
-	forced: z.boolean()
-})
-
-export type Pin = z.infer<typeof PinSchema>
-
 export const CurrentSchema = z.object({
 	ground: Address,
 	voltage: z.bigint(),
@@ -27,31 +9,23 @@ export const CurrentSchema = z.object({
 
 export type Current = z.infer<typeof CurrentSchema>
 
-export const LivePinSchema = z.object({
-	pin: PinSchema,
-	signature: Bytes
+export const FuseSchema = z.object({
+	neutral: Address,
+	live: Bytes
 })
 
-export type LivePin = z.infer<typeof LivePinSchema>
+export type Fuse = z.infer<typeof FuseSchema>
 
 export const PlugSchema = z.object({
 	current: CurrentSchema,
-	pins: z.array(LivePinSchema),
-	forced: z.boolean()
+	fuses: z.array(FuseSchema)
 })
 
 export type Plug = z.infer<typeof PlugSchema>
 
-export const BreakerSchema = z.object({
-	nonce: z.bigint(),
-	queue: z.bigint()
-})
-
-export type Breaker = z.infer<typeof BreakerSchema>
-
 export const PlugsSchema = z.object({
 	plugs: z.array(PlugSchema),
-	breaker: BreakerSchema
+	salt: Bytes32
 })
 
 export type Plugs = z.infer<typeof PlugsSchema>
