@@ -77,16 +77,14 @@ export const getArrayPacketHashGetter = (
         uint256 length = $input.length;
 
         /// @dev Encode each item in the array.
-        for (i; i < length;) {
+        for (i; i < length; i++) {
             encoded = bytes.concat(
                 encoded,
                 ${getPacketHashGetterName(
 					config,
-					typeName.substr(0, typeName.length - 2)
+					typeName.slice(0, typeName.length - 2)
 				)}($input[i])
             );
-
-            unchecked { i++; }
         }
         
         /// @dev Hash the encoded array.

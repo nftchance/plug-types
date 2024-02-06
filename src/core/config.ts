@@ -43,8 +43,8 @@ export function config({
 			...{
 				name: 'Types',
 				filename: 'Types',
-				license: 'BUSL-1.1',
-				solidity: '^0.8.19'
+				license: 'MIT',
+				solidity: '0.8.23'
 			},
 			...contract,
 			authors: [
