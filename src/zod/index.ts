@@ -1,5 +1,4 @@
 import { z } from 'zod'
-
 import { Address, Bytes, Bytes32 } from './types'
 
 export const CurrentSchema = z.object({
@@ -19,14 +18,14 @@ export type Fuse = z.infer<typeof FuseSchema>
 
 export const PlugSchema = z.object({
 	current: CurrentSchema,
-	fuses: z.array(FuseSchema),
-	salt: Bytes32
+	fuses: z.array(FuseSchema)
 })
 
 export type Plug = z.infer<typeof PlugSchema>
 
 export const PlugsSchema = z.object({
-	plugs: z.array(PlugSchema)
+	plugs: z.array(PlugSchema),
+	salt: Bytes32
 })
 
 export type Plugs = z.infer<typeof PlugsSchema>
