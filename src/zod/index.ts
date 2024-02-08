@@ -18,7 +18,9 @@ export type Fuse = z.infer<typeof FuseSchema>
 
 export const PlugSchema = z.object({
 	current: CurrentSchema,
-	fuses: z.array(FuseSchema)
+	fuses: z.array(FuseSchema),
+	verificationGasLimit: z.bigint(),
+	currentGasLimit: z.bigint()
 })
 
 export type Plug = z.infer<typeof PlugSchema>
