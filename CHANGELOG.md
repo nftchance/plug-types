@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.1
+
+### Patch Changes
+
+- 72bcde8: feat: add gas limits for current and verification
+
 ## 0.9.0
 
 ### Minor Changes
