@@ -2,17 +2,16 @@ import { z } from 'zod'
 import { Address, Bytes, Bytes32 } from './types'
 
 export const CurrentSchema = z.object({
-	ground: Address,
-	currentGasLimit: z.bigint(),
-	voltage: z.bigint(),
+	target: Address,
+	value: z.bigint(),
 	data: Bytes
 })
 
 export type Current = z.infer<typeof CurrentSchema>
 
 export const FuseSchema = z.object({
-	neutral: Address,
-	live: Bytes
+	target: Address,
+	data: Bytes
 })
 
 export type Fuse = z.infer<typeof FuseSchema>
@@ -20,7 +19,10 @@ export type Fuse = z.infer<typeof FuseSchema>
 export const PlugSchema = z.object({
 	current: CurrentSchema,
 	fuses: z.array(FuseSchema),
-	verificationGasLimit: z.bigint()
+	enforcementGasLimit: z.bigint(),
+	currentGasLimit: z.bigint(),
+	maxFeePerGas: z.bigint(),
+	maxPriorityFeePerGas: z.bigint()
 })
 
 export type Plug = z.infer<typeof PlugSchema>
