@@ -24,15 +24,16 @@ export const PLUGS_TYPES = {
 	],
 	Plug: [
 		{ name: 'current', type: 'Current' },
-		{ name: 'fuses', type: 'Fuse[]' },
-		{ name: 'enforcementGasLimit', type: 'uint256' },
-		{ name: 'currentGasLimit', type: 'uint256' },
-		{ name: 'maxFeePerGas', type: 'uint256' },
-		{ name: 'maxPriorityFeePerGas', type: 'uint256' }
+		{ name: 'fuses', type: 'Fuse[]' }
 	],
 	Plugs: [
+		{ name: 'socket', type: 'address' },
 		{ name: 'plugs', type: 'Plug[]' },
-		{ name: 'salt', type: 'bytes32' }
+		{ name: 'salt', type: 'bytes32' },
+		{ name: 'fee', type: 'uint256' },
+		{ name: 'maxFeePerGas', type: 'uint256' },
+		{ name: 'maxPriorityFeePerGas', type: 'uint256' },
+		{ name: 'executor', type: 'address' }
 	]
 } as const
 
