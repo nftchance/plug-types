@@ -14,23 +14,26 @@ export const EIP712_TYPES = {
 
 export const PLUGS_TYPES = {
 	Current: [
-		{ name: 'ground', type: 'address' },
-		{ name: 'currentGasLimit', type: 'uint256' },
-		{ name: 'voltage', type: 'uint256' },
+		{ name: 'target', type: 'address' },
+		{ name: 'value', type: 'uint256' },
 		{ name: 'data', type: 'bytes' }
 	],
 	Fuse: [
-		{ name: 'neutral', type: 'address' },
-		{ name: 'live', type: 'bytes' }
+		{ name: 'target', type: 'address' },
+		{ name: 'data', type: 'bytes' }
 	],
 	Plug: [
 		{ name: 'current', type: 'Current' },
-		{ name: 'fuses', type: 'Fuse[]' },
-		{ name: 'verificationGasLimit', type: 'uint256' }
+		{ name: 'fuses', type: 'Fuse[]' }
 	],
 	Plugs: [
+		{ name: 'socket', type: 'address' },
 		{ name: 'plugs', type: 'Plug[]' },
-		{ name: 'salt', type: 'bytes32' }
+		{ name: 'salt', type: 'bytes32' },
+		{ name: 'fee', type: 'uint256' },
+		{ name: 'maxFeePerGas', type: 'uint256' },
+		{ name: 'maxPriorityFeePerGas', type: 'uint256' },
+		{ name: 'executor', type: 'address' }
 	]
 } as const
 
