@@ -1,5 +1,12 @@
 # @nftchance/plug-types
 
+## 0.9.2
+
+### Patch Changes
+
+- c70f26d: chore: update minor dependencies
+- 1a6f184: feat: add fee mechanisms
+
 ## 0.9.1
 
 ### Patch Changes
