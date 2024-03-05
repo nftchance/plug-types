@@ -21,8 +21,8 @@ dependencies:
     specifier: ^1.5.1
     version: 1.5.1
   ethers:
-    specifier: ^6.11.0
-    version: 6.11.0
+    specifier: ^6.11.1
+    version: 6.11.1
   execa:
     specifier: ^8.0.1
     version: 8.0.1
@@ -42,8 +42,8 @@ dependencies:
     specifier: ^3.2.5
     version: 3.2.5
   solady:
-    specifier: ^0.0.168
-    version: 0.0.168
+    specifier: ^0.0.175
+    version: 0.0.175
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -59,8 +59,8 @@ devDependencies:
     specifier: ^11.0.2
     version: 11.0.4
   '@types/node':
-    specifier: ^20.11.17
-    version: 20.11.17
+    specifier: ^20.11.24
+    version: 20.11.24
   tsup:
     specifier: ^8.0.2
     version: 8.0.2(typescript@5.3.3)
@@ -763,13 +763,13 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 20.11.17
+      '@types/node': 20.11.24
     dev: true
 
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 20.11.17
+      '@types/node': 20.11.24
     dev: true
 
   /@types/minimist@1.2.5:
@@ -784,8 +784,8 @@ packages:
     resolution: {integrity: sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==}
     dev: false
 
-  /@types/node@20.11.17:
-    resolution: {integrity: sha512-QmgQZGWu1Yw9TDyAP9ZzpFJKynYNeOvwMJmaxABfieQoVoiVOS6MN1WSpqpRcbeA5+RW82kraAVxCCJg+780Qw==}
+  /@types/node@20.11.24:
+    resolution: {integrity: sha512-Kza43ewS3xoLgCEpQrsT+xRo/EJej1y0kVYGiLFE1NEODXGzTfwiC6tXTLMQskn1X4/Rjlh0MQUvx9W+L9long==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -1308,8 +1308,8 @@ packages:
     hasBin: true
     dev: true
 
-  /ethers@6.11.0:
-    resolution: {integrity: sha512-kPHNTnhVWiWU6AVo6CAeTjXEK24SpCXyZvwG9ROFjT0Vlux0EOhWKBAeC+45iDj80QNJTYaT1SDEmeunT0vDNw==}
+  /ethers@6.11.1:
+    resolution: {integrity: sha512-mxTAE6wqJQAbp5QAe/+o+rXOID7Nw91OZXvgpjDa1r4fAbq2Nu314oEZSbjoRLacuCzs7kUC3clEvkCQowffGg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@adraffy/ens-normalize': 1.10.1
@@ -2544,8 +2544,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /solady@0.0.168:
-    resolution: {integrity: sha512-7tgy21selT6Tg+8aAxkLUyjjCx9iQ3m3KE+5D4x/tIXr4wAfoVe6EK0lmmZjyIv8MRqQSx/vB6NfIC1LME3oZA==}
+  /solady@0.0.175:
+    resolution: {integrity: sha512-vmMsKVaDnwnmG66G2pCtI0TeKmK2l4HyfWZNNHHagjaLAVlGVRJkzcerT9GP2cuyqBnvDzKnXZPhRJjsGWTlSg==}
     dev: false
 
   /source-map@0.5.7:
