@@ -26,10 +26,7 @@
 		"build": "tsup && pnpm plug generate && pnpm plug docs",
 		"plug": "node dist/core/cli.mjs",
 		"lint": "tsc --noEmit",
-		"format": "pnpm prettier --write .",
-		"ci:release": "pnpm publish -r",
-		"ci:version": "changeset version",
-		"ci:publish": "changeset publish"
+		"format": "pnpm prettier --write ."
 	},
 	"publishConfig": {
 		"access": "public"
@@ -83,9 +80,5 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"files": [
-		"/core",
-		"/zod",
-		"/dist"
-	]
+	"files": ["/core", "/zod", "/dist"]
 }

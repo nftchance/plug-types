@@ -36,7 +36,7 @@ jobs:
               id: changesets
               uses: changesets/action@v1
               with:
-                  publish: pnpm ci:publish
+                  publish: pnpm changeset publish
                   commit: 'feat: version release'
                   title: 'feat: version release'
               env:
