@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.3
+
+### Patch Changes
+
+- 8d49e19: chore: encodePacked to bytes.concat
+
 ## 0.9.2
 
 ### Patch Changes

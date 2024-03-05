@@ -519,7 +519,7 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
         ${config.contract.name}Lib.${typeName} memory $input
     ) public view virtual returns (bytes32 $digest) {
         $digest = keccak256(
-            abi.encodePacked(
+            bytes.concat(
                 "\\x19\\x01",
                 domainHash,
                 ${getPacketHashGetterName(config, typeName)}($input)
@@ -731,7 +731,7 @@ abstract contract ${config.contract.name} {
      */
     function _initializePlug() internal virtual {
 	if (domainHash != 0x0) 
-            revert('${config.contract.name}:already-initialized.');
+            revert('${config.contract.name}:already-initialized');
 
         /// @dev Sets the domain hash for the contract.
         domainHash = ${getPacketHashGetterName(config, 'EIP712Domain')}(${
