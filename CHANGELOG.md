@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.4
+
+### Patch Changes
+
+- e293039: fix: include key exports
+
 ## 0.9.3
 
 ### Patch Changes
