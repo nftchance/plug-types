@@ -1,6 +1,6 @@
 {
 	"name": "@nftchance/plug-types",
-	"version": "0.9.4",
+	"version": "0.9.5",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -80,5 +80,9 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"files": ["/core", "/zod", "/dist"]
+	"files": [
+		"/core",
+		"/zod",
+		"/dist"
+	]
 }

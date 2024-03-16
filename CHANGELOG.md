@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.5
+
+### Patch Changes
+
+- 7f99fec: chore: update to 0.8.24
+
 ## 0.9.4
 
 ### Patch Changes
