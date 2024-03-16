@@ -44,7 +44,7 @@ export function config({
 				name: 'Types',
 				filename: 'Types',
 				license: 'MIT',
-				solidity: '0.8.23'
+				solidity: '0.8.24'
 			},
 			...contract,
 			authors: [

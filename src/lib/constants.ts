@@ -51,7 +51,7 @@ export const constants = {
 			name: 'Temp',
 			filename: 'Temp',
 			license: 'MIT',
-			solidity: '0.8.23',
+			solidity: '0.8.24',
 			authors: []
 		},
 		types: EIP712_TYPES,
