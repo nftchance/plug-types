@@ -520,7 +520,7 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
         $digest = keccak256(
             bytes.concat(
                 "\\x19\\x01",
-                domainHash($input.chainId),
+                getDomainHash($input.chainId),
                 ${getPacketHashGetterName(config, typeName)}($input)
             )
         );
@@ -779,6 +779,67 @@ abstract contract ${config.contract.name} {
         }
     }
 
+
+
+    /**
+     * @notice Calculate the packed representation of a set of chain ids.
+     * @dev This function is only intended to be used offchain and for building
+     *      purposes as it is not gas efficient to use onchain.
+     * @param $chainIds The unpacked chain ids to unpack.
+     * @return $chainId The packed chain id.
+     */
+    function getChainId(
+	uint32[] calldata $chainIds
+    ) public pure virtual returns (uint256 $chainId) {
+        /// @dev Ensure that the amount of ids provided is within the capable
+        ///      range of packing as 32 * (8 + N) will exceed a single uint256.
+        require($chainIds.length <= 8, 'PlugTypes:invalid-chainIds');
+
+        /// @dev Loop through all of the chain ids provided and pack them into
+        ///      a single uint256 representation.
+	for (uint256 i; i < $chainIds.length; i++) {
+            /// @dev Update the empty slots with an OR operator to pack the
+            ///      chain id into the uint256 representation.
+	    $chainId |= uint256($chainIds[i]) << (i * 32);
+	}
+    }
+
+    /**
+     * @notice Calculate the unpacked representation of a packed chain id.
+     * @dev This function is only intended to be used offchain and for building
+     *      purposes as it is not gas efficient to use onchain.
+     * @param $chainId The packed chain id to unpack.
+     * @return $chainIds The unpacked chain ids.
+     */
+    function getChainId(
+        uint256 $chainId
+    ) public pure virtual returns (uint32[] memory $chainIds) {
+        /// @dev Prepare a reference for the count of chain ids.
+        uint256 count;
+
+        /// @dev Loop through all of the chain ids provided and count the number
+        ///      of chain ids that are packed into the uint256 representation.
+	for (uint256 i = 0; i < 8; i++) {
+            /// @dev When the chain id is greater than 0 we can increment the
+            ///      count of chain ids that are packed into the uint256.
+            if ($chainId >> (i * 32) > 0)
+                count++;
+	}
+
+        /// @dev Initialize the memory array with the maximum length of 8.
+        ///      There may be less so we will resize the array to the correct
+        ///      size after the loop that unpacks the ids.
+	$chainIds = new uint32[](count);
+
+        /// @dev Loop through each of the 8 slots and unpack the chain id
+        ///      into the array of chain ids.
+        for(count; count > 0; count--) {
+            /// @dev Unpack the chain id into the array of chain ids.
+            $chainIds[count - 1] = uint32($chainId >> ((count - 1) * 32));
+        }
+    }
+
+
     /**
      * @notice Get the domain hash of the contract that suppots the definition of
      *         a signature that is intended to be used across several different chains
@@ -786,7 +847,7 @@ abstract contract ${config.contract.name} {
      * @param $chainId The chain id of the chain that the signature is intended to be used on.
      * @return $domainHash The domain hash of the contract supporting multiple chains.
      */
-    function domainHash(uint256 $chainId)
+    function getDomainHash(uint256 $chainId)
         public
         view
         virtual
