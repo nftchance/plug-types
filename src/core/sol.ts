@@ -1,4 +1,4 @@
-import { ethers, keccak256, TypedDataEncoder } from 'ethers'
+import { ethers, TypedDataEncoder } from 'ethers'
 
 import { TypedData, TypedDataParameter } from 'abitype'
 import { TypedDataType } from 'abitype/zod'
@@ -342,9 +342,9 @@ export function getSolidity(config: Config) {
      * }>>`
 
 		const typeHashImplementation = `
-    bytes32 constant ${typeHashName} = ${keccak256(
-		encoder.encodeType(typeName)
-	)};`
+    bytes32 constant ${typeHashName} = keccak256(
+        '${encoder.encodeType(typeName)}'
+    );`
 
 		const nestedTypes = type
 			.map(field => field.type.replace('[]', ''))
