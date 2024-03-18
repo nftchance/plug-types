@@ -738,6 +738,49 @@ abstract contract ${config.contract.name} {
     function version() public pure virtual returns (string memory $version);
 
     /**
+     * @notice The symbol of the Socket only used for metadata purposes.
+     * @dev This value is not used in the domain hash for signatures/EIP-712.
+     *      You do not need to override this function as it will always
+     *      automatically generate the symbol based on the override
+     *      using the uppercase letters of the name.
+     * @dev This is implement in assembly simply because Solidity does not
+     *      have dynamic memory arrays and it is the most efficient way
+     *      to generate the symbol.
+     * @return $symbol The symbol of the Socket.
+     */
+    function symbol() public view virtual returns (string memory $symbol) {
+        string memory $name = name();
+
+        assembly {
+            let len := mload($name)
+            let result := mload(0x40)
+            mstore(result, len)
+            let data := add($name, 0x20)
+            let resData := add(result, 0x20)
+
+            let count := 0
+            for { let i := 0 } lt(i, len) { i := add(i, 1) } {
+                let char := byte(0, mload(add(data, i)))
+                if and(gt(char, 0x40), lt(char, 0x5B)) {
+                    mstore8(add(resData, count), char)
+                    count := add(count, 1)
+                }
+            }
+
+            if gt(count, 5) { count := 5 }
+            if iszero(count) {
+                mstore(resData, 0x504C554753)
+                /// @dev "PLUGS"
+                count := 4
+            }
+            mstore(result, count)
+            mstore(0x40, add(add(result, count), 0x20))
+
+            $symbol := result
+        }
+    }
+
+    /**
      * @notice Get the domain hash of the contract that suppots the definition of
      *         a signature that is intended to be used across several different chains
      *         at once while living at the same address across several different chains.
@@ -793,50 +836,6 @@ abstract contract ${config.contract.name} {
             })
         );
     }
-
-    /**
-     * @notice The symbol of the Socket only used for metadata purposes.
-     * @dev This value is not used in the domain hash for signatures/EIP-712.
-     *      You do not need to override this function as it will always
-     *      automatically generate the symbol based on the override
-     *      using the uppercase letters of the name.
-     * @dev This is implement in assembly simply because Solidity does not
-     *      have dynamic memory arrays and it is the most efficient way
-     *      to generate the symbol.
-     * @return $symbol The symbol of the Socket.
-     */
-    function symbol() public view virtual returns (string memory $symbol) {
-        string memory $name = name();
-
-        assembly {
-            let len := mload($name)
-            let result := mload(0x40)
-            mstore(result, len)
-            let data := add($name, 0x20)
-            let resData := add(result, 0x20)
-
-            let count := 0
-            for { let i := 0 } lt(i, len) { i := add(i, 1) } {
-                let char := byte(0, mload(add(data, i)))
-                if and(gt(char, 0x40), lt(char, 0x5B)) {
-                    mstore8(add(resData, count), char)
-                    count := add(count, 1)
-                }
-            }
-
-            if gt(count, 5) { count := 5 }
-            if iszero(count) {
-                mstore(resData, 0x504C554753)
-                /// @dev "PLUGS"
-                count := 4
-            }
-            mstore(result, count)
-            mstore(0x40, add(add(result, count), 0x20))
-
-            $symbol := result
-        }
-    }
-
 	\n`)
 
 	const documentation = combinedTypeHashGetters
