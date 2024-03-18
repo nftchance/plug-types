@@ -775,7 +775,7 @@ abstract contract ${config.contract.name} {
             ///      we have not found a match then we can revert the transaction as the chainId
             ///      is not valid for the provided signature.
             if (chainId == 0) {
-                revert("PlugTypes:invalid-chainId");
+                revert("${config.contract.name}:invalid-chainId");
             }
         }
 
@@ -785,7 +785,7 @@ abstract contract ${config.contract.name} {
         ///      is revoked it will need to be revoked on all chains that it is valid on
         ///      otherwise the use of the signature on an unrevoked chain will still be valid.
         $domainHash = getEIP712DomainHash(
-            PlugTypesLib.EIP712Domain({
+            ${config.contract.name}Lib.EIP712Domain({
                 name: name(),
                 version: version(),
                 chainId: $chainId,
