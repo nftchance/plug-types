@@ -53,7 +53,12 @@
 		"@types/fs-extra": "^11.0.2",
 		"@types/node": "^20.11.28",
 		"tsup": "^8.0.2",
+<<<<<<< HEAD
 		"typescript": "^5.4.2"
+=======
+		"tsx": "^4.7.1",
+		"typescript": "^5.3.3"
+>>>>>>> 1f4aa89 (feat: add aggregation of chains)
 	},
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
