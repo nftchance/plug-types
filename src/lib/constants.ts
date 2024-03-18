@@ -28,6 +28,7 @@ export const PLUGS_TYPES = {
 	],
 	Plugs: [
 		{ name: 'socket', type: 'address' },
+		{ name: 'chainId', type: 'uint256' },
 		{ name: 'plugs', type: 'Plug[]' },
 		{ name: 'salt', type: 'bytes32' },
 		{ name: 'fee', type: 'uint256' },
