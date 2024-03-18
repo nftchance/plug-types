@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.6
+
+### Patch Changes
+
+- edd4da1: feat: multichain domains in signatures
+
 ## 0.9.5
 
 ### Patch Changes
