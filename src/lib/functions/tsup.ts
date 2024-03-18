@@ -219,6 +219,7 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 
 build/Release
+chains.json
 
 # Dependency directories
 
