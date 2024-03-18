@@ -1,4 +1,4 @@
-import { ethers, TypedDataEncoder } from 'ethers'
+import { ethers, keccak256, TypedDataEncoder } from 'ethers'
 
 import { TypedData, TypedDataParameter } from 'abitype'
 import { TypedDataType } from 'abitype/zod'
@@ -342,9 +342,9 @@ export function getSolidity(config: Config) {
      * }>>`
 
 		const typeHashImplementation = `
-    bytes32 constant ${typeHashName} = keccak256(
-        '${encoder.encodeType(typeName)}'
-    );`
+    bytes32 constant ${typeHashName} = ${keccak256(
+		encoder.encodeType(typeName)
+	)};`
 
 		const nestedTypes = type
 			.map(field => field.type.replace('[]', ''))
@@ -521,7 +521,7 @@ bytes32 constant ${typeHashName} = ${ethers.keccak256(
         $digest = keccak256(
             bytes.concat(
                 "\\x19\\x01",
-                domainHash,
+                domainHash($input.chainId),
                 ${getPacketHashGetterName(config, typeName)}($input)
             )
         );
@@ -715,35 +715,12 @@ ${config.contract.authors}
  */
 abstract contract ${config.contract.name} {
     /// @notice Use the ECDSA library for signature verification.
-    using ECDSA for bytes32;
-
-    /// @notice The hash of the domain separator used in the EIP712 domain hash.
-    bytes32 public domainHash;`)
+    using ECDSA for bytes32;`)
 
 	// * Base abstract contract pieces.
 	lines.push(typeHashes.join('\n\n'))
 
 	lines.push(`
-    /**
-     * @notice Initialize the contract with the name and version of the protocol.
-     * @dev The chainId is pulled from the block and the verifying contract is set 
-     *	    to the address of the contract.
-     */
-    function _initializePlug() internal virtual {
-	if (domainHash != 0x0) 
-            revert('${config.contract.name}:already-initialized');
-
-        /// @dev Sets the domain hash for the contract.
-        domainHash = ${getPacketHashGetterName(config, 'EIP712Domain')}(${
-			config.contract.name
-		}Lib.EIP712Domain({
-            name: name(),
-            version: version(),
-            chainId: block.chainid,
-            verifyingContract: address(this)
-        }));
-    }
-
     /**
      * @notice Name used for the domain separator.
      * @dev This is implemented this way so that it is easy
@@ -761,25 +738,60 @@ abstract contract ${config.contract.name} {
     function version() public pure virtual returns (string memory $version);
 
     /**
-     * @notice This will use the name() and version() functions that you override
-     *         when you inherit this contract to create a deployable Socket making
-     *         retrieval of the domain used to sign much easier.
-     * @dev When signing a message it is simplest to just call this function
-     *      to retrieve the domain separator for the EIP-712 signature.
-     * @return $domain The domain separator for EIP-712.
+     * @notice Get the domain hash of the contract that suppots the definition of
+     *         a signature that is intended to be used across several different chains
+     *         at once while living at the same address across several different chains.
+     * @param $chainId The chain id of the chain that the signature is intended to be used on.
+     * @return $domainHash The domain hash of the contract supporting multiple chains.
      */
-    function domain()
+    function domainHash(uint256 $chainId)
         public
         view
         virtual
-        returns (PlugTypesLib.EIP712Domain memory $domain)
+        returns (bytes32 $domainHash)
     {
-        $domain = PlugTypesLib.EIP712Domain({
-            name: name(),
-            version: version(),
-            chainId: block.chainid,
-            verifyingContract: address(this)
-        });
+        /// @dev The chainId is a uint256 with 8 uint32s packed into it so that signatures
+        ///      can be safely signed across several different chains at once. For this to
+        ///      be secure we need to loop through each packed value and confirm that it is
+        ///      intended to be used on this chain.
+        /// @dev The searching of this is O(N) where N is the number of chains packed into
+        ///      the chainId. This is a very small number and is not a security concern.
+        ///      Additionally, the order of chainIds should always be sorted based on the cost
+        ///      of gas on that respective chain so that the most expensive chain is first
+        ///      (most right) with the cheapest always being the last (most left).
+        for (
+            uint32 chainId = uint32($chainId); chainId > 0; chainId >>= 32
+        ) {
+            /// @dev If the chainId finds a match to the one of the chain it is being executed on
+            ///      then we can break the loop as we are done searching and can proceed with
+            ///      with the provided chain id. We do not need to store the chainId of which
+            ///      chain we are on as we've already confirmed the signature is intended
+            ///      for the chain this function is being executed on.
+            if (chainId == block.chainid) {
+                break;
+            }
+
+            /// @dev If we have reached a slot where there are no more chainIds to check and
+            ///      we have not found a match then we can revert the transaction as the chainId
+            ///      is not valid for the provided signature.
+            if (chainId == 0) {
+                revert("PlugTypes:invalid-chainId");
+            }
+        }
+
+        /// @dev Calculate the domain hash of a contract that lives on multiple chains at
+        ///      once enabling the declarative reuse of signatures on multiple chains with
+        ///      a single signature without unintended replay attacks. Notably, when a signature
+        ///      is revoked it will need to be revoked on all chains that it is valid on
+        ///      otherwise the use of the signature on an unrevoked chain will still be valid.
+        $domainHash = getEIP712DomainHash(
+            PlugTypesLib.EIP712Domain({
+                name: name(),
+                version: version(),
+                chainId: $chainId,
+                verifyingContract: address(this)
+            })
+        );
     }
 
     /**
