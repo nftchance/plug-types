@@ -26,8 +26,15 @@ jobs:
             - name: 🗒️ Setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
 
+            - name: ✨ Install Foundry
+              uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
+
             - name: 📦 Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: |
+                  pnpm install --frozen-lockfile
+                  forge install
 
             - name: 🧪 Build
               run: pnpm build
