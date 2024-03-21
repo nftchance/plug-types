@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.8
+
+### Patch Changes
+
+- 03da8c1: feat: simplify out abstract consumption
+
 ## 0.9.7
 
 ### Patch Changes
