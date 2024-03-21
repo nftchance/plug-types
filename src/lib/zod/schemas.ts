@@ -24,14 +24,12 @@ export const PlugSchema = z.object({
 export type Plug = z.infer<typeof PlugSchema>
 
 export const PlugsSchema = z.object({
+    implementation: Address,
     socket: Address,
-    chainId: z.number(),
     plugs: z.array(PlugSchema),
     salt: Bytes32,
     fee: z.bigint(),
-    maxFeePerGas: z.bigint(),
-    maxPriorityFeePerGas: z.bigint(),
-    executor: Address
+    solver: Bytes
 })
 
 export type Plugs = z.infer<typeof PlugsSchema>
