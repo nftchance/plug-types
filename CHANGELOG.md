@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.11
+
+### Patch Changes
+
+- 022d1ff: feat: include implementation in salt instead of verbose field
+
 ## 0.9.10
 
 ### Patch Changes
