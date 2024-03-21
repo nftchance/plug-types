@@ -27,15 +27,11 @@ export const PLUGS_TYPES = {
 		{ name: 'fuses', type: 'Fuse[]' }
 	],
 	Plugs: [
-		{ name: 'implementation', type: 'address' },
 		{ name: 'socket', type: 'address' },
 		{ name: 'plugs', type: 'Plug[]' },
 		{ name: 'salt', type: 'bytes32' },
 		{ name: 'fee', type: 'uint256' },
 		{ name: 'solver', type: 'bytes' }
-		// { name: 'maxFeePerGas', type: 'uint256' },
-		// { name: 'maxPriorityFeePerGas', type: 'uint256' },
-		// { name: 'solver', type: 'address' }
 	]
 } as const
 

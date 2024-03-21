@@ -24,7 +24,6 @@ export const PlugSchema = z.object({
 export type Plug = z.infer<typeof PlugSchema>
 
 export const PlugsSchema = z.object({
-    implementation: Address,
     socket: Address,
     plugs: z.array(PlugSchema),
     salt: Bytes32,
