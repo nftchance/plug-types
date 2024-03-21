@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.7
+
+### Patch Changes
+
+- cc8d9ab: feat: chainId solving functions
+
 ## 0.9.6
 
 ### Patch Changes
