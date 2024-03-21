@@ -18,8 +18,15 @@ jobs:
                   node-version: 18
                   cache: 'pnpm'
 
+            - name: ✨ Install Foundry
+              uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
+
             - name: 📦 Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: |
+                  pnpm install --frozen-lockfile
+                  forge install
 
             - name: 🧪 Lint and Build
               run: pnpm lint && pnpm build
