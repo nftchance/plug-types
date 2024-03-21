@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.9
+
+### Patch Changes
+
+- ffbc5cf: fix: remove chain id from plugs type definition
+
 ## 0.9.8
 
 ### Patch Changes
