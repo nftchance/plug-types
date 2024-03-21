@@ -54,7 +54,7 @@
     "@types/fs-extra": "^11.0.2",
     "@types/node": "^20.11.30",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
