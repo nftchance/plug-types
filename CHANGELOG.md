@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.10
+
+### Patch Changes
+
+- 767e892: feat: pack the solver data
+
 ## 0.9.9
 
 ### Patch Changes
