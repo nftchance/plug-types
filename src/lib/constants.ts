@@ -3,6 +3,15 @@ import { Config } from '@/core/config'
 export const BASE_AUTH =
 	'0x0000000000000000000000000000000000000000000000000000000000000000'
 
+export const EIP712_TYPES = {
+	EIP712Domain: [
+		{ name: 'name', type: 'string' },
+		{ name: 'version', type: 'string' },
+		{ name: 'chainId', type: 'uint256' },
+		{ name: 'verifyingContract', type: 'address' }
+	]
+} as const
+
 export const PLUGS_TYPES = {
 	Current: [
 		{ name: 'target', type: 'address' },
