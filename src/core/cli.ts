@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { Command } from 'commander'
 import dedent from 'dedent'
 import { ensureDir, default as fse } from 'fs-extra'
@@ -8,7 +9,7 @@ import { config } from '@/core/config'
 import { generate } from '@/core/sol'
 import { EIP712_TYPES } from '@/lib/constants'
 import { find, format, load, usingTypescript } from '@/lib/functions/config'
-import { getTypeSchema } from '@/zod/types'
+import { getTypeSchema } from '@/lib/zod/types'
 
 const program = new Command()
 
@@ -331,7 +332,7 @@ program
 
 			const cwd = process.cwd()
 
-			const outPath = resolve(cwd, './src/zod', 'index.ts')
+			const outPath = resolve(cwd, './src/lib/zod', 'schemas.ts')
 
 			await ensureDir(dirname(outPath))
 
