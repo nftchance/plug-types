@@ -175,5 +175,4 @@ dist
 .pnp.\*
 
 /core/cli/**
-/zod/**
-/zod/types/**
+/lib/**

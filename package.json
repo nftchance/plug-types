@@ -23,7 +23,7 @@
   "scripts": {
     "dev": "DEV=true tsup",
     "prebuild": "tsup && pnpm plug zod && pnpm lint",
-    "build": "tsup && pnpm plug generate && pnpm plug docs",
+    "build": "tsup && pnpm plug generate && pnpm plug docs && forge fmt dist/contracts/Types.sol",
     "plug": "node dist/core/cli.mjs",
     "lint": "tsc --noEmit",
     "format": "pnpm prettier --write ."
@@ -52,7 +52,7 @@
     "@changesets/cli": "^2.27.1",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^11.0.2",
-    "@types/node": "^20.11.28",
+    "@types/node": "^20.11.30",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
   },
@@ -71,19 +71,15 @@
       "types": "./dist/core/cli.d.ts",
       "default": "./dist/core/cli.js"
     },
-    "./zod": {
-      "types": "./dist/zod/index.d.ts",
-      "default": "./dist/zod/index.js"
-    },
-    "./zod/types": {
-      "types": "./dist/zod/types.d.ts",
-      "default": "./dist/zod/types.js"
+    "./lib": {
+      "types": "./dist/lib/index.d.ts",
+      "default": "./dist/lib/index.js"
     },
     "./package.json": "./package.json"
   },
   "files": [
     "/core",
-    "/zod",
+    "/lib",
     "/dist"
   ]
 }

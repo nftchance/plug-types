@@ -1,7 +1,5 @@
 import { z } from 'zod'
 
-// * Most of this was yoinked from abitype/viem: https://abitype.dev/
-
 // * Parse an address.
 export const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
 export const Address = z.string().transform((val, ctx) => {
