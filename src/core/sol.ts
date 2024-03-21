@@ -97,7 +97,7 @@ export const getArrayPacketHashGetter = (
 
 	const typeNameSlug = typeName.replace('[]', '')
 
-	const markdown = `---
+	const markdown = dedent`---
 		head:
 		    - - meta
 		      - property: og:title
