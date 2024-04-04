@@ -42,11 +42,11 @@ dependencies:
     specifier: ^3.2.5
     version: 3.2.5
   solady:
-    specifier: ^0.0.180
-    version: 0.0.180
+    specifier: ^0.0.181
+    version: 0.0.181
   tsx:
-    specifier: ^4.7.1
-    version: 4.7.1
+    specifier: ^4.7.2
+    version: 4.7.2
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -3066,8 +3066,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /solady@0.0.180:
-    resolution: {integrity: sha512-9QVCyMph+wk78Aq/GxtDAQg7dvNoVWx2dS2Zwf11XlwFKDZ+YJG2lrQsK9NEIth9NOebwjBXAYk4itdwOOE4aw==}
+  /solady@0.0.181:
+    resolution: {integrity: sha512-uxMny+zHi9xrsKaoZoLliBkKBz00i7bWLHt2YMYjgsh7zKcQHWcONzY0zQB7qaGDzvxf4m/jFv8XiWpcP+0Pig==}
     dev: false
 
   /source-map@0.5.7:
@@ -3316,8 +3316,8 @@ packages:
       - ts-node
     dev: true
 
-  /tsx@4.7.1:
-    resolution: {integrity: sha512-8d6VuibXHtlN5E3zFkgY8u4DX7Y3Z27zvvPKVmLon/D4AjuKzarkUBTLDBgj9iTQ0hg5xM7c/mYiRVM+HETf0g==}
+  /tsx@4.7.2:
+    resolution: {integrity: sha512-BCNd4kz6fz12fyrgCTEdZHGJ9fWTGeUzXmQysh0RVocDY3h4frk05ZNCXSy4kIenF7y/QnrdiVpTsyNRn6vlAw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
