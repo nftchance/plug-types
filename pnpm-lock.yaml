@@ -18,8 +18,8 @@ dependencies:
     specifier: ^12.0.0
     version: 12.0.0
   dedent:
-    specifier: ^1.5.1
-    version: 1.5.1
+    specifier: ^1.5.3
+    version: 1.5.3
   ethers:
     specifier: ^6.11.1
     version: 6.11.1
@@ -42,11 +42,11 @@ dependencies:
     specifier: ^3.2.5
     version: 3.2.5
   solady:
-    specifier: ^0.0.180
-    version: 0.0.180
+    specifier: ^0.0.185
+    version: 0.0.185
   tsx:
-    specifier: ^4.7.1
-    version: 4.7.1
+    specifier: ^4.7.2
+    version: 4.7.2
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -1582,8 +1582,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /dedent@1.5.1:
-    resolution: {integrity: sha512-+LxW+KLWxu3HW3M2w2ympwtqPrqYRzU8fqi6Fhd18fBALe15blJPI/I4+UHveMVG6lJqB4JNd4UG0S5cnVHwIg==}
+  /dedent@1.5.3:
+    resolution: {integrity: sha512-NHQtfOOW68WD8lgypbLA5oT+Bt0xXJhiYvoR6SmmNXZfpzOGXwdKWmcwG8N7PwVVWV3eF/68nmD9BaJSsTBhyQ==}
     peerDependencies:
       babel-plugin-macros: ^3.1.0
     peerDependenciesMeta:
@@ -3066,8 +3066,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /solady@0.0.180:
-    resolution: {integrity: sha512-9QVCyMph+wk78Aq/GxtDAQg7dvNoVWx2dS2Zwf11XlwFKDZ+YJG2lrQsK9NEIth9NOebwjBXAYk4itdwOOE4aw==}
+  /solady@0.0.185:
+    resolution: {integrity: sha512-nlQAnEZZDxXxe7zqpwjK7OwEU6pmFJb6YbCBAVhURgON2H6KNjzJ/Ka1jiOnCHfIdnH7bS8yKhb79Fl2vJFAKQ==}
     dev: false
 
   /source-map@0.5.7:
@@ -3316,8 +3316,8 @@ packages:
       - ts-node
     dev: true
 
-  /tsx@4.7.1:
-    resolution: {integrity: sha512-8d6VuibXHtlN5E3zFkgY8u4DX7Y3Z27zvvPKVmLon/D4AjuKzarkUBTLDBgj9iTQ0hg5xM7c/mYiRVM+HETf0g==}
+  /tsx@4.7.2:
+    resolution: {integrity: sha512-BCNd4kz6fz12fyrgCTEdZHGJ9fWTGeUzXmQysh0RVocDY3h4frk05ZNCXSy4kIenF7y/QnrdiVpTsyNRn6vlAw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
