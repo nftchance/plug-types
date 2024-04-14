@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.12
+
+### Patch Changes
+
+- 275cf43: feat: unify fuses and executions into single Plug form
+
 ## 0.9.11
 
 ### Patch Changes
