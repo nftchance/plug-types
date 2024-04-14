@@ -545,7 +545,14 @@ export const generate = async (config: Config) => {
  		 *      and Plugs.
 		 ${config.contract.authors}
  		 */
-		library ${config.contract.name}Lib {`
+		library ${config.contract.name}Lib {
+			/**
+		     * @notice This struct is used to surface the result of a Plug execution.
+  			 */ 
+			struct Result { 
+				bool success;
+				bytes result;
+			}`
 
 	const lines: string[] = [header]
 	const structs: string[] = []
