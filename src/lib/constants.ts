@@ -13,25 +13,16 @@ export const EIP712_TYPES = {
 } as const
 
 export const PLUGS_TYPES = {
-	Current: [
+	Plug: [
 		{ name: 'target', type: 'address' },
 		{ name: 'value', type: 'uint256' },
 		{ name: 'data', type: 'bytes' }
 	],
-	Fuse: [
-		{ name: 'target', type: 'address' },
-		{ name: 'data', type: 'bytes' }
-	],
-	Plug: [
-		{ name: 'current', type: 'Current' },
-		{ name: 'fuses', type: 'Fuse[]' }
-	],
 	Plugs: [
 		{ name: 'socket', type: 'address' },
 		{ name: 'plugs', type: 'Plug[]' },
-		{ name: 'salt', type: 'bytes32' },
-		{ name: 'fee', type: 'uint256' },
-		{ name: 'solver', type: 'bytes' }
+		{ name: 'solver', type: 'bytes' },
+		{ name: 'salt', type: 'bytes32' }
 	]
 } as const
 
