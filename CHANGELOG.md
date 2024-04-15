@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.13
+
+### Patch Changes
+
+- 9a00236: fix: solady import and license
+
 ## 0.9.12
 
 ### Patch Changes
