@@ -530,7 +530,7 @@ export const generate = async (config: Config) => {
 	const header = dedent`// SPDX-License-Identifier: ${config.contract.license}
 		pragma solidity ${config.contract.solidity};
 
-		import {ECDSA} from 'solady/src/utils/ECDSA.sol';
+		import {ECDSA} from 'solady/utils/ECDSA.sol';
 
 		/**
 		 * @title Plug:${config.contract.name}

@@ -1,85 +1,85 @@
 {
-  "name": "@nftchance/plug-types",
-  "version": "0.9.11",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nftchance/plug-types.git"
-  },
-  "keywords": [
-    "nftchance",
-    "eip712",
-    "typehash",
-    "signatures",
-    "eth",
-    "ethereum",
-    "solidity",
-    "crypto",
-    "intent",
-    "plugs",
-    "plug"
-  ],
-  "sideEffects": false,
-  "scripts": {
-    "dev": "DEV=true tsup",
-    "prebuild": "tsup && pnpm plug zod && pnpm lint",
-    "build": "tsup && pnpm plug generate && pnpm plug docs && forge fmt dist/contracts/Types.sol",
-    "plug": "node dist/core/cli.mjs",
-    "lint": "tsc --noEmit",
-    "format": "pnpm prettier --write ."
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.2.1",
-    "abitype": "^1.0.2",
-    "bundle-require": "^4.0.2",
-    "commander": "^12.0.0",
-    "dedent": "^1.5.1",
-    "ethers": "^6.11.1",
-    "execa": "^8.0.1",
-    "find-up": "^7.0.0",
-    "fs-extra": "^11.2.0",
-    "pathe": "^1.1.2",
-    "picocolors": "^1.0.0",
-    "prettier": "^3.2.5",
-    "solady": "^0.0.180",
-    "tsx": "^4.7.1",
-    "zod": "^3.22.4"
-  },
-  "devDependencies": {
-    "@changesets/cli": "^2.27.1",
-    "@types/dedent": "^0.7.0",
-    "@types/fs-extra": "^11.0.2",
-    "@types/node": "^20.11.30",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.3"
-  },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
-  "bin": {
-    "plug": "dist/core/cli.mjs"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+    "name": "@nftchance/plug-types",
+    "version": "0.9.11",
+    "license": "BUSL-1.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nftchance/plug-types.git"
     },
-    "./core/cli": {
-      "types": "./dist/core/cli.d.ts",
-      "default": "./dist/core/cli.js"
+    "keywords": [
+        "nftchance",
+        "eip712",
+        "typehash",
+        "signatures",
+        "eth",
+        "ethereum",
+        "solidity",
+        "crypto",
+        "intent",
+        "plugs",
+        "plug"
+    ],
+    "sideEffects": false,
+    "scripts": {
+        "dev": "DEV=true tsup",
+        "prebuild": "tsup && pnpm plug zod && pnpm lint",
+        "build": "tsup && pnpm plug generate && pnpm plug docs && forge fmt dist/contracts/Types.sol",
+        "plug": "node dist/core/cli.mjs",
+        "lint": "tsc --noEmit",
+        "format": "pnpm prettier --write ."
     },
-    "./lib": {
-      "types": "./dist/lib/index.d.ts",
-      "default": "./dist/lib/index.js"
+    "publishConfig": {
+        "access": "public"
     },
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "/core",
-    "/lib",
-    "/dist"
-  ]
+    "dependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^4.2.1",
+        "abitype": "^1.0.2",
+        "bundle-require": "^4.0.2",
+        "commander": "^12.0.0",
+        "dedent": "^1.5.1",
+        "ethers": "^6.11.1",
+        "execa": "^8.0.1",
+        "find-up": "^7.0.0",
+        "fs-extra": "^11.2.0",
+        "pathe": "^1.1.2",
+        "picocolors": "^1.0.0",
+        "prettier": "^3.2.5",
+        "solady": "^0.0.180",
+        "tsx": "^4.7.1",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@changesets/cli": "^2.27.1",
+        "@types/dedent": "^0.7.0",
+        "@types/fs-extra": "^11.0.2",
+        "@types/node": "^20.11.30",
+        "tsup": "^8.0.2",
+        "typescript": "^5.4.3"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "module": "dist/index.mjs",
+    "bin": {
+        "plug": "dist/core/cli.mjs"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./core/cli": {
+            "types": "./dist/core/cli.d.ts",
+            "default": "./dist/core/cli.js"
+        },
+        "./lib": {
+            "types": "./dist/lib/index.d.ts",
+            "default": "./dist/lib/index.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "/core",
+        "/lib",
+        "/dist"
+    ]
 }
