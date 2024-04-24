@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.9.14
+
+### Patch Changes
+
+- 07479dc: fix: headers with incorrect spacing
+
 ## 0.9.13
 
 ### Patch Changes
