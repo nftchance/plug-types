@@ -6,30 +6,13 @@
         "type": "git",
         "url": "https://github.com/nftchance/plug-types.git"
     },
-    "keywords": [
-        "nftchance",
-        "eip712",
-        "typehash",
-        "signatures",
-        "eth",
-        "ethereum",
-        "solidity",
-        "crypto",
-        "intent",
-        "plugs",
-        "plug"
-    ],
-    "sideEffects": false,
-    "scripts": {
-        "dev": "DEV=true tsup",
-        "prebuild": "tsup && pnpm plug zod && pnpm lint",
-        "build": "tsup && pnpm plug generate && pnpm plug docs && forge fmt dist/contracts/Types.sol",
-        "plug": "node dist/core/cli.mjs",
-        "lint": "tsc --noEmit",
-        "format": "pnpm prettier --write ."
+    "./core/cli": {
+      "types": "./dist/core/cli.d.ts",
+      "default": "./dist/core/cli.js"
     },
-    "publishConfig": {
-        "access": "public"
+    "./lib": {
+      "types": "./dist/lib/index.d.ts",
+      "default": "./dist/lib/index.js"
     },
     "dependencies": {
         "@trivago/prettier-plugin-sort-imports": "^4.2.1",
