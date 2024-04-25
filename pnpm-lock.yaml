@@ -10,10 +10,10 @@ dependencies:
     version: 4.3.0(prettier@3.2.5)
   abitype:
     specifier: ^1.0.2
-    version: 1.0.2(typescript@5.4.5)(zod@3.22.4)
+    version: 1.0.2(typescript@5.4.5)(zod@3.23.4)
   bundle-require:
-    specifier: ^4.0.2
-    version: 4.0.2(esbuild@0.20.2)
+    specifier: ^4.0.3
+    version: 4.0.3(esbuild@0.20.2)
   commander:
     specifier: ^12.0.0
     version: 12.0.0
@@ -21,8 +21,8 @@ dependencies:
     specifier: ^1.5.3
     version: 1.5.3
   ethers:
-    specifier: ^6.11.1
-    version: 6.11.1
+    specifier: ^6.12.0
+    version: 6.12.0
   execa:
     specifier: ^8.0.1
     version: 8.0.1
@@ -42,14 +42,14 @@ dependencies:
     specifier: ^3.2.5
     version: 3.2.5
   solady:
-    specifier: ^0.0.188
-    version: 0.0.188
+    specifier: ^0.0.192
+    version: 0.0.192
   tsx:
-    specifier: ^4.7.2
-    version: 4.7.2
+    specifier: ^4.7.3
+    version: 4.7.3
   zod:
-    specifier: ^3.22.4
-    version: 3.22.4
+    specifier: ^3.23.4
+    version: 3.23.4
 
 devDependencies:
   '@changesets/cli':
@@ -1237,7 +1237,7 @@ packages:
     resolution: {integrity: sha512-+d+WYC1BxJ6yVOgUgzK8gWvp5qF8ssV5r4nsDcZWKRWcDQLQ619tvWAxJQYGgBrO1MnLJC7a5GtiYsAoQ47dJg==}
     dev: true
 
-  /abitype@1.0.2(typescript@5.4.5)(zod@3.22.4):
+  /abitype@1.0.2(typescript@5.4.5)(zod@3.23.4):
     resolution: {integrity: sha512-aFt4k2H+eiAKy/zxtnORa9iIb10BMBeWL18l8v4+QuwYEBXPxxjSB1bFZCzQmKPoj8m7j68K705l3uY+E2gAjg==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -1249,7 +1249,7 @@ packages:
         optional: true
     dependencies:
       typescript: 5.4.5
-      zod: 3.22.4
+      zod: 3.23.4
     dev: false
 
   /aes-js@4.0.0-beta.5:
@@ -1378,8 +1378,8 @@ packages:
       wcwidth: 1.0.1
     dev: true
 
-  /bundle-require@4.0.2(esbuild@0.19.5):
-    resolution: {integrity: sha512-jwzPOChofl67PSTW2SGubV9HBQAhhR2i6nskiOThauo9dzwDUgOWQScFVaJkjEfYX+UXiD+LEx8EblQMc2wIag==}
+  /bundle-require@4.0.3(esbuild@0.19.5):
+    resolution: {integrity: sha512-2iscZ3fcthP2vka4Y7j277YJevwmsby/FpFDwjgw34Nl7dtCpt7zz/4TexmHMzY6KZEih7En9ImlbbgUNNQGtA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       esbuild: '>=0.17'
@@ -1388,8 +1388,8 @@ packages:
       load-tsconfig: 0.2.5
     dev: true
 
-  /bundle-require@4.0.2(esbuild@0.20.2):
-    resolution: {integrity: sha512-jwzPOChofl67PSTW2SGubV9HBQAhhR2i6nskiOThauo9dzwDUgOWQScFVaJkjEfYX+UXiD+LEx8EblQMc2wIag==}
+  /bundle-require@4.0.3(esbuild@0.20.2):
+    resolution: {integrity: sha512-2iscZ3fcthP2vka4Y7j277YJevwmsby/FpFDwjgw34Nl7dtCpt7zz/4TexmHMzY6KZEih7En9ImlbbgUNNQGtA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       esbuild: '>=0.17'
@@ -1821,8 +1821,8 @@ packages:
     hasBin: true
     dev: true
 
-  /ethers@6.11.1:
-    resolution: {integrity: sha512-mxTAE6wqJQAbp5QAe/+o+rXOID7Nw91OZXvgpjDa1r4fAbq2Nu314oEZSbjoRLacuCzs7kUC3clEvkCQowffGg==}
+  /ethers@6.12.0:
+    resolution: {integrity: sha512-zL5NlOTjML239gIvtVJuaSk0N9GQLi1Hom3ZWUszE5lDTQE/IVB62mrPkQ2W1bGcZwVGSLaetQbWNQSvI4rGDQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@adraffy/ens-normalize': 1.10.1
@@ -3066,8 +3066,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /solady@0.0.188:
-    resolution: {integrity: sha512-MI3RxsAmM5Z+fMMB4PvppjvEGBS5HoeZkFKoCNTBN0fEkYas+IHMgkS2UOhvM/EqE3h0VoJmW6wiorpezoZ9vA==}
+  /solady@0.0.192:
+    resolution: {integrity: sha512-96A4dhYkSB/xUyZIuc6l8RMbQ+nqk7GFr0hEci7/64D3G63Ial06puqXA14ZVy/xFe8nzBJbz3Mxssn7SH/1Ag==}
     dev: false
 
   /source-map@0.5.7:
@@ -3296,7 +3296,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      bundle-require: 4.0.2(esbuild@0.19.5)
+      bundle-require: 4.0.3(esbuild@0.19.5)
       cac: 6.7.14
       chokidar: 3.5.3
       debug: 4.3.4
@@ -3316,8 +3316,8 @@ packages:
       - ts-node
     dev: true
 
-  /tsx@4.7.2:
-    resolution: {integrity: sha512-BCNd4kz6fz12fyrgCTEdZHGJ9fWTGeUzXmQysh0RVocDY3h4frk05ZNCXSy4kIenF7y/QnrdiVpTsyNRn6vlAw==}
+  /tsx@4.7.3:
+    resolution: {integrity: sha512-+fQnMqIp/jxZEXLcj6WzYy9FhcS5/Dfk8y4AtzJ6ejKcKqmfTF8Gso/jtrzDggCF2zTU20gJa6n8XqPYwDAUYQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
@@ -3609,6 +3609,6 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
-  /zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  /zod@3.23.4:
+    resolution: {integrity: sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==}
     dev: false
