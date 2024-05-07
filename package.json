@@ -52,7 +52,7 @@
     "@changesets/cli": "^2.27.1",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^11.0.2",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.10",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
