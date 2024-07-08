@@ -1,4 +1,4 @@
-name: '🤖 CI'
+name: '🏗️ Build'
 on:
     push:
         branches:
@@ -26,13 +26,13 @@ jobs:
                   version: 9
                   run_install: false
 
-            - name: Get pnpm store directory
+            - name: 📚 Get pnpm store directory
               shell: bash
               run: |
                   echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-            - uses: actions/cache@v4
-              name: Setup pnpm cache
+            - name: 🗳️ Setup pnpm cache
+              uses: actions/cache@v4
               with:
                   path: ${{ env.STORE_PATH }}
                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -50,3 +50,15 @@ jobs:
 
             - name: 🧪 Lint and Build
               run: pnpm lint && pnpm build
+
+            - name: 🚀 Create Release Pull Request or Publish
+              if: github.ref == 'refs/heads/main'
+              id: changesets
+              uses: changesets/action@v1
+              with:
+                  publish: pnpm changeset publish
+                  commit: 'feat: version release'
+                  title: 'feat: version release'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
