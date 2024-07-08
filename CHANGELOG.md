@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.10.1
+
+### Patch Changes
+
+-   79b01bd: fix: markdown documentation regressions
+
 ## 0.10.0
 
 ### Minor Changes
