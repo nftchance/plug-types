@@ -1,5 +1,11 @@
 # @nftchance/plug-types
 
+## 0.10.2
+
+### Patch Changes
+
+-   15c89d6: fix: typescript exports
+
 ## 0.10.1
 
 ### Patch Changes
