@@ -420,13 +420,13 @@ To interact with the data type onchain will you need both the \`Typescript\` and
 \`\`\`
 
 \`\`\`typescript [EIP-712]
-{
+[
     ${type
 		.map(field => {
 			return `{ name: '${field.name}', type: '${field.type}' }`
 		})
 		.join(',\n\t')} 
-}
+]
 \`\`\`
 
 :::
@@ -448,16 +448,6 @@ With ${type
 			)} as the fields of the \`${typeName}\` data type we can generate the type hash as follows:
 
 ::: code-group
-
-\`\`\`solidity [Verbose.sol]
-bytes32 constant ${typeHashName} = keccak256(
-    abi.encodePacked(
-        "${typeName}(",
-${type.map(field => `\t\t"${field.type} ${field.name}"`).join(',\n')},
-        ")"
-    )
-);
-\`\`\`
 
 \`\`\`solidity [Inline.sol]
 bytes32 constant ${typeHashName} = keccak256(
