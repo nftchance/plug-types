@@ -391,41 +391,43 @@ To interact with the data type onchain will you need both the \`Typescript\` and
 ::: code-group
 
 \`\`\` typescript [Typescript/Javascript]
-{
-    ${type
-		.map(field => {
-			if (field.type.includes('[]'))
-				return `${field.name}: Array<${field.type.slice(
-					0,
-					field.type.length - 2
-				)}>`
+type ${typeName} = {
+\t${type
+			.map(field => {
+				if (field.type.includes('[]'))
+					return `${field.name}: Array<${field.type.slice(
+						0,
+						field.type.length - 2
+					)}>;`
 
-			if (
-				field.type.includes('bytes') ||
-				['address'].includes(field.type)
-			)
-				return `${field.name}: '0x$\{string}'`
+				if (
+					field.type.includes('bytes') ||
+					['address'].includes(field.type)
+				)
+					return `${field.name}: \`0x$\{string}\`;`
 
-			if (field.type.includes('uint') || field.type.includes('int'))
-				return `${field.name}: bigint`
+				if (field.type.includes('uint') || field.type.includes('int'))
+					return `${field.name}: bigint;`
 
-			if (field.type.includes('string')) return `${field.name}: string`
+				if (field.type.includes('string'))
+					return `${field.name}: string;`
 
-			if (field.type.includes('bool')) return `${field.name}: boolean`
+				if (field.type.includes('bool'))
+					return `${field.name}: boolean;`
 
-			return `${field.name}: ${field.type}`
-		})
-		.join(',\n\t')} 
+				return `${field.name}: ${field.type};`
+			})
+			.join('\n\t')} 
 }
 \`\`\`
 
 \`\`\`typescript [EIP-712]
-[
-    ${type
-		.map(field => {
-			return `{ name: '${field.name}', type: '${field.type}' }`
-		})
-		.join(',\n\t')} 
+const ${typeName} = [
+\t${type
+			.map(field => {
+				return `{ name: '${field.name}', type: '${field.type}' }`
+			})
+			.join(',\n\t')} 
 ]
 \`\`\`
 
